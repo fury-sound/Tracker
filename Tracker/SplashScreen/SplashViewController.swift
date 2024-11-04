@@ -37,7 +37,7 @@ final class SplashViewController: UIViewController {
             assertionFailure("Invalid windows configuration")
             return
         }
-        let mainNaviBarVC = MainNavigationBarViewController()
+        let mainNaviBarVC = MainTrackerViewController()
         mainNaviBarVC.modalTransitionStyle = .crossDissolve
         mainNaviBarVC.modalPresentationStyle = .fullScreen
         window.rootViewController = mainNaviBarVC
