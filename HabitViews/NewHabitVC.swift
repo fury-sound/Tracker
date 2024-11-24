@@ -33,30 +33,6 @@ final class NewHabitVC: UIViewController {
         return trackerNameTextfield
     }()
     
-//    private lazy var categoryButton: UIButton = {
-//        let categoryButton = UIButton()
-//        categoryButton.backgroundColor = .ypGray
-////        categoryButton.layer.cornerRadius = 16
-//        categoryButton.setTitleColor(.ypBlack, for: .normal)
-//        categoryButton.setTitle("Категория", for: .normal)
-//        categoryButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-//        categoryButton.addTarget(self, action: #selector(categoryCreation), for: .touchUpInside)
-//        categoryButton.frame.size.height = 74
-//        return categoryButton
-//    }()
-//
-//    private lazy var scheduleButton: UIButton = {
-//        let scheduleButton = UIButton()
-////        scheduleButton.layer.cornerRadius = 16
-//        scheduleButton.backgroundColor = .ypGray
-//        scheduleButton.setTitleColor(.ypBlack, for: .normal)
-//        scheduleButton.setTitle("Расписание", for: .normal)
-//        scheduleButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-//        scheduleButton.addTarget(self, action: #selector(scheduleCreation), for: .touchUpInside)
-//        scheduleButton.frame.size.height = 74
-//        return scheduleButton
-//    }()
-    
    private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.backgroundColor = .ypWhite
@@ -81,13 +57,6 @@ final class NewHabitVC: UIViewController {
         createButton.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
         return createButton
     }()
-    
-//    private lazy var fillerView: UIView = {
-//        var fillerView = UIView()
-//        fillerView.backgroundColor = .ypBlack
-//        fillerView.frame.size.height = 1
-//        return fillerView
-//    }()
     
     private lazy var buttonTableView: UITableView = {
         let buttonTableView = UITableView()
@@ -114,10 +83,7 @@ final class NewHabitVC: UIViewController {
         navigationItem.setHidesBackButton(true, animated: true)
     }
     
-//    func setDelegate(_ delegate: TrackerNavigationViewProtocol) {
-//        self.delegateTrackerInNewHabitVC = delegate
-//    }
-    
+
     func dafaultFields() {
         trackerNameTextfield.text = ""
         categoryCell.detailTextLabel?.text = buttonNameArray[0].0
@@ -129,18 +95,9 @@ final class NewHabitVC: UIViewController {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         trackerNameTextfield.leftView = paddingView
         trackerNameTextfield.leftViewMode = .always
-//        let buttonTableView = UITableView(frame: .zero, style: .plain)
-//        let buttonTableView = UITableView()
-
-//        let buttonTableView = UILabel()
-//        buttonTableView.text = "Привет"
-//        buttonTableView.register(Habitiew(frame: .zero, style: .plain)
-
         let buttonSet = [cancelButton, createButton]
         let stackView = UIStackView(arrangedSubviews: buttonSet)
         stackView.backgroundColor = .clear
-//        stackView.tintColor = .ypBlack
-//        stackView.layer.cornerRadius = 16
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
         stackView.spacing = 8
@@ -151,16 +108,10 @@ final class NewHabitVC: UIViewController {
             view.addSubview($0)
         }
         NSLayoutConstraint.activate([
-//            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 78),
             trackerNameTextfield.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             trackerNameTextfield.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             trackerNameTextfield.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             trackerNameTextfield.heightAnchor.constraint(equalToConstant: 75),
-//            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-//            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-//            stackView.topAnchor.constraint(equalTo: trackerNameTextfield.bottomAnchor, constant: 24),
-//            stackView.heightAnchor.constraint(equalToConstant: 150),
             buttonTableView.topAnchor.constraint(equalTo: trackerNameTextfield.bottomAnchor, constant: 24),
             buttonTableView.heightAnchor.constraint(equalToConstant: 149),
             buttonTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -171,32 +122,18 @@ final class NewHabitVC: UIViewController {
             stackView.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
-    
-//    @objc func categoryCreation() {
-//        print("category creation")
-////        let newHabitVC = NewHabitVC()
-////        let navigationController = UINavigationController(rootViewController: newHabitVC)
-////        navigationController.modalPresentationStyle = .formSheet
-////        present(navigationController, animated: true)
-//    }
 
-//    @objc func scheduleCreation() {
-//        print("schedule creation")
-//    }
     
     @objc func cancelHabitCreation() {
-//        print("cancel habit creation")
         self.dismiss(animated: true)
     }
 
     @objc func createHabit() {
-//        print("Create habit in NewHabitVC")
         guard let delegateTrackerInNewHabitVC else {
             debugPrint("no delegate")
             return
         }
         guard let trackerText = trackerNameTextfield.text else { return }
-//        print(daysToSend)
         delegateTrackerInNewHabitVC.getDelegateTracker().addingTrackerOnScreen(trackerName: trackerText, trackerCategory: defaultHeader, dateArray: daysToSend)
         self.dismiss(animated: true)
     }
@@ -205,7 +142,6 @@ final class NewHabitVC: UIViewController {
     
     @objc func editingTrackerName(_ sender: UITextField) {
         guard let text = sender.text else { return }
-//        print(text)
         if text.isEmpty == true || text.count > 38 {
             createButton.isEnabled = false
             createButton.backgroundColor = .ypGray
@@ -216,19 +152,6 @@ final class NewHabitVC: UIViewController {
         }
     }
     
-    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        // get the current text, or use an empty string if that failed
-//        let currentText = textField.text ?? ""
-//        // attempt to read the range they are trying to change, or exit if we can't
-//        guard let stringRange = Range(range, in: currentText) else { return false }
-//        // add their new text to the existing text
-//        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-//        // make sure the result is under 38 characters
-//        return updatedText.count <= 10
-//    }
-    
-    
     private func intsToDaysOfWeek(dayArray: [Int]) -> String {
         if dayArray.count == 7 {
             daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
@@ -237,24 +160,16 @@ final class NewHabitVC: UIViewController {
         let russianLocale = Locale(identifier: "ru-RU")
         var russianCalendar = Calendar.current
         russianCalendar.locale = russianLocale
-                
         let weekDaySymbols = russianLocale.calendar.shortWeekdaySymbols
-//        print(weekDaySymbols)
         
-//        var daysToSend = ScheduledDays(rawValue: 1)!
         daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
-//        print(daysToSend)
-//        print(dayArray)
         var dayNames = dayArray.compactMap { index in
             index >= 0 && index < weekDaySymbols.count ? weekDaySymbols[index] : nil
         }
-//        print(dayNames)
         if dayArray.first == 0 {
             let tempDay = dayNames.remove(at: 0)
-//            print(tempDay, dayNames.count)
             dayNames.insert(tempDay, at: (dayNames.count))
         }
-//        print(dayNames)
         return dayNames.joined(separator: ", ")
     }
     
@@ -269,30 +184,26 @@ extension NewHabitVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75 //.remainderReportingOverflow(dividingBy: <#T##Int#>)
+        return 75
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-//            print("calling category dialog")
             let categoryVC = CategoryVC()
             navigationController?.pushViewController(categoryVC, animated: true)
         } else {
-//            print("calling schedule dialog")
             let scheduleVC = ScheduleVC()
             navigationController?.pushViewController(scheduleVC, animated: true)
             let curCell = tableView.cellForRow(at: indexPath)
             curCell?.detailTextLabel?.text = buttonNameArray[indexPath.row].1
             scheduleVC.tappedReady = { [weak self] (wdArray) -> Void in
                 guard let self else { return }
-//                print("wdArray in NewbitVC", wdArray)
                 let daysString = intsToDaysOfWeek(dayArray: wdArray)
                 let curCell = tableView.cellForRow(at: indexPath)
                 curCell?.detailTextLabel?.text = daysString
             }
             tableView.reloadData()
         }
-//        tableView.reloadData()
     }
 }
 
@@ -302,9 +213,7 @@ extension NewHabitVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell") //as? HabitTableViewCell
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell") //as? HabitTableViewCell
-//        guard let cell else { return UITableViewCell()}
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
         if indexPath.row == 0 {
             categoryCell = cell
         } else {
@@ -315,9 +224,6 @@ extension NewHabitVC: UITableViewDataSource {
         cell.detailTextLabel?.textColor = .ypGray
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.detailTextLabel?.font = .systemFont(ofSize: 17)
-//        cell.layer.borderColor = UIColor.red.cgColor
-//        buttonTableView.separatorStyle = .singleLine
-
         cell.backgroundColor = .ypBackgroundDay
         cell.accessoryType = .disclosureIndicator
         

@@ -13,5 +13,4 @@ final class HabitTableViewCell: UITableViewCell {
     var myTextLabel = UILabel()
     private var categoryButton = UIButton()
     private var scheduleButton = UIButton()
-    
 }

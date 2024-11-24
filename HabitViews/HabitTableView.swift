@@ -8,8 +8,6 @@
 import UIKit
 
 @objc protocol HabitTableViewProtocol: AnyObject {
-//    func updateTableViewAnimated()
-//    func tapLikeButton(for cell: ImagesListCell)
     func categoryCreation()
     func scheduleCreation()
 }
@@ -21,7 +19,6 @@ final class HabitTableView: UITableView {
     private lazy var categoryButton: UIButton = {
         let categoryButton = UIButton()
         categoryButton.backgroundColor = .ypGray
-//        categoryButton.layer.cornerRadius = 16
         categoryButton.setTitleColor(.ypBlack, for: .normal)
         categoryButton.setTitle("Категория", for: .normal)
         categoryButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -32,7 +29,6 @@ final class HabitTableView: UITableView {
 
     private lazy var scheduleButton: UIButton = {
         let scheduleButton = UIButton()
-//        scheduleButton.layer.cornerRadius = 16
         scheduleButton.backgroundColor = .ypGray
         scheduleButton.setTitleColor(.ypBlack, for: .normal)
         scheduleButton.setTitle("Расписание", for: .normal)
@@ -41,18 +37,6 @@ final class HabitTableView: UITableView {
         scheduleButton.frame.size.height = 74
         return scheduleButton
     }()
-    
-    
-    
-//    override init() {
-//        super.init()
-//        self.backgroundColor = .red
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
 }
 
 extension HabitTableView: UITableViewDataSource, UITableViewDelegate {

@@ -7,24 +7,16 @@
 
 import UIKit
 
-protocol cellDelegateForTrackerVC {
-    func setDaysSignForCompletedTrackers()
-}
-
 final class TrackerCellViewController: UICollectionViewCell {
         
-//    private var trackerColor: UIColor = .blue
     private var trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
-//    private var trackerColorLightSet = [UIColor.ypLightRed, UIColor.ypLightBlue, UIColor.ypLightGreen]
     private var colorNum: Int = 0
     var setMarkSign = false
     var tapped: (() -> Void)?
     
-//    var vcDelegate: cellDelegateForTrackerVC?
     
     private lazy var trackerView: UIView = {
         let trackerView = UIView()
-//        trackerView.backgroundColor = trackerColor
         trackerView.layer.cornerRadius = 10
         trackerView.layer.masksToBounds = true
         return trackerView
@@ -33,11 +25,8 @@ final class TrackerCellViewController: UICollectionViewCell {
     private lazy var emojiLabel: UILabel = {
         let emojiLabel = UILabel()
         emojiLabel.tintColor = .white
-//        emojiLabel.backgroundColor = .clear
-//        emojiLabel.layer.opacity = 1
         emojiLabel.textAlignment = .center
         emojiLabel.font = .systemFont(ofSize: 14, weight: .regular)
-//        emojiLabel.layer.cornerRadius = 30
         return emojiLabel
     }()
     
@@ -54,10 +43,7 @@ final class TrackerCellViewController: UICollectionViewCell {
         let textLabel = UILabel()
         textLabel.backgroundColor = .clear
         textLabel.textColor = .ypWhite
-//        textLabel.numberOfLines = 2
-//        textLabel.font = UIFont(name: "SFPro", size: 12)
         textLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-//        textLabel.font = UIFont(name: "SFPro", size: 32)
         return textLabel
     }()
 
@@ -70,13 +56,9 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     private lazy var plusButton: UIButton = {
         let plusButton = UIButton()
-//        setWhitePlusButton()
         let plusImage = UIImage(named: "plusButton")?.withRenderingMode(.alwaysTemplate)
         plusButton.setImage(plusImage, for: .normal)
         plusButton.tintColor = .ypWhite
-//        plusButton.setTitleColor(.white, for: .normal) //, for: <#T##UIControl.State#>) tintColor = .white
-//        plusButton.titleLabel?.textColor = .ypWhite
-//        plusButton.backgroundColor = trackerColor
         plusButton.addTarget(self, action: #selector(toggleButton), for: .touchUpInside)
         plusButton.layer.cornerRadius = 17
         return plusButton
@@ -88,7 +70,6 @@ final class TrackerCellViewController: UICollectionViewCell {
         elementArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-//        trackerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(trackerView)
         trackerView.addSubview(viewForEmoji)
         trackerView.addSubview(textLabel)
@@ -120,33 +101,6 @@ final class TrackerCellViewController: UICollectionViewCell {
             plusButton.heightAnchor.constraint(equalToConstant: 34),
             plusButton.widthAnchor.constraint(equalToConstant: 34)
         ])
-
-        
-
-//        contentView.layer.cornerRadius = 15
-//        contentView.layer.masksToBounds = true
-//        plusButton.layer.cornerRadius = 30
-//        plusButton.layer.masksToBounds = true
-//        textLabel.layer.cornerRadius = 6
-//        textLabel.layer.masksToBounds = true
-
-//        textLabel.frame.size.height = 18
-//        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
-//        textLabel.translatesAutoresizingMaskIntoConstraints = false
-//        daysLabel.translatesAutoresizingMaskIntoConstraints = false
-//        plusButton.translatesAutoresizingMaskIntoConstraints = false
-
-//        trackerView.addSubview(textLabel)
-//        contentView.addSubview(daysLabel)
-//        NSLayoutConstraint.activate([
-//            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            textLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            textLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            daysLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            daysLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            daysLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-//            daysLabel.heightAnchor.constraint(equalToConstant: contentView.frame.height / 3)
-//        ])
     }
     
     required init?(coder: NSCoder) {
@@ -154,29 +108,18 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     func setButtonSign(isPlusSignOnFlag: Bool) {
-//        print("isPlusSignOnFlag \(isPlusSignOnFlag)")
         if isPlusSignOnFlag {
-//            let doneImage = UIImage(named: "DoneButton")?.withRenderingMode(.alwaysTemplate)
-//            setButtonSign(image: "DoneButton")
             plusButton.setImage(.doneButton, for: .normal)
             plusButton.layer.opacity = 0.5
-            //        plusButton.backgroundColor = .ypLightGreen
-//            plusButton.backgroundColor = trackerColorLightSet[colorNum]
-//            setMarkSign = true
         } else {
-//            let plusImage = UIImage(named: "plusImage")?.withRenderingMode(.alwaysTemplate)
-//            setButtonSign(image: "plusButton")
             guard let image = UIImage(named: "plusButton") else {
-//                print("Image error", UIImage(named: "plusButton"))
                 return
             }
             let signImage = image.withRenderingMode(.alwaysTemplate)
             plusButton.setImage(signImage, for: .normal)
             plusButton.tintColor = .ypWhite
-//            plusButton.setImage(.plusButton, for: .normal)
             plusButton.backgroundColor = trackerColorSet[colorNum]
             plusButton.layer.opacity = 1.0
-//            setMarkSign = false
         }
         
     }
@@ -190,7 +133,6 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     @objc func toggleButton(sender: AnyObject) {
-//        print("plus button pressed")
         tapped?()
     }
     
@@ -200,9 +142,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     func setEmoji(emoji: String) {
-//        print("Emoji:", emoji)
         emojiLabel.text = emoji
-//        emojiLabel.text = "111"
         emojiLabel.layer.cornerRadius = 10
     }
     
@@ -231,19 +171,6 @@ final class TrackerCellViewController: UICollectionViewCell {
         colorNum = color
         trackerView.backgroundColor = trackerColorSet[colorNum]
         plusButton.backgroundColor = trackerColorSet[colorNum]
-//        viewForEmoji.backgroundColor = trackerColorLightSet[colorNum]
-
-//        trackerView.backgroundColor = color
-//        plusButton.backgroundColor = color
-//        plusButton.setTitleColor(.red, for: .normal)
-//        plusButton.tintColor = .white
-//        plusButton.col
     }
-    
-//    private func setLightColor()  {
-//        trackerView.backgroundColor = trackerColorSet[colorNum]
-//        plusButton.backgroundColor = trackerColorLightSet[colorNum]
-//    }
-    
     
 }

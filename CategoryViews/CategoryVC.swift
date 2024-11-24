@@ -48,10 +48,6 @@ final class CategoryVC: UIViewController {
     
     private func viewSetup() {
         view.backgroundColor = .white
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        initSlogan.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(imageView)
-//        view.addSubview(initSlogan)
         let elementArray = [imageView, initSlogan, addCategoryButton]
         elementArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false

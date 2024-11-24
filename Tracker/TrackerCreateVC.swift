@@ -8,15 +8,6 @@
 import UIKit
 
 final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
-    
-//    private lazy var titleLabel: UILabel = {
-//        let titleLabel = UILabel()
-//        titleLabel.backgroundColor = .clear
-//        titleLabel.text = "Создание трекера"
-//        titleLabel.textAlignment = .center
-//        titleLabel.font = UIFont(name: "SFPro", size: 16)
-//        return titleLabel
-//    }()
         
     private lazy var habitButton: UIButton = {
         let habitButton = UIButton()
@@ -62,16 +53,12 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.spacing = 16
-        
-//        let elementArray = [titleLabel, stackView]
         let elementArray = [stackView]
         elementArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
         NSLayoutConstraint.activate([
-//            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 78),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -83,19 +70,12 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     
     
     @objc func habitCreation() {
-//        print("habit creation")
         newHabitVC.dafaultFields()
         navigationController?.pushViewController(newHabitVC, animated: true)
-//        let navigationController = UINavigationController(rootViewController: newHabitVC)
-//        navigationController.modalPresentationStyle = .formSheet
-//        present(navigationController, animated: true)
     }
 
     @objc func eventCreation() {
-//        print("event creation")
         alertForReviewer()
-        
-//        delegateTracker?.addingTrackerOnScreen()
     }
     
     private func alertForReviewer() {

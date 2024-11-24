@@ -46,7 +46,6 @@ final class ScheduleVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Расписание"
-//        selectedWeekDates = []
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
     }
@@ -72,17 +71,12 @@ final class ScheduleVC: UIViewController {
     }
     
     @objc func scheduleAdded() {
-//        print("schedule added")
         let wdArray = selectedWeekDates.sorted()
-//        print(wdArray, type(of: selectedWeekDates))
         tappedReady?(wdArray)
         self.navigationController?.popViewController(animated: true)
-//        let categoryVC = CategoryVC()
-//        navigationController?.pushViewController(categoryVC, animated: true)
     }
     
     @objc func switchOnOff(_ sender: UISwitch) {
-//        print("selected \(sender.tag)")
         let indexValue = sender.tag
         let isOn = sender.isOn
         if isOn {
@@ -97,7 +91,6 @@ final class ScheduleVC: UIViewController {
             readyButton.isEnabled = true
             readyButton.backgroundColor = .ypBlack
         }
-//        print(selectedWeekDates)
     }
 }
 
@@ -109,19 +102,7 @@ extension ScheduleVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print("current row \(indexPath.row)")
     }
-    
-//        print("switch \(weekdaySwitch.tag) selected")
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if indexPath.row == 0 {
-//            print("calling category dialog")
-//            let categoryVC = CategoryVC()
-//            navigationController?.pushViewController(categoryVC, animated: true)
-//        } else {
-//            print("calling schedule dialog")
-//            let scheduleVC = ScheduleVC()
-//            navigationController?.pushViewController(scheduleVC, animated: true)
-//        }
-//    }
+
 }
 
 extension ScheduleVC: UITableViewDataSource {
@@ -132,11 +113,9 @@ extension ScheduleVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let weekdaySwitch = UISwitch()
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell") //as? HabitTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell")
         guard let cell else { return UITableViewCell()}
         cell.textLabel?.text = weekdayArray[indexPath.row]
-//        cell.layer.borderColor = UIColor.red.cgColor
-//        buttonTableView.separatorStyle = .singleLine
         cell.backgroundColor = .ypBackgroundDay
         cell.selectionStyle = .none
         cell.isHighlighted = false
@@ -146,8 +125,5 @@ extension ScheduleVC: UITableViewDataSource {
         weekdaySwitch.addTarget(self, action: #selector(switchOnOff(_ :)), for: .valueChanged)
         return cell
     }
-    
-
-
 }
 

@@ -16,7 +16,6 @@ final class AddCategoryVC: UIViewController {
         trackerNameTextfield.placeholder = "Введите название категории"
         trackerNameTextfield.clearButtonMode = .whileEditing
         trackerNameTextfield.addTarget(self, action: #selector(editingFunc(_ :)), for: .editingChanged)
-//        trackerNameTextfield.bounds.insetBy(dx: 40, dy: 0)
         return trackerNameTextfield
     }()
     
@@ -62,7 +61,6 @@ final class AddCategoryVC: UIViewController {
     }
     
     @objc func creatingNewCategory() {
-//        print("adding new category")
         alertForReviewer()
 //        let categoryVC = CategoryVC()
 //        navigationController?.pushViewController(categoryVC, animated: true)
@@ -70,7 +68,6 @@ final class AddCategoryVC: UIViewController {
     
     @objc func editingFunc(_ sender: UITextField) {
         guard let text = sender.text else { return }
-//        print(text)
         if text == ""  {
             readyButton.isEnabled = false
             readyButton.backgroundColor = .ypGray
