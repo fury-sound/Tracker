@@ -8,7 +8,7 @@
 import UIKit
 
 struct Tracker {
-    let id: UInt?
+    let id: UUID?
     let name: String?
     let emojiPic: String?
     let color: UIColor?
@@ -31,7 +31,7 @@ struct TrackerCategory {
 }
 
 struct TrackerRecord {
-    let id: UInt
+    let id: UUID
     let dateExecuted: String
 }
 
@@ -54,41 +54,40 @@ struct GeometricParams {
 
 final class TrackerNavigationViewController: UIViewController, TrackerNavigationViewProtocol {
     
-    var categories = [TrackerCategory]()
-    var trackerCategoryDefault = TrackerCategory(title: "Трекеры по умолчанию")
-    var completedTrackers = [TrackerRecord]()
-    var trackersFilteredByWeekdays = [Tracker]()
-    var trackersToDisplay = [Tracker]()
-    var allTrackers = [Tracker]()
-    let trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
-    let params = GeometricParams(leftInset: 16, rightInset: 16, cellSpacing: 10)
+    private var categories = [TrackerCategory]()
+    private var trackerCategoryDefault = TrackerCategory(title: "Трекеры по умолчанию")
+    private var completedTrackers = [TrackerRecord]()
+    private var trackersFilteredByWeekdays = [Tracker]()
+    private var trackersToDisplay = [Tracker]()
+    private var allTrackers = [Tracker]()
+    private let trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
+    private let params = GeometricParams(leftInset: 16, rightInset: 16, cellSpacing: 10)
     
     private var dateField = UITextField()
     private let localeID = Locale.preferredLanguages.first
     private var currentDate = Date()
     private var selectedDate = Date()
-    
-    let createTracker = TrackerCreateVC()
+    private let createTracker = TrackerCreateVC()
     
     private let emojiArray = [ "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🍄"]
 
+// MARK: mock trackers and mock tracker creation function
+//    var mockTracker1 = Tracker(id: 1, name: "test tracker 1", emojiPic: "🍇", color: .ypGreen , schedule: [.Mon, .Sun])
+//    var mockTracker2 = Tracker(id: 2, name: "test tracker 2", emojiPic: "🍈", color: .red, schedule: [.Mon, .Thu, .Sun])
     
-    var mockTracker1 = Tracker(id: 1, name: "test tracker 1", emojiPic: "🍇", color: .ypGreen , schedule: [.Mon, .Fri])
-    var mockTracker2 = Tracker(id: 2, name: "test tracker 2", emojiPic: "🍈", color: .red, schedule: [.Thu, .Wed])
-    
-    func tempMockTrackerSetup() {
-        var colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
-        var emojiNum = Int.random(in: 0..<emojiArray.count)
-        mockTracker1 = Tracker(id: 1, name: "test tracker 1", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum] , schedule: [.Mon, .Fri])
-        colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
-        emojiNum = Int.random(in: 0..<emojiArray.count)
-        mockTracker2 = Tracker(id: 2, name: "test tracker 2", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: [.Thu, .Wed])
-        allTrackers.append(mockTracker1)
-        allTrackers.append(mockTracker2)
-        categories[0].trackerArray.append(mockTracker1)
-        categories[0].trackerArray.append(mockTracker2)
-//        print(categories) //, categories[0])
-    }
+//    func tempMockTrackerSetup() {
+//        var colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
+//        var emojiNum = Int.random(in: 0..<emojiArray.count)
+//        mockTracker1 = Tracker(id: 1, name: "test tracker 1", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum] , schedule: [.Mon, .Sun])
+//        colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
+//        emojiNum = Int.random(in: 0..<emojiArray.count)
+//        mockTracker2 = Tracker(id: 2, name: "test tracker 2", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: [.Thu, .Sun])
+//        allTrackers.append(mockTracker1)
+//        allTrackers.append(mockTracker2)
+//        categories[0].trackerArray.append(mockTracker1)
+//        categories[0].trackerArray.append(mockTracker2)
+////        print(categories) //, categories[0])
+//    }
     
     private lazy var searchBar: UISearchController = {
         var searchField = UISearchController()
@@ -103,8 +102,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }()
     
     private lazy var collectionView: UICollectionView = {
-        //        layout.scrollDirection = .vertical
-        //        layout.minimumInteritemSpacing = 10
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
         collectionView.register(TrackerCellViewController.self, forCellWithReuseIdentifier: "cell")
@@ -150,7 +147,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     override func viewDidLoad() {
         super.viewDidLoad()
         trackerCategoriesSetup()
-        tempMockTrackerSetup()
+//        tempMockTrackerSetup()
         createTracker.delegateTracker = self
         setupNaviVC()
         naviBarSetup()
@@ -208,8 +205,8 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -247,6 +244,12 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         filteringTrackers(curDayOfWeek: curDayOfWeek - 1)
     }
     
+    private func showingTrackersForSelectedDate() {
+        let curDayOfWeek = Calendar.current.component(.weekday, from: selectedDate)
+//        print("in showingTrackersForCurrentDate", curDayOfWeek)
+        filteringTrackers(curDayOfWeek: curDayOfWeek - 1)
+    }
+    
     private func filteringTrackers(curDayOfWeek: Int) {
         //        let loopVar = $0.schedule.count - 1
         //        for index in loopVar {
@@ -270,7 +273,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     
-    private func togglingCompletedTrackers(date: Date, trackerId: UInt) {
+    private func togglingCompletedTrackers(date: Date, trackerId: UUID) {
         let trackerDate = getDateFromDatePicker(date: date)
 //        let curDate = getDateFromDatePicker(date: currentDate)
 //        let arrayNum = checkDateInCompletedTrackers(date: trackerDate, id: trackerId)
@@ -288,7 +291,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
 //        print(checkDateInCompletedTrackers(tracker: trackerToHandle))
     }
     
-    private func checkingCompletedTrackers(trackerId: UInt) -> Bool {
+    private func checkingCompletedTrackers(trackerId: UUID) -> Bool {
         let trackerDate = getDateFromDatePicker(date: selectedDate)
         let trackerToCheck = TrackerRecord(id: trackerId, dateExecuted: trackerDate)
         return checkDateInCompletedTrackers(tracker: trackerToCheck)
@@ -354,21 +357,22 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     func addingTrackerOnScreen(trackerName: String, trackerCategory: String, dateArray: [ScheduledDays]) {
 //        print("in addingTrackerOnScreen")
 //        print("New tracker:")
-        let idNum = UInt()
-        print("UInt", idNum)
+        let idNum = UUID()
+//        print("UUID", idNum)
         let colorNum = Int.random(in: 0..<3)
         let emojiNum = Int.random(in: 0..<emojiArray.count)
 //        let mockTracker = Tracker(id: 3, name: trackerName, emojiPic: "🍇", color: .ypBlue , schedule: [.Tue, .Wed])
-        let mockTracker = Tracker(id: 3, name: trackerName, emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: dateArray)
+        let mockTracker = Tracker(id: idNum, name: trackerName, emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: dateArray)
 //        print(mockTracker)
         allTrackers.append(mockTracker)
         let nameForCategory = categoryHeaderCheck(categoryTitle: trackerCategory)
         nameForCategory == "" ? categories[0].trackerArray.append(mockTracker) : print("adding new category")
-        print("final categories:", categories)
+//        print("final categories:", categories)
 
 //        trackersToDisplay = allTrackers
 //        print(allTrackers)
-        showingTrackersForCurrentDate()
+        showingTrackersForSelectedDate()
+        arrayToUse()
         collectionView.reloadData()
     }
     
@@ -384,6 +388,9 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         if trackersToDisplay.count == 0 {
             imageView.isHidden = false
             initLogo.isHidden = false
+        } else {
+            imageView.isHidden = true
+            initLogo.isHidden = true
         }
     }
     
@@ -391,15 +398,16 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
 //        print("adding right habit")
 //    }
     
+    // заглушка под метод проверки наличия категории
     func categoryHeaderCheck(categoryTitle: String) -> String {
-        categories.forEach { categoryTitle in
-            print(categoryTitle)
-        }
+//        categories.forEach { categoryTitle in
+//            print(categoryTitle)
+//        }
         return ""
     }
     
     @objc func leftAddHabit() {
-        print("adding habit")
+//        print("adding habit")
         
         let navigationController = UINavigationController(rootViewController: createTracker)
         navigationController.modalPresentationStyle = .formSheet
@@ -497,7 +505,7 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     }
     
     
-    private func trackerCompletedDaysCount(cell: TrackerCellViewController, trackerId: UInt) {
+    private func trackerCompletedDaysCount(cell: TrackerCellViewController, trackerId: UUID) {
         var counter = 0
         for element in completedTrackers {
             if element.id == trackerId {
@@ -507,14 +515,16 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
         cell.setDayLabelText(days: counter)
     }
     
-    private func changeCellButton(cell: TrackerCellViewController, trackerId: UInt) {
-        if checkingCompletedTrackers(trackerId: trackerId) {
-//            print("Трекер c id \(trackerId) в Выполненных?", checkingCompletedTrackers(trackerId: trackerId))
-            cell.setButtonSign(isPlusSignOnFlag: true)
-        } else {
-//            print("Трекер c id \(trackerId) в Выполненных?", checkingCompletedTrackers(trackerId: trackerId))
-            cell.setButtonSign(isPlusSignOnFlag: false)
-        }
+    private func changeCellButton(cell: TrackerCellViewController, trackerId: UUID) {
+//        if checkingCompletedTrackers(trackerId: trackerId) {
+////            print("Трекер c id \(trackerId) в Выполненных?", checkingCompletedTrackers(trackerId: trackerId))
+//            cell.setButtonSign(isPlusSignOnFlag: true)
+//        } else {
+////            print("Трекер c id \(trackerId) в Выполненных?", checkingCompletedTrackers(trackerId: trackerId))
+//            cell.setButtonSign(isPlusSignOnFlag: false)
+//        }
+        
+        checkingCompletedTrackers(trackerId: trackerId) ? cell.setButtonSign(isPlusSignOnFlag: true) : cell.setButtonSign(isPlusSignOnFlag: false)
     }
     
 }
@@ -524,18 +534,19 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
 extension TrackerNavigationViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //        let curWidth = collectionView.frame.width / 2
-        //        let curHeight = curWidth / 1.9
-        //        return CGSize(width: curWidth - (params.leftInset + params.rightInset), height: curHeight)
-        return CGSize(width: 167, height: 148)
+        let curWidth = collectionView.frame.width / 2
+        let curHeight = curWidth / 1.12
+//        return CGSize(width: curWidth - (params.leftInset + params.rightInset), height: curHeight)
+        return CGSize(width: curWidth - 7, height: curHeight)
+//        return CGSize(width: 167, height: 148)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: params.leftInset, bottom: 10, right: params.rightInset)
+        return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -563,11 +574,3 @@ extension TrackerNavigationViewController: UISearchControllerDelegate, UISearchR
     
 }
 
-
-//completedTracker == [trackerRecord1, Trackerrecord2 ]
-//date1
-//completedTracker == [(date1, UUID1), (date1, UUID2) ]
-//trackerRecord1.date, trackerRecord2.date, ...
-//
-//UUID1 - 7 дней
-//trackerRecord1 - UUID1, Mon; UUID1, Tue;

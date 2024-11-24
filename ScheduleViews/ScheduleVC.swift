@@ -48,6 +48,7 @@ final class ScheduleVC: UIViewController {
         navigationItem.title = "Расписание"
 //        selectedWeekDates = []
         viewSetup()
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     private func viewSetup() {

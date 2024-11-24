@@ -83,7 +83,7 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     
     
     @objc func habitCreation() {
-        print("habit creation")
+//        print("habit creation")
         newHabitVC.dafaultFields()
         navigationController?.pushViewController(newHabitVC, animated: true)
 //        let navigationController = UINavigationController(rootViewController: newHabitVC)
@@ -92,8 +92,21 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     }
 
     @objc func eventCreation() {
-        print("event creation")
+//        print("event creation")
+        alertForReviewer()
+        
 //        delegateTracker?.addingTrackerOnScreen()
+    }
+    
+    private func alertForReviewer() {
+        let alert = UIAlertController(title: "Нерегулярное событие\n",
+                                              message: "Уважаемый ревьювер)))\n" +
+                                              "В задание 14-го спринта функционал данной кнопки не предполагает быть реализованным именно в 14-ом спринте," +
+                                              " он будет реализован в 15-ом спринте!\n Честное слово!!!)))\n 😉",
+                                              preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default)
+                alert.addAction(action)
+                present(alert, animated: true)
     }
     
 }

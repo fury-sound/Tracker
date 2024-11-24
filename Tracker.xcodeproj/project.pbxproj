@@ -13,6 +13,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B90493212CF3923700C34E4C /* Tracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Tracker.xcodeproj; sourceTree = SOURCE_ROOT; };
 		B90C3F3E2CD6981E00171B84 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C78A642CE66F7A00613AD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9C78A692CE66F7A00613AD1 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 		B90C3F352CD6981E00171B84 = {
 			isa = PBXGroup;
 			children = (
+				B90493212CF3923700C34E4C /* Tracker.xcodeproj */,
 				B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */,
 				B9C78A8F2CE689C100613AD1 /* ScheduleViews */,
 				B9C78A8C2CE6885500613AD1 /* CategoryViews */,
@@ -109,6 +111,11 @@
 			children = (
 				B90C3F3E2CD6981E00171B84 /* Tracker.app */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B9CF2B3A2CF3C40400873D0D /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -171,6 +178,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B90C3F3F2CD6981E00171B84 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B9CF2B3A2CF3C40400873D0D /* Products */;
+					ProjectRef = B90493212CF3923700C34E4C /* Tracker.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				B90C3F3D2CD6981E00171B84 /* Tracker */,
@@ -217,7 +230,9 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -250,7 +265,9 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

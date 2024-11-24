@@ -43,6 +43,7 @@ final class CategoryVC: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Категория"
         viewSetup()
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     private func viewSetup() {

@@ -16,10 +16,12 @@ final class SplashViewController: UIViewController {
     }
     
     private func setupSplashScreen() {
+        
+        view.backgroundColor = .ypBlue
         let imageView = UIImageView()
+        imageView.backgroundColor = .clear
         imageView.image = UIImage.yandexPracticumLogo
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
 //        imageView.backgroundColor = UIColor(red: 55/256, green: 114/255, blue: 231/255, alpha: 1)
         view.addSubview(imageView)
         NSLayoutConstraint.activate([
@@ -28,11 +30,10 @@ final class SplashViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: 91),
             imageView.widthAnchor.constraint(equalToConstant: 94)
         ])
-        sleep(5)
+//        sleep(5)
     }
     
     private func switchToNaviBarVC() {
-        self.dismiss(animated: true)
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid windows configuration")
             return
@@ -41,6 +42,7 @@ final class SplashViewController: UIViewController {
         mainNaviBarVC.modalTransitionStyle = .crossDissolve
         mainNaviBarVC.modalPresentationStyle = .fullScreen
         window.rootViewController = mainNaviBarVC
+        self.dismiss(animated: true)
     }
     
 }

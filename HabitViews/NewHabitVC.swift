@@ -111,6 +111,7 @@ final class NewHabitVC: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Новая привычка"
         viewSetup()
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
 //    func setDelegate(_ delegate: TrackerNavigationViewProtocol) {
@@ -184,14 +185,14 @@ final class NewHabitVC: UIViewController {
 //    }
     
     @objc func cancelHabitCreation() {
-        print("cancel habit creation")
+//        print("cancel habit creation")
         self.dismiss(animated: true)
     }
 
     @objc func createHabit() {
-        print("Create habit in NewHabitVC")
+//        print("Create habit in NewHabitVC")
         guard let delegateTrackerInNewHabitVC else {
-            print("no delegate")
+            debugPrint("no delegate")
             return
         }
         guard let trackerText = trackerNameTextfield.text else { return }
@@ -322,7 +323,12 @@ extension NewHabitVC: UITableViewDataSource {
         
         return cell
     }
-    
+}
 
+extension NewHabitVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        trackerNameTextfield.resignFirstResponder()
+        return true
+    }
 }
 
