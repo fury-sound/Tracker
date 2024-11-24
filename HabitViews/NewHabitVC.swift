@@ -7,11 +7,22 @@
 
 import UIKit
 
+protocol TrackerNavigationViewProtocol: AnyObject {
+    func addingTrackerOnScreen(trackerName: String, trackerCategory: String, dateArray: [ScheduledDays])
+}
+
+protocol TrackerCreateVCProtocol: AnyObject {
+    func getDelegateTracker() -> TrackerNavigationViewProtocol
+}
 
 final class NewHabitVC: UIViewController {
-    
-    let buttonNameArray = ["Категория", "Расписание"]
-    
+
+    var daysToSend = [ScheduledDays]()
+    let buttonNameArray = [("Категория", "Название категории"), ("Расписание", "Дни недели")]
+    weak var delegateTrackerInNewHabitVC: TrackerCreateVCProtocol?
+    private var categoryCell = UITableViewCell()
+    private var scheduleCell = UITableViewCell()
+
     private lazy var trackerNameTextfield: UITextField = {
         var trackerNameTextfield = UITextField()
         trackerNameTextfield.backgroundColor = .ypLightGray
@@ -93,13 +104,24 @@ final class NewHabitVC: UIViewController {
         buttonTableView.clipsToBounds = true
         return buttonTableView
     }()
-        
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Новая привычка"
         viewSetup()
     }
     
+//    func setDelegate(_ delegate: TrackerNavigationViewProtocol) {
+//        self.delegateTrackerInNewHabitVC = delegate
+//    }
+    
+    func dafaultFields() {
+        trackerNameTextfield.text = ""
+        categoryCell.detailTextLabel?.text = buttonNameArray[0].0
+        scheduleCell.detailTextLabel?.text = buttonNameArray[0].1
+    }
     
     private func viewSetup() {
         view.backgroundColor = .ypWhite
@@ -167,9 +189,18 @@ final class NewHabitVC: UIViewController {
     }
 
     @objc func createHabit() {
-        print("Create habit")
-
+        print("Create habit in NewHabitVC")
+        guard let delegateTrackerInNewHabitVC else {
+            print("no delegate")
+            return
+        }
+        guard let trackerText = trackerNameTextfield.text else { return }
+//        print(daysToSend)
+        delegateTrackerInNewHabitVC.getDelegateTracker().addingTrackerOnScreen(trackerName: trackerText, trackerCategory: defaultHeader, dateArray: daysToSend)
+        self.dismiss(animated: true)
     }
+    
+    var defaultHeader = "Трекеры по умолчанию"
     
     @objc func editingTrackerName(_ sender: UITextField) {
         guard let text = sender.text else { return }
@@ -180,6 +211,7 @@ final class NewHabitVC: UIViewController {
         } else {
             createButton.isEnabled = true
             createButton.backgroundColor = .ypBlack
+            categoryCell.detailTextLabel?.text = defaultHeader
         }
     }
     
@@ -195,23 +227,71 @@ final class NewHabitVC: UIViewController {
 //        return updatedText.count <= 10
 //    }
     
+    
+    private func intsToDaysOfWeek(dayArray: [Int]) -> String {
+        if dayArray.count == 7 {
+            daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
+            return "Каждый день"
+        }
+        let russianLocale = Locale(identifier: "ru-RU")
+        var russianCalendar = Calendar.current
+        russianCalendar.locale = russianLocale
+                
+        let weekDaySymbols = russianLocale.calendar.shortWeekdaySymbols
+//        print(weekDaySymbols)
+        
+//        var daysToSend = ScheduledDays(rawValue: 1)!
+        daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
+//        print(daysToSend)
+//        print(dayArray)
+        var dayNames = dayArray.compactMap { index in
+            index >= 0 && index < weekDaySymbols.count ? weekDaySymbols[index] : nil
+        }
+//        print(dayNames)
+        if dayArray.first == 0 {
+            let tempDay = dayNames.remove(at: 0)
+//            print(tempDay, dayNames.count)
+            dayNames.insert(tempDay, at: (dayNames.count))
+        }
+//        print(dayNames)
+        return dayNames.joined(separator: ", ")
+    }
+    
 }
 
 extension NewHabitVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 && cell.detailTextLabel?.text != "Дни недели" {
+            cell.detailTextLabel?.text = "Дни недели"
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return 75 //.remainderReportingOverflow(dividingBy: <#T##Int#>)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            print("calling category dialog")
+//            print("calling category dialog")
             let categoryVC = CategoryVC()
             navigationController?.pushViewController(categoryVC, animated: true)
         } else {
-            print("calling schedule dialog")
+//            print("calling schedule dialog")
             let scheduleVC = ScheduleVC()
             navigationController?.pushViewController(scheduleVC, animated: true)
+            let curCell = tableView.cellForRow(at: indexPath)
+            curCell?.detailTextLabel?.text = buttonNameArray[indexPath.row].1
+            scheduleVC.tappedReady = { [weak self] (wdArray) -> Void in
+                guard let self else { return }
+//                print("wdArray in NewbitVC", wdArray)
+                let daysString = intsToDaysOfWeek(dayArray: wdArray)
+                let curCell = tableView.cellForRow(at: indexPath)
+                curCell?.detailTextLabel?.text = daysString
+            }
+            tableView.reloadData()
         }
+//        tableView.reloadData()
     }
 }
 
@@ -221,13 +301,25 @@ extension NewHabitVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell") //as? HabitTableViewCell
-        guard let cell else { return UITableViewCell()}
-        cell.textLabel?.text = buttonNameArray[indexPath.row]
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell") //as? HabitTableViewCell
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell") //as? HabitTableViewCell
+//        guard let cell else { return UITableViewCell()}
+        if indexPath.row == 0 {
+            categoryCell = cell
+        } else {
+            scheduleCell = cell
+        }
+        cell.textLabel?.text = buttonNameArray[indexPath.row].0
+        cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
+        cell.detailTextLabel?.textColor = .ypGray
+        cell.textLabel?.font = .systemFont(ofSize: 17)
+        cell.detailTextLabel?.font = .systemFont(ofSize: 17)
 //        cell.layer.borderColor = UIColor.red.cgColor
 //        buttonTableView.separatorStyle = .singleLine
+
         cell.backgroundColor = .ypBackgroundDay
         cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
     

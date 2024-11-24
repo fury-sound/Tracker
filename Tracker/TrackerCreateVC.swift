@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TrackerCreateVC: UIViewController {
+final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     
 //    private lazy var titleLabel: UILabel = {
 //        let titleLabel = UILabel()
@@ -17,7 +17,7 @@ final class TrackerCreateVC: UIViewController {
 //        titleLabel.font = UIFont(name: "SFPro", size: 16)
 //        return titleLabel
 //    }()
-    
+        
     private lazy var habitButton: UIButton = {
         let habitButton = UIButton()
         habitButton.backgroundColor = .ypBlack
@@ -40,12 +40,19 @@ final class TrackerCreateVC: UIViewController {
         return eventButton
     }()
     
+    let newHabitVC = NewHabitVC()
+    weak var delegateTracker: TrackerNavigationViewProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Создание трекера"
         navigationController?.navigationBar.tintColor = .ypBlack
+        newHabitVC.delegateTrackerInNewHabitVC = self
         viewSetup()
+    }
+    
+    func getDelegateTracker() -> TrackerNavigationViewProtocol {
+        return delegateTracker!
     }
     
     private func viewSetup() {
@@ -77,7 +84,7 @@ final class TrackerCreateVC: UIViewController {
     
     @objc func habitCreation() {
         print("habit creation")
-        let newHabitVC = NewHabitVC()
+        newHabitVC.dafaultFields()
         navigationController?.pushViewController(newHabitVC, animated: true)
 //        let navigationController = UINavigationController(rootViewController: newHabitVC)
 //        navigationController.modalPresentationStyle = .formSheet
@@ -86,6 +93,7 @@ final class TrackerCreateVC: UIViewController {
 
     @objc func eventCreation() {
         print("event creation")
+//        delegateTracker?.addingTrackerOnScreen()
     }
     
 }

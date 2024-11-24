@@ -10,8 +10,10 @@ import UIKit
 final class ScheduleVC: UIViewController {
        
     private let weekdayArray = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"]
-    
+    private let switchTags = [1,2,3,4,5,6,0]
     private var selectedWeekDates: Set<Int> = []
+    var tappedReady: (([Int]) -> Void)?
+
     
     private lazy var readyButton: UIButton = {
         let readyButton = UIButton()
@@ -44,6 +46,7 @@ final class ScheduleVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Расписание"
+//        selectedWeekDates = []
         viewSetup()
     }
     
@@ -68,7 +71,11 @@ final class ScheduleVC: UIViewController {
     }
     
     @objc func scheduleAdded() {
-        print("schedule added")
+//        print("schedule added")
+        let wdArray = selectedWeekDates.sorted()
+//        print(wdArray, type(of: selectedWeekDates))
+        tappedReady?(wdArray)
+        self.navigationController?.popViewController(animated: true)
 //        let categoryVC = CategoryVC()
 //        navigationController?.pushViewController(categoryVC, animated: true)
     }
@@ -89,10 +96,8 @@ final class ScheduleVC: UIViewController {
             readyButton.isEnabled = true
             readyButton.backgroundColor = .ypBlack
         }
-            
 //        print(selectedWeekDates)
     }
-        
 }
 
 extension ScheduleVC: UITableViewDelegate {
@@ -101,7 +106,7 @@ extension ScheduleVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("current row \(indexPath.row)")
+//        print("current row \(indexPath.row)")
     }
     
 //        print("switch \(weekdaySwitch.tag) selected")
@@ -135,7 +140,7 @@ extension ScheduleVC: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.isHighlighted = false
         cell.accessoryView = weekdaySwitch
-        weekdaySwitch.tag = indexPath.row
+        weekdaySwitch.tag = switchTags[indexPath.row]
         weekdaySwitch.onTintColor = .ypBlue
         weekdaySwitch.addTarget(self, action: #selector(switchOnOff(_ :)), for: .valueChanged)
         return cell
