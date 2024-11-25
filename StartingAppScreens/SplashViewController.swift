@@ -22,7 +22,6 @@ final class SplashViewController: UIViewController {
         imageView.backgroundColor = .clear
         imageView.image = UIImage.yandexPracticumLogo
         imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.backgroundColor = UIColor(red: 55/256, green: 114/255, blue: 231/255, alpha: 1)
         view.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -30,7 +29,6 @@ final class SplashViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: 91),
             imageView.widthAnchor.constraint(equalToConstant: 94)
         ])
-//        sleep(5)
     }
     
     private func switchToNaviBarVC() {
@@ -44,5 +42,4 @@ final class SplashViewController: UIViewController {
         window.rootViewController = mainNaviBarVC
         self.dismiss(animated: true)
     }
-    
 }

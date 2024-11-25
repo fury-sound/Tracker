@@ -18,7 +18,6 @@ final class SupplementaryHeaderView: UICollectionReusableView {
         headerLabel.font = .systemFont(ofSize: 19, weight: .bold)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-//            headerLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             headerLabel.topAnchor.constraint(equalTo: topAnchor),
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor)

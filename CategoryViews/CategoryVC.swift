@@ -71,5 +71,4 @@ final class CategoryVC: UIViewController {
         let addCategoryVC = AddCategoryVC()
         navigationController?.pushViewController(addCategoryVC, animated: true)
     }
-    
 }

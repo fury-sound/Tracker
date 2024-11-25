@@ -8,7 +8,10 @@
 import UIKit
 
 final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
-        
+    
+    private let newHabitVC = NewHabitVC()
+    weak var delegateTracker: TrackerNavigationViewProtocol?
+    
     private lazy var habitButton: UIButton = {
         let habitButton = UIButton()
         habitButton.backgroundColor = .ypBlack
@@ -30,9 +33,6 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
         eventButton.addTarget(self, action: #selector(eventCreation), for: .touchUpInside)
         return eventButton
     }()
-    
-    let newHabitVC = NewHabitVC()
-    weak var delegateTracker: TrackerNavigationViewProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,19 +65,8 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             stackView.heightAnchor.constraint(equalToConstant: 136)
         ])
+    }
         
-    }
-    
-    
-    @objc func habitCreation() {
-        newHabitVC.dafaultFields()
-        navigationController?.pushViewController(newHabitVC, animated: true)
-    }
-
-    @objc func eventCreation() {
-        alertForReviewer()
-    }
-    
     private func alertForReviewer() {
         let alert = UIAlertController(title: "Нерегулярное событие\n",
                                               message: "Уважаемый ревьювер)))\n" +
@@ -89,4 +78,12 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
                 present(alert, animated: true)
     }
     
+    @objc private func habitCreation() {
+        newHabitVC.dafaultFields()
+        navigationController?.pushViewController(newHabitVC, animated: true)
+    }
+
+    @objc private func eventCreation() {
+        alertForReviewer()
+    }
 }

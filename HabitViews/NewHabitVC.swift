@@ -16,24 +16,27 @@ protocol TrackerCreateVCProtocol: AnyObject {
 }
 
 final class NewHabitVC: UIViewController {
-
+    
     var daysToSend = [ScheduledDays]()
-    let buttonNameArray = [("Категория", "Название категории"), ("Расписание", "Дни недели")]
+    private let buttonNameArray = [("Категория", "Название категории"), ("Расписание", "Дни недели")]
     weak var delegateTrackerInNewHabitVC: TrackerCreateVCProtocol?
     private var categoryCell = UITableViewCell()
     private var scheduleCell = UITableViewCell()
-
+    private var defaultHeader = "Трекеры по умолчанию"
+    private var textInTextfield = ""
+    
     private lazy var trackerNameTextfield: UITextField = {
         var trackerNameTextfield = UITextField()
         trackerNameTextfield.backgroundColor = .ypLightGray
         trackerNameTextfield.layer.cornerRadius = 16
         trackerNameTextfield.clearButtonMode = .whileEditing
         trackerNameTextfield.placeholder = "Введите название трекера"
+        trackerNameTextfield.delegate = self
         trackerNameTextfield.addTarget(self, action: #selector(editingTrackerName(_ :)), for: .editingChanged)
         return trackerNameTextfield
     }()
     
-   private lazy var cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.backgroundColor = .ypWhite
         cancelButton.layer.cornerRadius = 16
@@ -45,7 +48,7 @@ final class NewHabitVC: UIViewController {
         cancelButton.addTarget(self, action: #selector(cancelHabitCreation), for: .touchUpInside)
         return cancelButton
     }()
-
+    
     private lazy var createButton: UIButton = {
         let createButton = UIButton()
         createButton.layer.cornerRadius = 16
@@ -74,8 +77,6 @@ final class NewHabitVC: UIViewController {
         return buttonTableView
     }()
     
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Новая привычка"
@@ -83,13 +84,15 @@ final class NewHabitVC: UIViewController {
         navigationItem.setHidesBackButton(true, animated: true)
     }
     
-
+    // MARK: Public functions
     func dafaultFields() {
         trackerNameTextfield.text = ""
-        categoryCell.detailTextLabel?.text = buttonNameArray[0].0
-        scheduleCell.detailTextLabel?.text = buttonNameArray[0].1
+        createButton.isEnabled = false
+        categoryCell.detailTextLabel?.text = buttonNameArray[0].1
+        scheduleCell.detailTextLabel?.text = buttonNameArray[1].1
     }
     
+    // MARK: Private functions
     private func viewSetup() {
         view.backgroundColor = .ypWhite
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
@@ -122,27 +125,9 @@ final class NewHabitVC: UIViewController {
             stackView.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
-
     
-    @objc func cancelHabitCreation() {
-        self.dismiss(animated: true)
-    }
-
-    @objc func createHabit() {
-        guard let delegateTrackerInNewHabitVC else {
-            debugPrint("no delegate")
-            return
-        }
-        guard let trackerText = trackerNameTextfield.text else { return }
-        delegateTrackerInNewHabitVC.getDelegateTracker().addingTrackerOnScreen(trackerName: trackerText, trackerCategory: defaultHeader, dateArray: daysToSend)
-        self.dismiss(animated: true)
-    }
-    
-    var defaultHeader = "Трекеры по умолчанию"
-    
-    @objc func editingTrackerName(_ sender: UITextField) {
-        guard let text = sender.text else { return }
-        if text.isEmpty == true || text.count > 38 {
+    private func canEnableCreateButton(dateArray: [ScheduledDays]) {
+        if (textInTextfield.isEmpty == true || textInTextfield.count > 38) || dateArray.isEmpty {
             createButton.isEnabled = false
             createButton.backgroundColor = .ypGray
         } else {
@@ -173,8 +158,31 @@ final class NewHabitVC: UIViewController {
         return dayNames.joined(separator: ", ")
     }
     
+    // MARK: @objc functions
+    @objc private func cancelHabitCreation() {
+        textInTextfield = ""
+        self.dismiss(animated: true)
+    }
+    
+    @objc private func createHabit() {
+        guard let delegateTrackerInNewHabitVC else {
+            debugPrint("no delegate")
+            return
+        }
+        guard let trackerText = trackerNameTextfield.text else { return }
+        delegateTrackerInNewHabitVC.getDelegateTracker().addingTrackerOnScreen(trackerName: trackerText, trackerCategory: defaultHeader, dateArray: daysToSend)
+        textInTextfield = ""
+        self.dismiss(animated: true)
+    }
+    
+    @objc private func editingTrackerName(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        textInTextfield = text
+        canEnableCreateButton(dateArray: daysToSend)
+    }
 }
 
+// MARK: UITableViewDelegate
 extension NewHabitVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -200,6 +208,7 @@ extension NewHabitVC: UITableViewDelegate {
                 guard let self else { return }
                 let daysString = intsToDaysOfWeek(dayArray: wdArray)
                 let curCell = tableView.cellForRow(at: indexPath)
+                canEnableCreateButton(dateArray: daysToSend)
                 curCell?.detailTextLabel?.text = daysString
             }
             tableView.reloadData()
@@ -207,7 +216,9 @@ extension NewHabitVC: UITableViewDelegate {
     }
 }
 
+// MARK: UITableViewDataSource
 extension NewHabitVC: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
@@ -226,12 +237,13 @@ extension NewHabitVC: UITableViewDataSource {
         cell.detailTextLabel?.font = .systemFont(ofSize: 17)
         cell.backgroundColor = .ypBackgroundDay
         cell.accessoryType = .disclosureIndicator
-        
         return cell
     }
 }
 
+// MARK: UITextFieldDelegate
 extension NewHabitVC: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         trackerNameTextfield.resignFirstResponder()
         return true

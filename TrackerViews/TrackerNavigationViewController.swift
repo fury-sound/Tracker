@@ -148,7 +148,30 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         naviBarSetup()
         showingTrackersForCurrentDate()
     }
+
+// MARK: Public functions
+    func addingTrackerOnScreen(trackerName: String, trackerCategory: String, dateArray: [ScheduledDays]) {
+        let idNum = UUID()
+        let colorNum = Int.random(in: 0..<3)
+        let emojiNum = Int.random(in: 0..<emojiArray.count)
+        let addedTracker = Tracker(id: idNum, name: trackerName, emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: dateArray)
+        allTrackers.append(addedTracker)
+        let nameForCategory = categoryHeaderCheck(categoryTitle: trackerCategory)
+        nameForCategory == "" ? categories[0].trackerArray.append(addedTracker) : print("adding new category")
+        showingTrackersForSelectedDate()
+        arrayToUse()
+        collectionView.reloadData()
+    }
     
+    // заглушка под метод проверки наличия категории
+    func categoryHeaderCheck(categoryTitle: String) -> String {
+//        categories.forEach { categoryTitle in
+//            print(categoryTitle)
+//        }
+        return ""
+    }
+
+// MARK: Private functions
     private func trackerCategoriesSetup() {
         categories.append(trackerCategoryDefault)
     }
@@ -238,7 +261,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         }
     }
     
-    
     private func togglingCompletedTrackers(date: Date, trackerId: UUID) {
         let trackerDate = getDateFromDatePicker(date: date)
         let trackerToHandle = TrackerRecord(id: trackerId, dateExecuted: trackerDate)
@@ -263,7 +285,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         return res
     }
 
-    
+// MARK: @objc functions
     @objc func dateChanged(sender: UIDatePicker) {
         selectedDate = sender.date
         let curDayOfWeek = sender.calendar.component(.weekday, from: selectedDate) - 1
@@ -279,23 +301,9 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         collectionView.reloadData()
     }
     
-    func getDateFromDatePicker(date: Date) -> String {
+    private func getDateFromDatePicker(date: Date) -> String {
         dateFormatter.dateFormat = "dd.MM.yyyy"
         return dateFormatter.string(from: date)
-    }
-    
-    func addingTrackerOnScreen(trackerName: String, trackerCategory: String, dateArray: [ScheduledDays]) {
-        let idNum = UUID()
-        let colorNum = Int.random(in: 0..<3)
-        let emojiNum = Int.random(in: 0..<emojiArray.count)
-        let addedTracker = Tracker(id: idNum, name: trackerName, emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: dateArray)
-        allTrackers.append(addedTracker)
-        let nameForCategory = categoryHeaderCheck(categoryTitle: trackerCategory)
-        nameForCategory == "" ? categories[0].trackerArray.append(addedTracker) : print("adding new category")
-
-        showingTrackersForSelectedDate()
-        arrayToUse()
-        collectionView.reloadData()
     }
     
     private func arrayToUse() {
@@ -309,15 +317,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         }
     }
 
-    
-    // заглушка под метод проверки наличия категории
-    func categoryHeaderCheck(categoryTitle: String) -> String {
-//        categories.forEach { categoryTitle in
-//            print(categoryTitle)
-//        }
-        return ""
-    }
-    
     @objc func leftAddHabit() {
         let navigationController = UINavigationController(rootViewController: createTracker)
         navigationController.modalPresentationStyle = .formSheet
@@ -385,7 +384,6 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
         return supplementaryView
     }
     
-    
     private func trackerCompletedDaysCount(cell: TrackerCellViewController, trackerId: UUID) {
         var counter = 0
         for element in completedTrackers {
@@ -399,7 +397,6 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     private func changeCellButton(cell: TrackerCellViewController, trackerId: UUID) {
         checkingCompletedTrackers(trackerId: trackerId) ? cell.setButtonSign(isPlusSignOnFlag: true) : cell.setButtonSign(isPlusSignOnFlag: false)
     }
-    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -423,7 +420,6 @@ extension TrackerNavigationViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 18)
     }
-    
 }
 
 //MARK: - UICollectionViewDelegate
@@ -442,6 +438,5 @@ extension TrackerNavigationViewController: UISearchControllerDelegate, UISearchR
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
     }
-    
 }
 

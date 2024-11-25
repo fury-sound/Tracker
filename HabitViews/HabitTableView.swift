@@ -50,6 +50,4 @@ extension HabitTableView: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = .green
         return cell
     }
-    
-
 }

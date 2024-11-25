@@ -14,7 +14,6 @@ final class ScheduleVC: UIViewController {
     private var selectedWeekDates: Set<Int> = []
     var tappedReady: (([Int]) -> Void)?
 
-    
     private lazy var readyButton: UIButton = {
         let readyButton = UIButton()
         readyButton.layer.cornerRadius = 16

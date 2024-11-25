@@ -15,6 +15,7 @@ final class AddCategoryVC: UIViewController {
         trackerNameTextfield.layer.cornerRadius = 16
         trackerNameTextfield.placeholder = "Введите название категории"
         trackerNameTextfield.clearButtonMode = .whileEditing
+        trackerNameTextfield.delegate = self
         trackerNameTextfield.addTarget(self, action: #selector(editingFunc(_ :)), for: .editingChanged)
         return trackerNameTextfield
     }()
@@ -68,7 +69,7 @@ final class AddCategoryVC: UIViewController {
     
     @objc func editingFunc(_ sender: UITextField) {
         guard let text = sender.text else { return }
-        if text == ""  {
+        if text.isEmpty == true  {
             readyButton.isEnabled = false
             readyButton.backgroundColor = .ypGray
         } else {
@@ -87,12 +88,12 @@ final class AddCategoryVC: UIViewController {
                 alert.addAction(action)
                 present(alert, animated: true)
     }
-    
 }
 
 extension AddCategoryVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         trackerNewNameTextfield.resignFirstResponder()
+//        view.endEditing(true)
         return true
     }
 }

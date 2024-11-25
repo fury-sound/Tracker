@@ -14,7 +14,6 @@ final class TrackerCellViewController: UICollectionViewCell {
     var setMarkSign = false
     var tapped: (() -> Void)?
     
-    
     private lazy var trackerView: UIView = {
         let trackerView = UIView()
         trackerView.layer.cornerRadius = 10
@@ -136,7 +135,6 @@ final class TrackerCellViewController: UICollectionViewCell {
         tapped?()
     }
     
-    
     func setLabelText(text: String) {
         textLabel.text = text
     }
@@ -172,5 +170,4 @@ final class TrackerCellViewController: UICollectionViewCell {
         trackerView.backgroundColor = trackerColorSet[colorNum]
         plusButton.backgroundColor = trackerColorSet[colorNum]
     }
-    
 }
