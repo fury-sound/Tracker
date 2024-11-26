@@ -77,6 +77,19 @@ final class NewHabitVC: UIViewController {
         return buttonTableView
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .blue
+        return scrollView
+    }()
+    
+    private lazy var emojiCollectionView: UICollectionView = {
+        let emojiCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        emojiCollectionView.backgroundColor = .green
+        emojiCollectionView.register(EmojiCellCollectionViewController.self, forCellWithReuseIdentifier: "cellEmoji")
+        return emojiCollectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Новая привычка"
@@ -104,13 +117,22 @@ final class NewHabitVC: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
         stackView.spacing = 8
-        
-        let elementArray = [trackerNameTextfield, buttonTableView, stackView]
+        let scrollViewArray = [trackerNameTextfield, buttonTableView, emojiCollectionView]
+        scrollViewArray.forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview($0)
+        }
+        let elementArray = [scrollView, stackView]
         elementArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
+        
         NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: stackView.topAnchor),
             trackerNameTextfield.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             trackerNameTextfield.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             trackerNameTextfield.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
@@ -119,6 +141,9 @@ final class NewHabitVC: UIViewController {
             buttonTableView.heightAnchor.constraint(equalToConstant: 149),
             buttonTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             buttonTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            emojiCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 18),
+            emojiCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 18),
+            emojiCollectionView.topAnchor.constraint(equalTo: buttonTableView.bottomAnchor, constant: -32),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
