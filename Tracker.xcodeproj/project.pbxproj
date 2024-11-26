@@ -6,12 +6,22 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B9C78A672CE66F7A00613AD1 /* Tracker.xcdatamodeld */; };
+		B9C78A752CE66F7A00613AD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9C78A642CE66F7A00613AD1 /* Assets.xcassets */; };
+		B9C78AA52CE6944F00613AD1 /* AddCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		B90493212CF3923700C34E4C /* Tracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Tracker.xcodeproj; sourceTree = SOURCE_ROOT; };
 		B90C3F3E2CD6981E00171B84 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9C78A642CE66F7A00613AD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B9C78A692CE66F7A00613AD1 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
+		B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B90C3F532CD6981F00171B84 /* Exceptions for "Tracker" folder in "Tracker" target */ = {
+		B9C78AA32CE692BE00613AD1 /* Exceptions for "Tracker" folder in "Tracker" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,9 +34,44 @@
 		B90C3F402CD6981E00171B84 /* Tracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				B90C3F532CD6981F00171B84 /* Exceptions for "Tracker" folder in "Tracker" target */,
+				B9C78AA32CE692BE00613AD1 /* Exceptions for "Tracker" folder in "Tracker" target */,
 			);
 			path = Tracker;
+			sourceTree = "<group>";
+		};
+		B9C78A7B2CE687BF00613AD1 /* StartingAppScreens */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = StartingAppScreens;
+			sourceTree = "<group>";
+		};
+		B9C78A822CE687CA00613AD1 /* TrackerViews */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TrackerViews;
+			sourceTree = "<group>";
+		};
+		B9C78A872CE687CD00613AD1 /* Statistics */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Statistics;
+			sourceTree = "<group>";
+		};
+		B9C78A892CE687E500613AD1 /* CommonFiles */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CommonFiles;
+			sourceTree = "<group>";
+		};
+		B9C78A8B2CE6882C00613AD1 /* HabitViews */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HabitViews;
+			sourceTree = "<group>";
+		};
+		B9C78A8C2CE6885500613AD1 /* CategoryViews */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CategoryViews;
+			sourceTree = "<group>";
+		};
+		B9C78A8F2CE689C100613AD1 /* ScheduleViews */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ScheduleViews;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -45,8 +90,19 @@
 		B90C3F352CD6981E00171B84 = {
 			isa = PBXGroup;
 			children = (
+				B90493212CF3923700C34E4C /* Tracker.xcodeproj */,
+				B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */,
+				B9C78A8F2CE689C100613AD1 /* ScheduleViews */,
+				B9C78A8C2CE6885500613AD1 /* CategoryViews */,
+				B9C78A8B2CE6882C00613AD1 /* HabitViews */,
+				B9C78A892CE687E500613AD1 /* CommonFiles */,
+				B9C78A872CE687CD00613AD1 /* Statistics */,
+				B9C78A822CE687CA00613AD1 /* TrackerViews */,
+				B9C78A7B2CE687BF00613AD1 /* StartingAppScreens */,
 				B90C3F402CD6981E00171B84 /* Tracker */,
 				B90C3F3F2CD6981E00171B84 /* Products */,
+				B9C78A672CE66F7A00613AD1 /* Tracker.xcdatamodeld */,
+				B9C78A642CE66F7A00613AD1 /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,6 +111,11 @@
 			children = (
 				B90C3F3E2CD6981E00171B84 /* Tracker.app */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B9CF2B3A2CF3C40400873D0D /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -75,6 +136,13 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B90C3F402CD6981E00171B84 /* Tracker */,
+				B9C78A7B2CE687BF00613AD1 /* StartingAppScreens */,
+				B9C78A822CE687CA00613AD1 /* TrackerViews */,
+				B9C78A872CE687CD00613AD1 /* Statistics */,
+				B9C78A892CE687E500613AD1 /* CommonFiles */,
+				B9C78A8B2CE6882C00613AD1 /* HabitViews */,
+				B9C78A8C2CE6885500613AD1 /* CategoryViews */,
+				B9C78A8F2CE689C100613AD1 /* ScheduleViews */,
 			);
 			name = Tracker;
 			packageProductDependencies = (
@@ -110,6 +178,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B90C3F3F2CD6981E00171B84 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B9CF2B3A2CF3C40400873D0D /* Products */;
+					ProjectRef = B90493212CF3923700C34E4C /* Tracker.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				B90C3F3D2CD6981E00171B84 /* Tracker */,
@@ -122,6 +196,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C78A752CE66F7A00613AD1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +207,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C78AA52CE6944F00613AD1 /* AddCategoryVC.swift in Sources */,
+				B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,11 +225,14 @@
 				DEVELOPMENT_TEAM = 525NQN8N76;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Habit Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -160,9 +240,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.zvonarev.app.Tracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -176,11 +260,14 @@
 				DEVELOPMENT_TEAM = 525NQN8N76;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Habit Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -188,9 +275,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.zvonarev.app.Tracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -335,6 +426,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B9C78A672CE66F7A00613AD1 /* Tracker.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B9C78A692CE66F7A00613AD1 /* Tracker.xcdatamodel */,
+			);
+			currentVersion = B9C78A692CE66F7A00613AD1 /* Tracker.xcdatamodel */;
+			path = Tracker.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B90C3F362CD6981E00171B84 /* Project object */;
 }
