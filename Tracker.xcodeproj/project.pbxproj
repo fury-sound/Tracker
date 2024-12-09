@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B9A216442D05C4C400D46982 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A216432D05C4C400D46982 /* TrackerStore.swift */; };
+		B9A216462D05C4FE00D46982 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A216452D05C4FE00D46982 /* TrackerCategoryStore.swift */; };
+		B9A216482D05C52200D46982 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A216472D05C52200D46982 /* TrackerRecordStore.swift */; };
 		B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B9C78A672CE66F7A00613AD1 /* Tracker.xcdatamodeld */; };
 		B9C78A752CE66F7A00613AD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9C78A642CE66F7A00613AD1 /* Assets.xcassets */; };
 		B9C78AA52CE6944F00613AD1 /* AddCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */; };
@@ -15,6 +18,9 @@
 /* Begin PBXFileReference section */
 		B90493212CF3923700C34E4C /* Tracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Tracker.xcodeproj; sourceTree = SOURCE_ROOT; };
 		B90C3F3E2CD6981E00171B84 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9A216432D05C4C400D46982 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
+		B9A216452D05C4FE00D46982 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
+		B9A216472D05C52200D46982 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 		B9C78A642CE66F7A00613AD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9C78A692CE66F7A00613AD1 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 		B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryVC.swift; sourceTree = "<group>"; };
@@ -90,6 +96,7 @@
 		B90C3F352CD6981E00171B84 = {
 			isa = PBXGroup;
 			children = (
+				B9A216422D05C49800D46982 /* CoreData */,
 				B90493212CF3923700C34E4C /* Tracker.xcodeproj */,
 				B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */,
 				B9C78A8F2CE689C100613AD1 /* ScheduleViews */,
@@ -112,6 +119,16 @@
 				B90C3F3E2CD6981E00171B84 /* Tracker.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B9A216422D05C49800D46982 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				B9A216432D05C4C400D46982 /* TrackerStore.swift */,
+				B9A216452D05C4FE00D46982 /* TrackerCategoryStore.swift */,
+				B9A216472D05C52200D46982 /* TrackerRecordStore.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		B9CF2B3A2CF3C40400873D0D /* Products */ = {
@@ -209,6 +226,9 @@
 			files = (
 				B9C78AA52CE6944F00613AD1 /* AddCategoryVC.swift in Sources */,
 				B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */,
+				B9A216482D05C52200D46982 /* TrackerRecordStore.swift in Sources */,
+				B9A216462D05C4FE00D46982 /* TrackerCategoryStore.swift in Sources */,
+				B9A216442D05C4C400D46982 /* TrackerStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

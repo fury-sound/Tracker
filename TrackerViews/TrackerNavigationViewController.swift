@@ -6,6 +6,7 @@
 //
 
 import UIKit
+//import CoreData
 
 struct Tracker {
     let id: UUID?
@@ -47,6 +48,10 @@ struct GeometricParams {
     }
 }
 
+let EmojiArray = [ "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🍄"]
+
+let Colors: [UIColor] = [.ypDarkRed, .ypOrange, .ypDarkBlue, .ypAmethyst, .ypGreen, .ypOrchid, .ypPastelPink, .ypLightBlue, .ypLightGreen, .ypCosmicCobalt, .ypRed, .ypPaleMagentaPink, .ypMacaroniAndCheese, .ypCornflowerBlue, .ypBlueViolet, .ypMediumOrchid, .ypMediumPurple, .ypDarkGreen]
+
 final class TrackerNavigationViewController: UIViewController, TrackerNavigationViewProtocol {
     
     private var categories = [TrackerCategory]()
@@ -55,7 +60,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private var trackersFilteredByWeekdays = [Tracker]()
     private var trackersToDisplay = [Tracker]()
     private var allTrackers = [Tracker]()
-    private let trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
+    private let trackerColorSet = [UIColor.ypBlack, UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
     private let params = GeometricParams(leftInset: 16, rightInset: 16, cellSpacing: 10)
     
     private var dateField = UITextField()
@@ -64,25 +69,36 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private var selectedDate = Date()
     private let createTracker = TrackerCreateVC()
     
-    private let emojiArray = [ "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🍄"]
+//    private let emojiArray = [ "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🍄"]
 
+//    var context: NSManagedObjectContext!
+    private let emojiArray = EmojiArray
+    private let colorsArray = Colors
+    
+//    var context: NSManagedObjectContext {
+//        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    }
+    let trackerStore = TrackerStore()
+    
 // MARK: mock trackers and mock tracker creation function
-//    var mockTracker1 = Tracker(id: 1, name: "test tracker 1", emojiPic: "🍇", color: .ypGreen , schedule: [.Mon, .Sun])
+    var mockTracker1 = Tracker(id: UUID(), name: "test tracker 1", emojiPic: "🍇", color: .white , schedule: [.Mon, .Sun])
 //    var mockTracker2 = Tracker(id: 2, name: "test tracker 2", emojiPic: "🍈", color: .red, schedule: [.Mon, .Thu, .Sun])
     
-//    func tempMockTrackerSetup() {
+    func tempMockTrackerSetup() {
 //        var colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
-//        var emojiNum = Int.random(in: 0..<emojiArray.count)
-//        mockTracker1 = Tracker(id: 1, name: "test tracker 1", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum] , schedule: [.Mon, .Sun])
+        var emojiNum = Int.random(in: 0..<emojiArray.count)
+        let mockUUID = UUID()
+//        mockTracker1 = Tracker(id: mockUUID, name: "test tracker 1", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum] , schedule: [.Mon, .Sun])
+        mockTracker1 = Tracker(id: mockUUID, name: "test tracker 1", emojiPic: emojiArray[emojiNum], color: trackerColorSet[1] , schedule: [.Mon, .Sun])
 //        colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
 //        emojiNum = Int.random(in: 0..<emojiArray.count)
 //        mockTracker2 = Tracker(id: 2, name: "test tracker 2", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: [.Thu, .Sun])
-//        allTrackers.append(mockTracker1)
+        allTrackers.append(mockTracker1)
 //        allTrackers.append(mockTracker2)
 //        categories[0].trackerArray.append(mockTracker1)
 //        categories[0].trackerArray.append(mockTracker2)
 ////        print(categories) //, categories[0])
-//    }
+    }
     
     private lazy var searchBar: UISearchController = {
         var searchField = UISearchController()
@@ -141,21 +157,58 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        deleteAllTrackers()
+        retrieveAllTrackers()
         trackerCategoriesSetup()
 //        tempMockTrackerSetup() // calling mockTracker setup function
+//        trackerStore.deleteEntities()
+//        var mockTracker2 = trackerStore.retrieveAllTrackers()
+//        allTrackers.append(mockTracker2)
+//        var strWeekDays = trackerStore.scheduleToString(schedule: [.Mon, .Wed])
+//        let lineStr = trackerStore.stringToSchedule(scheduleString: strWeekDays)
+//        print("in viewDidLoad", strWeekDays, lineStr)
+        
         createTracker.delegateTracker = self
         setupNaviVC()
         naviBarSetup()
         showingTrackersForCurrentDate()
+        
+        trackerStore.countEntities()
+//        storingTracker(mockTracker1)
+//        trackerStore.countEntities()
+        
+//        let weekStr = trackerStore.scheduleToString(schedule: [.Mon, .Wed])
+    }
+    
+    private func storingTracker(_ tracker: Tracker) {
+        do {
+            try trackerStore.addTrackerToCoreData(tracker)
+        } catch let error as NSError {
+            print("TrackerNavigationViewController, addTrackerToCoreData:", error.localizedDescription)
+            return
+        }
+        allTrackers.append(tracker)
+    }
+    
+    private func retrieveAllTrackers() {
+        allTrackers = trackerStore.retrieveAllTrackers()
+//        print(allTrackers)
     }
 
+    private func deleteAllTrackers() {
+        trackerStore.deleteAllTrackerCoreDataEntities()
+    }
+    
+    
 // MARK: Public functions
-    func addingTrackerOnScreen(trackerName: String, trackerCategory: String, dateArray: [ScheduledDays]) {
+    func addingTrackerOnScreen(trackerName: String, trackerCategory: String, emoji: String, color: UIColor, dateArray: [ScheduledDays]) {
         let idNum = UUID()
-        let colorNum = Int.random(in: 0..<3)
-        let emojiNum = Int.random(in: 0..<emojiArray.count)
-        let addedTracker = Tracker(id: idNum, name: trackerName, emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: dateArray)
-        allTrackers.append(addedTracker)
+//        let colorNum = Int.random(in: 0..<3)
+//        let emojiNum = Int.random(in: 0..<emojiArray.count)
+//        let addedTracker = Tracker(id: idNum, name: trackerName, emojiPic: emojiArray[emojiNum], color: trackerColorSet[2], schedule: dateArray)
+        let addedTracker = Tracker(id: idNum, name: trackerName, emojiPic: emoji, color: color, schedule: dateArray)
+//        print("in addingTrackerOnScreen", dateArray)
+        storingTracker(addedTracker)
         let nameForCategory = categoryHeaderCheck(categoryTitle: trackerCategory)
         nameForCategory == "" ? categories[0].trackerArray.append(addedTracker) : print("adding new category")
         showingTrackersForSelectedDate()
@@ -307,6 +360,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func arrayToUse() {
+//        print(trackersFilteredByWeekdays)
         trackersToDisplay = trackersFilteredByWeekdays
         if trackersToDisplay.count == 0 {
             imageView.isHidden = false
@@ -341,15 +395,15 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
               let emoji = trackersToDisplay[indexPath.item].emojiPic,
               let text = trackersToDisplay[indexPath.item].name else { return UICollectionViewCell() }
         cell.layer.cornerRadius = 10
-        var colorNumber: Int = 0
-        for indeхColor in 0..<trackerColorSet.count {
-            if trackerColorSet[indeхColor] == color {
-                colorNumber = indeхColor
-            }
-        }
+//        var colorNumber: Int = 0
+//        for indeхColor in 0..<trackerColorSet.count {
+//            if trackerColorSet[indeхColor] == color {
+//                colorNumber = indeхColor
+//            }
+//        }
         changeCellButton(cell: cell, trackerId: id)
         trackerCompletedDaysCount(cell: cell, trackerId: id)
-        cell.setColorsInCell(color: colorNumber)
+        cell.setColorsInCell(color: color)
         cell.setEmoji(emoji: emoji)
         cell.setLabelText(text: text)
         cell.tintColor = .clear

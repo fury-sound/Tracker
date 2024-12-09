@@ -165,9 +165,11 @@ final class TrackerCellViewController: UICollectionViewCell {
         }
     }
     
-    func setColorsInCell(color: Int) {
-        colorNum = color
-        trackerView.backgroundColor = trackerColorSet[colorNum]
-        plusButton.backgroundColor = trackerColorSet[colorNum]
+    func setColorsInCell(color: UIColor) {
+//        colorNum = color
+        trackerView.backgroundColor = color
+        plusButton.backgroundColor = color
+//        trackerView.backgroundColor = trackerColorSet[colorNum]
+//        plusButton.backgroundColor = trackerColorSet[colorNum]
     }
 }
