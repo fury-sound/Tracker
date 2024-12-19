@@ -8,8 +8,10 @@
 import UIKit
 
 final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
+//final class TrackerCreateVC: UIViewController {
     
     private let newHabitVC = NewHabitVC()
+    private let newEventVC = NewEventVC()
     weak var delegateTracker: TrackerNavigationViewProtocol?
     
     private lazy var habitButton: UIButton = {
@@ -79,11 +81,13 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     }
     
     @objc private func habitCreation() {
-        newHabitVC.dafaultFields()
+        newHabitVC.defaultFields()
         navigationController?.pushViewController(newHabitVC, animated: true)
     }
 
     @objc private func eventCreation() {
-        alertForReviewer()
+//        alertForReviewer()
+        newEventVC.defaultFields()
+        navigationController?.pushViewController(newEventVC, animated: true)
     }
 }

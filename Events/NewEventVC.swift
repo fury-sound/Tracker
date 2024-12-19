@@ -1,30 +1,19 @@
 //
-//  NewHabitVC.swift
+//  NewEventVC.swift
 //  Tracker
 //
-//  Created by Valery Zvonarev on 12.11.2024.
+//  Created by Valery Zvonarev on 18.12.2024.
 //
 
 import UIKit
 
-protocol TrackerNavigationViewProtocol: AnyObject {
-//    func addingTrackerOnScreen(trackerName: String, trackerCategory: String, emoji: String, color: UIColor, dateArray: [ScheduledDays])
-    func addingTrackerOnScreen()
-}
-
-protocol TrackerCreateVCProtocol: AnyObject {
-    func getDelegateTracker() -> TrackerNavigationViewProtocol
-}
-
-final class NewHabitVC: UIViewController {
+final class NewEventVC: UIViewController {
     
-//    var viewFlag = true
     var daysToSend = [ScheduledDays]()
-    private let buttonNameArray = [("Категория", "Название категории"), ("Расписание", "Дни недели")]
-    weak var delegateTrackerInNewHabitVC: TrackerCreateVCProtocol?
+    private let buttonNameArray = [("Категория", "Название категории")]
     private var categoryCell = UITableViewCell()
-    private var scheduleCell = UITableViewCell()
-    private var defaultHeader = "Важное"
+//    private var scheduleCell = UITableViewCell()
+    private var defaultHeader = "Трекеры по умолчанию"
     private var textInTextfield = ""
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private var selectedEmoji = "🙂"
@@ -32,25 +21,24 @@ final class NewHabitVC: UIViewController {
     private let layout = UICollectionViewFlowLayout()
     let trackerStore = TrackerStore()
 
+    
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🫢", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"]
-    
-//    private let colors: [UIColor] = [.ypDarkRed, .ypOrange, .ypDarkBlue, .ypAmethyst, .ypGreen, .ypOrchid, .ypPastelPink, .ypLightBlue, .ypLightGreen, .ypCosmicCobalt, .ypRed, .ypPaleMagentaPink, .ypMacaroniAndCheese, .ypCornflowerBlue, .ypBlueViolet, .ypMediumOrchid, .ypMediumPurple, .ypDarkGreen]
-    
+        
     private let colors = Colors
     private var selectedIndexPaths: [Int: IndexPath] = [:]
     
-    private lazy var trackerNameTextfield: UITextField = {
-        var trackerNameTextfield = UITextField()
-        trackerNameTextfield.backgroundColor = .ypLightGray
-        trackerNameTextfield.layer.cornerRadius = 16
-        trackerNameTextfield.clearButtonMode = .whileEditing
-        trackerNameTextfield.placeholder = "Введите название трекера"
+    private lazy var eventNameTextfield: UITextField = {
+        var eventNameTextfield = UITextField()
+        eventNameTextfield.backgroundColor = .ypLightGray
+        eventNameTextfield.layer.cornerRadius = 16
+        eventNameTextfield.clearButtonMode = .whileEditing
+        eventNameTextfield.placeholder = "Введите название привычки"
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
-        trackerNameTextfield.leftView = paddingView
-        trackerNameTextfield.leftViewMode = .always
-        trackerNameTextfield.delegate = self
-        trackerNameTextfield.addTarget(self, action: #selector(editingTrackerName(_ :)), for: .editingChanged)
-        return trackerNameTextfield
+        eventNameTextfield.leftView = paddingView
+        eventNameTextfield.leftViewMode = .always
+        eventNameTextfield.delegate = self
+        eventNameTextfield.addTarget(self, action: #selector(editingEventName(_ :)), for: .editingChanged)
+        return eventNameTextfield
     }()
     
     private lazy var cancelButton: UIButton = {
@@ -62,7 +50,7 @@ final class NewHabitVC: UIViewController {
         cancelButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         cancelButton.layer.borderColor = UIColor.ypRed.cgColor
         cancelButton.layer.borderWidth = 1
-        cancelButton.addTarget(self, action: #selector(cancelHabitCreation), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelEventCreation), for: .touchUpInside)
         return cancelButton
     }()
     
@@ -74,7 +62,7 @@ final class NewHabitVC: UIViewController {
         createButton.setTitleColor(.ypWhite, for: .normal)
         createButton.setTitle("Создать", for: .normal)
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        createButton.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
+        createButton.addTarget(self, action: #selector(createEvent), for: .touchUpInside)
         return createButton
     }()
     
@@ -144,10 +132,10 @@ final class NewHabitVC: UIViewController {
     
     // MARK: Public functions
     func defaultFields() {
-        trackerNameTextfield.text = ""
+        eventNameTextfield.text = ""
         createButton.isEnabled = false
         categoryCell.detailTextLabel?.text = buttonNameArray[0].1
-        scheduleCell.detailTextLabel?.text = buttonNameArray[1].1
+//        scheduleCell.detailTextLabel?.text = buttonNameArray[1].1
     }
     
     // MARK: Private functions
@@ -163,18 +151,12 @@ final class NewHabitVC: UIViewController {
         
 //        trackerNameTextfield.backgroundColor = .red
 //        buttonTableView.backgroundColor = .green
-        let containedArray = [trackerNameTextfield, buttonTableView, emojiCollectionView]
+        let containedArray = [eventNameTextfield, buttonTableView, emojiCollectionView]
 //        let scrollViewArray = [trackerNameTextfield, buttonTableView]
         containedArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             containingView.addSubview($0)
         }
-        
-//        let viewArray = [trackerNameTextfield, buttonTableView, emojiCollectionView]
-//        viewArray.forEach {
-//            $0.translatesAutoresizingMaskIntoConstraints = false
-//            view.addSubview($0)
-//        }
         
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -188,15 +170,15 @@ final class NewHabitVC: UIViewController {
             containingView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             containingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            trackerNameTextfield.leadingAnchor.constraint(equalTo: containingView.leadingAnchor, constant: 16),
-            trackerNameTextfield.trailingAnchor.constraint(equalTo: containingView.trailingAnchor, constant: -16),
-            trackerNameTextfield.topAnchor.constraint(equalTo: containingView.topAnchor, constant: 24),
-            trackerNameTextfield.heightAnchor.constraint(equalToConstant: 75),
+            eventNameTextfield.leadingAnchor.constraint(equalTo: containingView.leadingAnchor, constant: 16),
+            eventNameTextfield.trailingAnchor.constraint(equalTo: containingView.trailingAnchor, constant: -16),
+            eventNameTextfield.topAnchor.constraint(equalTo: containingView.topAnchor, constant: 24),
+            eventNameTextfield.heightAnchor.constraint(equalToConstant: 75),
             
             buttonTableView.leadingAnchor.constraint(equalTo: containingView.leadingAnchor, constant: 16),
             buttonTableView.trailingAnchor.constraint(equalTo: containingView.trailingAnchor, constant: -16),
-            buttonTableView.topAnchor.constraint(equalTo: trackerNameTextfield.bottomAnchor, constant: 24),
-            buttonTableView.heightAnchor.constraint(equalToConstant: 149),
+            buttonTableView.topAnchor.constraint(equalTo: eventNameTextfield.bottomAnchor, constant: 24),
+            buttonTableView.heightAnchor.constraint(equalToConstant: 74),
             
             emojiCollectionView.leadingAnchor.constraint(equalTo: containingView.leadingAnchor, constant: 16),
             emojiCollectionView.trailingAnchor.constraint(equalTo: containingView.trailingAnchor, constant: -16),
@@ -209,11 +191,10 @@ final class NewHabitVC: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             stackView.heightAnchor.constraint(equalToConstant: 60)
         ])
-        
     }
     
-    private func canEnableCreateButton(dateArray: [ScheduledDays]) {
-        if (textInTextfield.isEmpty == true || textInTextfield.count > 38) || dateArray.isEmpty {
+    private func canEnableCreateButton() {
+        if (textInTextfield.isEmpty == true || textInTextfield.count > 38) {
             createButton.isEnabled = false
             createButton.backgroundColor = .ypGray
         } else {
@@ -223,67 +204,48 @@ final class NewHabitVC: UIViewController {
         }
     }
     
-    private func intsToDaysOfWeek(dayArray: [Int]) -> String {
-        if dayArray.count == 7 {
-            daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
-            return "Каждый день"
-        }
-        let russianLocale = Locale(identifier: "ru-RU")
-        var russianCalendar = Calendar.current
-        russianCalendar.locale = russianLocale
-        let weekDaySymbols = russianLocale.calendar.shortWeekdaySymbols
-        
-        daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
-        var dayNames = dayArray.compactMap { index in
-            index >= 0 && index < weekDaySymbols.count ? weekDaySymbols[index] : nil
-        }
-        
-//        print("Дни \(daysToSend), \(daysToSend.first?.rawValue), \(dayNames) ")
-        
-        if dayArray.first == 0 {
-            let tempDay = dayNames.remove(at: 0)
-            dayNames.insert(tempDay, at: (dayNames.count))
-        }
-        return dayNames.joined(separator: ", ")
-    }
-    
     // MARK: @objc functions
-    @objc private func cancelHabitCreation() {
+    @objc private func cancelEventCreation() {
         textInTextfield = ""
         self.dismiss(animated: true)
     }
     
-    @objc private func createHabit() {
+    @objc private func createEvent() {
 //        guard let delegateTrackerInNewHabitVC else {
 //            debugPrint("no delegate")
 //            return
 //        }
-        guard let trackerText = trackerNameTextfield.text else { return }
-//        let colorValue = colors[4]
+        guard let eventText = eventNameTextfield.text else { return }
         let idNum = UUID()
 //        delegateTrackerInNewHabitVC.getDelegateTracker().addingTrackerOnScreen(trackerName: trackerText, trackerCategory: defaultHeader, emoji: selectedEmoji, color: selectedColor, dateArray: daysToSend)
-        let addedTracker = Tracker(id: idNum, name: trackerText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
+//        daysToSend = [.Mon, .Tue, .Wed, .Thu, .Fri, .Sat, .Sun]
+        daysToSend = []
+        let addedEvent = Tracker(id: idNum, name: eventText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
         let category = TrackerCategory(title: defaultHeader)
-        try? trackerStore.addTrackerToCoreData(addedTracker)
-
+        do {
+            try trackerStore.addTrackerToCoreData(addedEvent)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
         textInTextfield = ""
         self.dismiss(animated: true)
     }
     
-    @objc private func editingTrackerName(_ sender: UITextField) {
+    @objc private func editingEventName(_ sender: UITextField) {
         guard let text = sender.text else { return }
         textInTextfield = text
-        canEnableCreateButton(dateArray: daysToSend)
+        canEnableCreateButton()
     }
+    
 }
 
 // MARK: UITableViewDelegate
-extension NewHabitVC: UITableViewDelegate {
+extension NewEventVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 && cell.detailTextLabel?.text != "Дни недели" {
-            cell.detailTextLabel?.text = "Дни недели"
-        }
+//        if indexPath.row == 1 && cell.detailTextLabel?.text != "Дни недели" {
+//            cell.detailTextLabel?.text = "Дни недели"
+//        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -291,40 +253,25 @@ extension NewHabitVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            let categoryVC = CategoryVC()
-            navigationController?.pushViewController(categoryVC, animated: true)
-        } else {
-            let scheduleVC = ScheduleVC()
-            navigationController?.pushViewController(scheduleVC, animated: true)
-            let curCell = tableView.cellForRow(at: indexPath)
-            curCell?.detailTextLabel?.text = buttonNameArray[indexPath.row].1
-            scheduleVC.tappedReady = { [weak self] (wdArray) -> Void in
-                guard let self else { return }
-                let daysString = intsToDaysOfWeek(dayArray: wdArray)
-                let curCell = tableView.cellForRow(at: indexPath)
-                canEnableCreateButton(dateArray: daysToSend)
-                curCell?.detailTextLabel?.text = daysString
-            }
-            tableView.reloadData()
-        }
+        let categoryVC = CategoryVC()
+        navigationController?.pushViewController(categoryVC, animated: true)
     }
 }
 
 // MARK: UITableViewDataSource
-extension NewHabitVC: UITableViewDataSource {
+extension NewEventVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
-        if indexPath.row == 0 {
-            categoryCell = cell
-        } else {
-            scheduleCell = cell
-        }
+//        if indexPath.row == 0 {
+//            categoryCell = cell
+//        } else {
+//            scheduleCell = cell
+//        }
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
         cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
         cell.detailTextLabel?.textColor = .ypGray
@@ -337,17 +284,17 @@ extension NewHabitVC: UITableViewDataSource {
 }
 
 // MARK: UITextFieldDelegate
-extension NewHabitVC: UITextFieldDelegate {
+extension NewEventVC: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        trackerNameTextfield.resignFirstResponder()
+        eventNameTextfield.resignFirstResponder()
         return true
     }
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 
-extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
+extension NewEventVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
@@ -359,30 +306,18 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let collectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellEmojiAndColors", for: indexPath) as! CellCollectionViewController
-        //        guard let emojiCell else {
-        //            print("in dequeue")
-        //            return collectionView
-        //        }
-        //        print("indexPath.section", indexPath.section)
         switch indexPath.section {
         case 0:
             collectionViewCell.emojiLabel.backgroundColor = .clear
-            //            emojiCell.emojiLabel.text = "\(emojis[indexPath.row])"
             collectionViewCell.setEmojiImage(text: "\(emojis[indexPath.row])")
             collectionViewCell.setCellSize(size: ((collectionView.bounds.width - 25) / 6), section: 0)
         case 1:
-            //            emojiCell. emojiLabel.backgroundColor = .gray
             collectionViewCell.setItemColor(color: colors[indexPath.row])
             collectionViewCell.setCellSize(size: ((collectionView.bounds.width - 25) / 6), section: 1)
         default:
 //            print("in default")
             return CellCollectionViewController()
         }
-//        if selectedIndexPaths[indexPath.section] == indexPath {
-//            collectionViewCell.setImageViewColor(section: indexPath.section) // Selected state
-//        } else {
-//            collectionViewCell.unsetImageViewColor(section: indexPath.section) // Default state
-//        }
         return collectionViewCell
     }
     
@@ -416,13 +351,11 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
         let id = "header"
         var headerText: String = ""
         let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath) as! SupplementaryHeaderView
-        //        let headerText = categories[0].title
         if indexPath.section == 0 {
             headerText = "Emoji"
         } else {
             headerText = "Цвет"
         }
-        //        supplementaryView.layoutMargins = UIEdgeInsets(top: 16, left: 0, bottom: 50, right: 0)
         supplementaryView.headerLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         supplementaryView.headerLabel.text = headerText
         supplementaryView.systemLayoutSizeFitting(CGSize(width: supplementaryView.frame.width,
@@ -433,7 +366,7 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
-extension NewHabitVC: UICollectionViewDelegateFlowLayout {
+extension NewEventVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize = (collectionView.bounds.width - 25) / 6
@@ -457,4 +390,3 @@ extension NewHabitVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: collectionView.frame.width, height: 36)
     }
 }
-
