@@ -47,24 +47,6 @@ final class CellCollectionViewController: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-//        $0.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.addSubview(emojiLabel)
-//        print("emojiSize", emojiSize)
-//        NSLayoutConstraint.activate([
-////            viewForEmoji.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-////            viewForEmoji.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -12),
-//            viewForEmoji.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            viewForEmoji.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-//            viewForEmoji.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            viewForEmoji.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-////            viewForEmoji.heightAnchor.constraint(equalToConstant: cellSize),
-////            viewForEmoji.widthAnchor.constraint(equalToConstant: cellSize),
-//            emojiLabel.centerXAnchor.constraint(equalTo: viewForEmoji.centerXAnchor),
-//            emojiLabel.centerYAnchor.constraint(equalTo: viewForEmoji.centerYAnchor),
-//            emojiLabel.heightAnchor.constraint(equalToConstant: 39),
-//            emojiLabel.widthAnchor.constraint(equalToConstant: emojiSize)
-//        ])
     }
     
     required init?(coder: NSCoder) {

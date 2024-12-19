@@ -42,10 +42,6 @@ extension EmojiCollectionViewVC: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let emojiCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellEmoji", for: indexPath) as! CellCollectionViewController
-//        guard let emojiCell else {
-//            print("in dequeue")
-//            return collectionView
-//        }
         emojiCell.emojiLabel.backgroundColor = .blue
         emojiCell.emojiLabel.text = "\(emojis[indexPath.row])"
         return emojiCell

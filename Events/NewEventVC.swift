@@ -12,16 +12,14 @@ final class NewEventVC: UIViewController {
     var daysToSend = [ScheduledDays]()
     private let buttonNameArray = [("Категория", "Название категории")]
     private var categoryCell = UITableViewCell()
-//    private var scheduleCell = UITableViewCell()
     private var defaultHeader = "Трекеры по умолчанию"
     private var textInTextfield = ""
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private var selectedEmoji = "🙂"
     private var selectedColor: UIColor = .ypDarkRed
     private let layout = UICollectionViewFlowLayout()
-    let trackerStore = TrackerStore()
+    private let trackerStore = TrackerStore()
 
-    
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🫢", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"]
         
     private let colors = Colors
@@ -86,7 +84,6 @@ final class NewEventVC: UIViewController {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .clear
         scrollView.alwaysBounceVertical = true
-//        scrollView.showsVerticalScrollIndicator = true
         scrollView.isScrollEnabled = true
         return scrollView
     }()
@@ -94,8 +91,6 @@ final class NewEventVC: UIViewController {
     //    layout.headerReferenceSize
     
     private lazy var emojiCollectionView: UICollectionView = {
-        //        layout.scrollDirection = .vertical
-        //        layout.minimumInteritemSpacing = 5
         let emojiAndColorsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         emojiAndColorsCollectionView.backgroundColor = .clear
         emojiAndColorsCollectionView.isScrollEnabled = false
@@ -135,7 +130,6 @@ final class NewEventVC: UIViewController {
         eventNameTextfield.text = ""
         createButton.isEnabled = false
         categoryCell.detailTextLabel?.text = buttonNameArray[0].1
-//        scheduleCell.detailTextLabel?.text = buttonNameArray[1].1
     }
     
     // MARK: Private functions
@@ -148,11 +142,7 @@ final class NewEventVC: UIViewController {
         
         containingView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containingView)
-        
-//        trackerNameTextfield.backgroundColor = .red
-//        buttonTableView.backgroundColor = .green
         let containedArray = [eventNameTextfield, buttonTableView, emojiCollectionView]
-//        let scrollViewArray = [trackerNameTextfield, buttonTableView]
         containedArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             containingView.addSubview($0)
@@ -211,16 +201,11 @@ final class NewEventVC: UIViewController {
     }
     
     @objc private func createEvent() {
-//        guard let delegateTrackerInNewHabitVC else {
-//            debugPrint("no delegate")
-//            return
-//        }
         guard let eventText = eventNameTextfield.text else { return }
         let idNum = UUID()
-//        delegateTrackerInNewHabitVC.getDelegateTracker().addingTrackerOnScreen(trackerName: trackerText, trackerCategory: defaultHeader, emoji: selectedEmoji, color: selectedColor, dateArray: daysToSend)
-//        daysToSend = [.Mon, .Tue, .Wed, .Thu, .Fri, .Sat, .Sun]
         daysToSend = []
         let addedEvent = Tracker(id: idNum, name: eventText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
+        // заглушка под следующий спринт - пока категории не обрабатываются
         let category = TrackerCategory(title: defaultHeader)
         do {
             try trackerStore.addTrackerToCoreData(addedEvent)
@@ -267,11 +252,6 @@ extension NewEventVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
-//        if indexPath.row == 0 {
-//            categoryCell = cell
-//        } else {
-//            scheduleCell = cell
-//        }
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
         cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
         cell.detailTextLabel?.textColor = .ypGray
@@ -315,7 +295,6 @@ extension NewEventVC: UICollectionViewDataSource, UICollectionViewDelegate {
             collectionViewCell.setItemColor(color: colors[indexPath.row])
             collectionViewCell.setCellSize(size: ((collectionView.bounds.width - 25) / 6), section: 1)
         default:
-//            print("in default")
             return CellCollectionViewController()
         }
         return collectionViewCell
@@ -371,9 +350,6 @@ extension NewEventVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize = (collectionView.bounds.width - 25) / 6
         return CGSize(width: cellSize, height: cellSize)
-        //        return CGSize(width: (collectionView.bounds.width - 30) / 6, height: 52)
-        //        print("ширина", collectionView.bounds.width, collectionView.bounds.width/6, (collectionView.bounds.width-30)/6)
-        //        return CGSize(width: 68, height: 68)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -381,8 +357,6 @@ extension NewEventVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        //        return UIEdgeInsets(top: 10, left: params.leftInset, bottom: 10, right: params.rightInset)
-        //        return params
         return UIEdgeInsets(top: 24, left: 0, bottom: 16, right: 0)
     }
     

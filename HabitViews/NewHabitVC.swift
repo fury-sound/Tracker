@@ -8,7 +8,6 @@
 import UIKit
 
 protocol TrackerNavigationViewProtocol: AnyObject {
-//    func addingTrackerOnScreen(trackerName: String, trackerCategory: String, emoji: String, color: UIColor, dateArray: [ScheduledDays])
     func addingTrackerOnScreen()
 }
 
@@ -18,7 +17,6 @@ protocol TrackerCreateVCProtocol: AnyObject {
 
 final class NewHabitVC: UIViewController {
     
-//    var viewFlag = true
     var daysToSend = [ScheduledDays]()
     private let buttonNameArray = [("Категория", "Название категории"), ("Расписание", "Дни недели")]
     weak var delegateTrackerInNewHabitVC: TrackerCreateVCProtocol?
@@ -30,12 +28,10 @@ final class NewHabitVC: UIViewController {
     private var selectedEmoji = "🙂"
     private var selectedColor: UIColor = .ypDarkRed
     private let layout = UICollectionViewFlowLayout()
-    let trackerStore = TrackerStore()
+    private let trackerStore = TrackerStore()
 
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🫢", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"]
-    
-//    private let colors: [UIColor] = [.ypDarkRed, .ypOrange, .ypDarkBlue, .ypAmethyst, .ypGreen, .ypOrchid, .ypPastelPink, .ypLightBlue, .ypLightGreen, .ypCosmicCobalt, .ypRed, .ypPaleMagentaPink, .ypMacaroniAndCheese, .ypCornflowerBlue, .ypBlueViolet, .ypMediumOrchid, .ypMediumPurple, .ypDarkGreen]
-    
+        
     private let colors = Colors
     private var selectedIndexPaths: [Int: IndexPath] = [:]
     
@@ -98,16 +94,11 @@ final class NewHabitVC: UIViewController {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .clear
         scrollView.alwaysBounceVertical = true
-//        scrollView.showsVerticalScrollIndicator = true
         scrollView.isScrollEnabled = true
         return scrollView
     }()
-    
-    //    layout.headerReferenceSize
-    
+        
     private lazy var emojiCollectionView: UICollectionView = {
-        //        layout.scrollDirection = .vertical
-        //        layout.minimumInteritemSpacing = 5
         let emojiAndColorsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         emojiAndColorsCollectionView.backgroundColor = .clear
         emojiAndColorsCollectionView.isScrollEnabled = false
@@ -157,24 +148,14 @@ final class NewHabitVC: UIViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
-        
         containingView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containingView)
-        
-//        trackerNameTextfield.backgroundColor = .red
-//        buttonTableView.backgroundColor = .green
+
         let containedArray = [trackerNameTextfield, buttonTableView, emojiCollectionView]
-//        let scrollViewArray = [trackerNameTextfield, buttonTableView]
         containedArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             containingView.addSubview($0)
         }
-        
-//        let viewArray = [trackerNameTextfield, buttonTableView, emojiCollectionView]
-//        viewArray.forEach {
-//            $0.translatesAutoresizingMaskIntoConstraints = false
-//            view.addSubview($0)
-//        }
         
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -237,9 +218,7 @@ final class NewHabitVC: UIViewController {
         var dayNames = dayArray.compactMap { index in
             index >= 0 && index < weekDaySymbols.count ? weekDaySymbols[index] : nil
         }
-        
-//        print("Дни \(daysToSend), \(daysToSend.first?.rawValue), \(dayNames) ")
-        
+                
         if dayArray.first == 0 {
             let tempDay = dayNames.remove(at: 0)
             dayNames.insert(tempDay, at: (dayNames.count))
@@ -254,18 +233,12 @@ final class NewHabitVC: UIViewController {
     }
     
     @objc private func createHabit() {
-//        guard let delegateTrackerInNewHabitVC else {
-//            debugPrint("no delegate")
-//            return
-//        }
         guard let trackerText = trackerNameTextfield.text else { return }
-//        let colorValue = colors[4]
         let idNum = UUID()
-//        delegateTrackerInNewHabitVC.getDelegateTracker().addingTrackerOnScreen(trackerName: trackerText, trackerCategory: defaultHeader, emoji: selectedEmoji, color: selectedColor, dateArray: daysToSend)
         let addedTracker = Tracker(id: idNum, name: trackerText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
+        // заглушка под следующий спринт - пока категории не обрабатываются
         let category = TrackerCategory(title: defaultHeader)
         try? trackerStore.addTrackerToCoreData(addedTracker)
-
         textInTextfield = ""
         self.dismiss(animated: true)
     }
@@ -359,30 +332,18 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let collectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellEmojiAndColors", for: indexPath) as! CellCollectionViewController
-        //        guard let emojiCell else {
-        //            print("in dequeue")
-        //            return collectionView
-        //        }
-        //        print("indexPath.section", indexPath.section)
         switch indexPath.section {
         case 0:
             collectionViewCell.emojiLabel.backgroundColor = .clear
-            //            emojiCell.emojiLabel.text = "\(emojis[indexPath.row])"
             collectionViewCell.setEmojiImage(text: "\(emojis[indexPath.row])")
             collectionViewCell.setCellSize(size: ((collectionView.bounds.width - 25) / 6), section: 0)
         case 1:
-            //            emojiCell. emojiLabel.backgroundColor = .gray
             collectionViewCell.setItemColor(color: colors[indexPath.row])
             collectionViewCell.setCellSize(size: ((collectionView.bounds.width - 25) / 6), section: 1)
         default:
-//            print("in default")
             return CellCollectionViewController()
         }
-//        if selectedIndexPaths[indexPath.section] == indexPath {
-//            collectionViewCell.setImageViewColor(section: indexPath.section) // Selected state
-//        } else {
-//            collectionViewCell.unsetImageViewColor(section: indexPath.section) // Default state
-//        }
+
         return collectionViewCell
     }
     
@@ -422,7 +383,6 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
         } else {
             headerText = "Цвет"
         }
-        //        supplementaryView.layoutMargins = UIEdgeInsets(top: 16, left: 0, bottom: 50, right: 0)
         supplementaryView.headerLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         supplementaryView.headerLabel.text = headerText
         supplementaryView.systemLayoutSizeFitting(CGSize(width: supplementaryView.frame.width,
@@ -438,9 +398,6 @@ extension NewHabitVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize = (collectionView.bounds.width - 25) / 6
         return CGSize(width: cellSize, height: cellSize)
-        //        return CGSize(width: (collectionView.bounds.width - 30) / 6, height: 52)
-        //        print("ширина", collectionView.bounds.width, collectionView.bounds.width/6, (collectionView.bounds.width-30)/6)
-        //        return CGSize(width: 68, height: 68)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -448,8 +405,6 @@ extension NewHabitVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        //        return UIEdgeInsets(top: 10, left: params.leftInset, bottom: 10, right: params.rightInset)
-        //        return params
         return UIEdgeInsets(top: 24, left: 0, bottom: 16, right: 0)
     }
     

@@ -117,7 +117,6 @@ final class TrackerCellViewController: UICollectionViewCell {
             let signImage = image.withRenderingMode(.alwaysTemplate)
             plusButton.setImage(signImage, for: .normal)
             plusButton.tintColor = .ypWhite
-//            plusButton.backgroundColor = trackerView.backgroundColor // trackerColorSet[colorNum]
             plusButton.layer.opacity = 1.0
         }
         
@@ -166,10 +165,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     func setColorsInCell(color: UIColor) {
-//        colorNum = color
         trackerView.backgroundColor = color
         plusButton.backgroundColor = color
-//        trackerView.backgroundColor = trackerColorSet[colorNum]
-//        plusButton.backgroundColor = trackerColorSet[colorNum]
     }
 }

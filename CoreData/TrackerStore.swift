@@ -11,8 +11,6 @@ import CoreData
 final class TrackerStore: NSObject {
     private let context: NSManagedObjectContext
     weak var delegateTrackerForNotifications: TrackerNavigationViewProtocol?
-
-    //    private let uiColorMarshalling = UIColorMarshalling()
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
         let fetchRequest = TrackerCoreData.fetchRequest()
@@ -25,11 +23,6 @@ final class TrackerStore: NSObject {
             sectionNameKeyPath: nil,
             cacheName: nil)
         fetchedResultsController.delegate = self
-//        do {
-//            try fetchedResultsController.performFetch()
-//        } catch let error as NSError {
-//            print("Failed to fetch entities: \(error.localizedDescription)")
-//        }
         return fetchedResultsController
     }()
     
@@ -66,19 +59,15 @@ final class TrackerStore: NSObject {
         trackerCoreData.id = tracker.id
         trackerCoreData.name = tracker.name
         trackerCoreData.emojiPic = tracker.emojiPic
-        //        trackerCoreData.schedule = tracker.schedule
-//        print("tracker.schedule", tracker.schedule)
         if tracker.schedule.isEmpty {
             trackerCoreData.schedule = ""
         } else {
             trackerCoreData.schedule = scheduleToString(schedule: tracker.schedule)
         }
         trackerCoreData.color = tracker.color
-        //        trackerCoreData.colorHex = uiColorMarshalling.hexString(from: mix.backgroundColor)
     }
     
     func addEventToCoreData(_ event: Tracker) throws {
-//        print("in addTrackerToCoreData")
         let trackerCoreData = TrackerCoreData(context: context)
         updateEventList(trackerCoreData, with: event)
         do {
@@ -86,11 +75,9 @@ final class TrackerStore: NSObject {
         } catch let error as NSError {
             print("in addTrackerToCoreData", error.localizedDescription)
         }
-//        print(trackerCoreData)
     }
     
     func updateEventList(_ trackerCoreData: TrackerCoreData, with tracker: Tracker) {
-//        print("in updateEventList")
         trackerCoreData.id = tracker.id
         trackerCoreData.name = tracker.name
         trackerCoreData.emojiPic = tracker.emojiPic
@@ -98,7 +85,7 @@ final class TrackerStore: NSObject {
         trackerCoreData.color = tracker.color
     }
     
-    // temp function
+    // temp function - to be deleted at the end
     func retrieveAllTrackers() -> [Tracker] {
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
         var allTrackerFromCoreData = [Tracker]()
@@ -127,10 +114,7 @@ final class TrackerStore: NSObject {
         
         do {
             let res = try context.fetch(myRequest)
-//            print("Entities: \(res)")
             for entity in res {
-                //                guard let schedule = entity.schedule else { return trackerNext }
-                //                print(entity.id, entity.name, entity.emojiPic, entity.color)
                 if entity.schedule == "" {
                     let arr: [ScheduledDays] = []
                     trackerToFind = Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr)
@@ -145,30 +129,19 @@ final class TrackerStore: NSObject {
     }
     
     func filterTrackersByWeekday(dayOfWeek: Int) -> [Tracker] {
-//        print("in filterTrackersByWeekday")
         var arrayForTrackers = [Tracker]()
         let arr: [ScheduledDays] = []
-
-//        let trackerRecord = TrackerRecord()
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
-//        print(dayOfWeek, "\(String(dayOfWeek))")
-//        print(myRequest)
-//        let dayOfWeekString = String(dayOfWeek)
-//        myRequest.predicate = NSPredicate(format: "schedule CONTAINS[c] %@", String(dayOfWeek))
         myRequest.predicate = NSPredicate(format: "schedule CONTAINS[c] %@ OR schedule == %@", String(dayOfWeek), "")
         do {
             let res = try context.fetch(myRequest)
-//            print("fetch result", res)
             for entity in res {
-//                let arr: [ScheduledDays] = []
-//                print("schedule", entity.schedule)
                 if entity.schedule == "" {
                     arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))
                 } else {
                     arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: stringToSchedule(scheduleString: entity.schedule ?? "")))
                 }
             }
-//            print("Found records? \(arrayForTrackers.count)")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -193,18 +166,16 @@ final class TrackerStore: NSObject {
         myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
         do {
             let res = try context.fetch(myRequest)
-            //            print("Entities: \(res)")
             for entity in res {
                 context.delete(entity)
             }
             try context.save()
-            //            print("Saving context without the deleted entity")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
     }
     
-    
+    // temo function
     func deleteAllTrackerCoreDataEntities() {
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
         //        myRequest.predicate = NSPredicate(format: "name == %@", "Mark")
@@ -225,16 +196,11 @@ final class TrackerStore: NSObject {
     }
     
     func scheduleToString(schedule: [ScheduledDays]) -> String {
-        //        print(schedule)
         let weekString = schedule.map( { String($0.rawValue) }).joined(separator: " ")
-        //        print(weekString)
-        //        let stringSchedule = schedule.map(String).joined()
         return weekString
     }
     
     func stringToSchedule(scheduleString: String) -> [ScheduledDays] {
-        //        print("stringToSchedule", scheduleString)
-        //        var scheduledDaysArray = [ScheduledDays]()
         let scheduledDaysArray = scheduleString.compactMap { elemDay in
             return switch elemDay {
             case "1": ScheduledDays.Mon
@@ -247,15 +213,21 @@ final class TrackerStore: NSObject {
             default: nil
             }
         }
-        //        let weekString = schedule.map( { String($0.rawValue) }).joined(separator: " ")
-        //        print(scheduledDaysArray)
-        //        let stringSchedule = schedule.map(String).joined()
         return scheduledDaysArray
     }
 }
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {
     
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+        guard let delegateTrackerForNotifications else {
+            return
+        }
+        delegateTrackerForNotifications.addingTrackerOnScreen()
+    }
+}
+
+// temp storage - if I need those functions later. 
 //    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
 //        print("in controllerWillChangeContent")
 //        let objects = controller.fetchedObjects
@@ -265,16 +237,6 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
 //        print(objects)
 //    }
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-//        print("controllerDidChangeContent - Updated CoreData")
-//        let objects = controller.fetchedObjects
-//        print(objects?.count)
-        guard let delegateTrackerForNotifications else {
-//            print("no delegate")
-            return
-        }
-        delegateTrackerForNotifications.addingTrackerOnScreen()
-    }
     
 //    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 //        switch type {
@@ -293,5 +255,4 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
 //            break
 //        }
 //    }
-    
-}
+
