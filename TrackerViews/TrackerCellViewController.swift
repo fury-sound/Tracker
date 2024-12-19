@@ -49,7 +49,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     private lazy var daysLabel: UILabel = {
         let daysLabel = UILabel()
         daysLabel.backgroundColor = .clear
-        daysLabel.text = "дней"
+        daysLabel.text = "0 дней"
         return daysLabel
     }()
     
@@ -117,7 +117,6 @@ final class TrackerCellViewController: UICollectionViewCell {
             let signImage = image.withRenderingMode(.alwaysTemplate)
             plusButton.setImage(signImage, for: .normal)
             plusButton.tintColor = .ypWhite
-            plusButton.backgroundColor = trackerColorSet[colorNum]
             plusButton.layer.opacity = 1.0
         }
         
@@ -165,9 +164,8 @@ final class TrackerCellViewController: UICollectionViewCell {
         }
     }
     
-    func setColorsInCell(color: Int) {
-        colorNum = color
-        trackerView.backgroundColor = trackerColorSet[colorNum]
-        plusButton.backgroundColor = trackerColorSet[colorNum]
+    func setColorsInCell(color: UIColor) {
+        trackerView.backgroundColor = color
+        plusButton.backgroundColor = color
     }
 }
