@@ -10,6 +10,7 @@ import UIKit
 final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     
     private let newHabitVC = NewHabitVC()
+    private let newEventVC = NewEventVC()
     weak var delegateTracker: TrackerNavigationViewProtocol?
     
     private lazy var habitButton: UIButton = {
@@ -66,24 +67,14 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
             stackView.heightAnchor.constraint(equalToConstant: 136)
         ])
     }
-        
-    private func alertForReviewer() {
-        let alert = UIAlertController(title: "Нерегулярное событие\n",
-                                              message: "Уважаемый ревьювер)))\n" +
-                                              "В задание 14-го спринта функционал данной кнопки не предполагает быть реализованным именно в 14-ом спринте," +
-                                              " он будет реализован в 15-ом спринте!\n Честное слово!!!)))\n 😉",
-                                              preferredStyle: .alert)
-                let action = UIAlertAction(title: "OK", style: .default)
-                alert.addAction(action)
-                present(alert, animated: true)
-    }
     
     @objc private func habitCreation() {
-        newHabitVC.dafaultFields()
+        newHabitVC.defaultFields()
         navigationController?.pushViewController(newHabitVC, animated: true)
     }
 
     @objc private func eventCreation() {
-        alertForReviewer()
+        newEventVC.defaultFields()
+        navigationController?.pushViewController(newEventVC, animated: true)
     }
 }

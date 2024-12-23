@@ -1,0 +1,17 @@
+[
+  {
+    "name" : "TrackerCategoryCoreData",
+    "positionX" : "201.0",
+    "positionY" : "473.98828125"
+  },
+  {
+    "name" : "TrackerCoreData",
+    "positionX" : "674.86328125",
+    "positionY" : "187.0"
+  },
+  {
+    "name" : "TrackerRecordCoreData",
+    "positionX" : "992.5234375",
+    "positionY" : "502.1015625"
+  }
+]
