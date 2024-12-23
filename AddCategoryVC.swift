@@ -62,7 +62,7 @@ final class AddCategoryVC: UIViewController {
     }
     
     @objc func creatingNewCategory() {
-        alertForReviewer()
+        alertForReviewer() 
 //        let categoryVC = CategoryVC()
 //        navigationController?.pushViewController(categoryVC, animated: true)
     }
