@@ -90,11 +90,12 @@ final class TrackerRecordStore: NSObject {
         myRequest.predicate = NSPredicate(format: "id == %@", trackerRecord.id as CVarArg)
         do {
             let res = try context.fetch(myRequest)
-            if res.isEmpty {
-                return false
-            } else {
-                return true
-            }
+            return !res.isEmpty
+//            if res.isEmpty {
+//                return false
+//            } else {
+//                return true
+//            }
         } catch let error as NSError {
             print(error.localizedDescription)
             return false

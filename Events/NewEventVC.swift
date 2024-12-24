@@ -184,7 +184,7 @@ final class NewEventVC: UIViewController {
     }
     
     private func canEnableCreateButton() {
-        if (textInTextfield.isEmpty == true || textInTextfield.count > 38) {
+        if textInTextfield.isEmpty == true || textInTextfield.count > 38 {
             createButton.isEnabled = false
             createButton.backgroundColor = .ypGray
         } else {
@@ -213,7 +213,7 @@ final class NewEventVC: UIViewController {
             print(error.localizedDescription)
         }
         textInTextfield = ""
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
     
     @objc private func editingEventName(_ sender: UITextField) {
@@ -234,7 +234,7 @@ extension NewEventVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        75
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -247,7 +247,7 @@ extension NewEventVC: UITableViewDelegate {
 extension NewEventVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

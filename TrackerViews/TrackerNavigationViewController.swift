@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import CoreData
 
 struct Tracker {
     let id: UUID?
@@ -14,16 +13,6 @@ struct Tracker {
     let emojiPic: String?
     let color: UIColor?
     let schedule: [ScheduledDays]
-}
-
-enum ScheduledDays: Int {
-    case Mon = 1
-    case Tue = 2
-    case Wed = 3
-    case Thu = 4
-    case Fri = 5
-    case Sat = 6
-    case Sun = 0
 }
 
 struct TrackerCategory {
@@ -34,6 +23,16 @@ struct TrackerCategory {
 struct TrackerRecord {
     let id: UUID
     let dateExecuted: String
+}
+
+enum ScheduledDays: Int {
+    case Mon = 1
+    case Tue = 2
+    case Wed = 3
+    case Thu = 4
+    case Fri = 5
+    case Sat = 6
+    case Sun = 0
 }
 
 struct GeometricParams {
