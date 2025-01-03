@@ -29,6 +29,13 @@ final class NewHabitVC: UIViewController {
     private var selectedColor: UIColor = .ypDarkRed
     private let layout = UICollectionViewFlowLayout()
     private let trackerStore = TrackerStore()
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private var daysString: String?
+//    {
+//        didSet {
+//            print("daysString changed to:", daysString)
+//        }
+//    }
 
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🫢", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"]
         
@@ -202,6 +209,7 @@ final class NewHabitVC: UIViewController {
             createButton.backgroundColor = .ypBlack
             categoryCell.detailTextLabel?.text = defaultHeader
         }
+        buttonTableView.reloadData()
     }
     
     private func intsToDaysOfWeek(dayArray: [Int]) -> String {
@@ -232,14 +240,23 @@ final class NewHabitVC: UIViewController {
         self.dismiss(animated: true)
     }
     
+    private var selectedCategory: TrackerCategory?
+    
     @objc private func createHabit() {
         guard let trackerText = trackerNameTextfield.text else { return }
         let idNum = UUID()
         let addedTracker = Tracker(id: idNum, name: trackerText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
         // заглушка под следующий спринт - пока категории не обрабатываются
         let category = TrackerCategory(title: defaultHeader)
+        
+        selectedCategory?.trackerArray.append(addedTracker.id)
+        guard let selectedCategory else {return}
+        try? trackerCategoryStore.addTrackerCategoryToCoreData(selectedCategory)
         try? trackerStore.addTrackerToCoreData(addedTracker)
         textInTextfield = ""
+        trackerCategoryStore.countEntities()
+        trackerCategoryStore.retrieveAllTrackers()
+        
         self.dismiss(animated: true)
     }
     
@@ -254,9 +271,9 @@ final class NewHabitVC: UIViewController {
 extension NewHabitVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 && cell.detailTextLabel?.text != "Дни недели" {
-            cell.detailTextLabel?.text = "Дни недели"
-        }
+//        if indexPath.row == 1 && cell.detailTextLabel?.text != "Дни недели" {
+//            cell.detailTextLabel?.text = "Дни недели"
+//        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -265,23 +282,43 @@ extension NewHabitVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            let categoryVC = CategoryVC()
+            let viewModel = CategoryVCViewModel()
+            viewModel.retrieveAllTrackerCategories()
+            viewModel.returnToPreviousViewHandler = { [weak self] selectedCategory in
+                guard let self else { return }
+                self.selectedCategory = .init(title: selectedCategory, trackerArray: [])
+//                self.checkAndUpdateTrackerCategoryInCoreData()
+                tableView.reloadData()
+                self.navigationController?.popViewController(animated: true)
+            }
+
+            let categoryVC = CategoryVC(viewModel: viewModel)
             navigationController?.pushViewController(categoryVC, animated: true)
+
         } else {
             let scheduleVC = ScheduleVC()
             navigationController?.pushViewController(scheduleVC, animated: true)
-            let curCell = tableView.cellForRow(at: indexPath)
-            curCell?.detailTextLabel?.text = buttonNameArray[indexPath.row].1
             scheduleVC.tappedReady = { [weak self] (wdArray) -> Void in
                 guard let self else { return }
-                let daysString = intsToDaysOfWeek(dayArray: wdArray)
-                let curCell = tableView.cellForRow(at: indexPath)
+//                print("in else for tapping in ScheduleVC")
+                daysString = intsToDaysOfWeek(dayArray: wdArray)
                 canEnableCreateButton(dateArray: daysToSend)
-                curCell?.detailTextLabel?.text = daysString
+//                tableView.reloadData()
             }
-            tableView.reloadData()
         }
+//        tableView.reloadData()
     }
+    
+//    func checkAndUpdateTrackerCategoryInCoreData() {
+//        guard let selectedCategory else { return }
+//        do {
+//            if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: selectedCategory.title ?? "") {
+//                try trackerCategoryStore.addTrackerCategoryToCoreData(selectedCategory)
+//            }
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+//    }
 }
 
 // MARK: UITableViewDataSource
@@ -295,11 +332,17 @@ extension NewHabitVC: UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
         if indexPath.row == 0 {
             categoryCell = cell
+            categoryCell.detailTextLabel?.text = selectedCategory?.title ?? "Название категории"
         } else {
             scheduleCell = cell
+//            print("daysString", daysString)
+            // TODO: не выводятся дни недели в текущей конфигурации, можно убрать закомментированные строки в else блоке в didSelectRowAt
+//            print("1", scheduleCell.detailTextLabel?.text)
+            scheduleCell.detailTextLabel?.text = daysString ?? "Дни недели"
+//            print("2", scheduleCell.detailTextLabel?.text)
         }
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
-        cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
+//        cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
         cell.detailTextLabel?.textColor = .ypGray
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.detailTextLabel?.font = .systemFont(ofSize: 17)

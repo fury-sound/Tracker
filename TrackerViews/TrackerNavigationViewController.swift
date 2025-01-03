@@ -28,7 +28,7 @@ enum ScheduledDays: Int {
 
 struct TrackerCategory {
     let title: String?
-    var trackerArray = [Tracker?]()
+    var trackerArray = [UUID?]()
 }
 
 struct TrackerRecord {
@@ -80,6 +80,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
 //    }
     let trackerStore = TrackerStore()
     let trackerRecordStore = TrackerRecordStore()
+    let trackerCategoryStore = TrackerCategoryStore()
     
 // MARK: mock trackers and mock tracker creation function
 //    var mockTracker1 = Tracker(id: UUID(), name: "test tracker 1", emojiPic: "🍇", color: .white , schedule: [.Mon, .Sun])
@@ -159,7 +160,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     override func viewDidLoad() {
         super.viewDidLoad()
         // MARK: temp function calls and variables
-//        deleteAllTrackers()
+        deleteAllTrackers()
 //        retrieveAllTrackers()
 //        tempMockTrackerSetup() // calling mockTracker setup function
 //        trackerStore.deleteEntities()
@@ -199,10 +200,13 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private func deleteAllTrackers() {
         trackerStore.deleteAllTrackerCoreDataEntities()
         trackerRecordStore.deleteAllTrackerRecordCoreDataEntities()
+        trackerCategoryStore.deleteAllTrackerCategoryCoreDataEntities()
     }
     
     private func trackerCategoriesSetup() {
         categories.append(trackerCategoryDefault)
+        trackerCategoryStore.countEntities()
+        trackerCategoryStore.retrieveAllTrackers()
     }
     
     private func setupNaviVC() {

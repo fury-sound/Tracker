@@ -13,7 +13,6 @@
 		B9A216482D05C52200D46982 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A216472D05C52200D46982 /* TrackerRecordStore.swift */; };
 		B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B9C78A672CE66F7A00613AD1 /* Tracker.xcdatamodeld */; };
 		B9C78A752CE66F7A00613AD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9C78A642CE66F7A00613AD1 /* Assets.xcassets */; };
-		B9C78AA52CE6944F00613AD1 /* AddCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +24,6 @@
 		B9A216472D05C52200D46982 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 		B9C78A642CE66F7A00613AD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9C78A692CE66F7A00613AD1 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
-		B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -101,7 +99,6 @@
 				B9340CD02D133A8F0054D94A /* Events */,
 				B9A216422D05C49800D46982 /* CoreData */,
 				B90493212CF3923700C34E4C /* Tracker.xcodeproj */,
-				B9C78AA42CE6944F00613AD1 /* AddCategoryVC.swift */,
 				B9C78A8F2CE689C100613AD1 /* ScheduleViews */,
 				B9C78A8C2CE6885500613AD1 /* CategoryViews */,
 				B9C78A8B2CE6882C00613AD1 /* HabitViews */,
@@ -236,7 +233,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9340CD22D133AAF0054D94A /* NewEventVC.swift in Sources */,
-				B9C78AA52CE6944F00613AD1 /* AddCategoryVC.swift in Sources */,
 				B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */,
 				B9A216482D05C52200D46982 /* TrackerRecordStore.swift in Sources */,
 				B9A216462D05C4FE00D46982 /* TrackerCategoryStore.swift in Sources */,

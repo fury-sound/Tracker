@@ -9,6 +9,8 @@ import UIKit
 
 final class AddCategoryVC: UIViewController {
     
+    private let viewModel: AddCategoryViewModel
+    
     private lazy var trackerNewNameTextfield: UITextField = {
         var trackerNameTextfield = UITextField()
         trackerNameTextfield.backgroundColor = .ypLightGray
@@ -23,8 +25,6 @@ final class AddCategoryVC: UIViewController {
     private lazy var readyButton: UIButton = {
         let readyButton = UIButton()
         readyButton.layer.cornerRadius = 16
-        readyButton.backgroundColor = .ypGray
-        readyButton.isEnabled = false
         readyButton.setTitleColor(.ypWhite, for: .normal)
         readyButton.setTitle("Готово", for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -32,11 +32,21 @@ final class AddCategoryVC: UIViewController {
         return readyButton
     }()
     
+    init(viewModel: AddCategoryViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Новая категория"
-        viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
+        viewSetup()
+        viewModel.viewDidLoad()
     }
     
     private func viewSetup() {
@@ -59,36 +69,56 @@ final class AddCategoryVC: UIViewController {
             readyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             readyButton.heightAnchor.constraint(equalToConstant: 60)
         ])
+        
+        viewModel.editTextFieldHandler = { [weak self] buttonEnabled in
+            guard let self else { return }
+            if !buttonEnabled  {
+                self.readyButton.isEnabled = false
+                self.readyButton.backgroundColor = .ypGray
+            } else {
+                self.readyButton.isEnabled = true
+                self.readyButton.backgroundColor = .ypBlack
+            }
+        }
+        
     }
     
     @objc func creatingNewCategory() {
-        alertForReviewer() 
-//        let categoryVC = CategoryVC()
-//        navigationController?.pushViewController(categoryVC, animated: true)
+        //        alertForReviewer()
+        print("trackerNewNameTextfield.text", trackerNewNameTextfield.text)
+        viewModel.creatingNewCategoryTapped(name: trackerNewNameTextfield.text ?? "")
+        self.navigationController?.popViewController(animated: true)
+//        self?.navigationController?.popViewController(animated: true)
+
+        //        let categoryVC = CategoryVC()
+        //        navigationController?.pushViewController(categoryVC, animated: true)
     }
     
     @objc func editingFunc(_ sender: UITextField) {
         guard let text = sender.text else { return }
-        if text.isEmpty == true  {
-            readyButton.isEnabled = false
-            readyButton.backgroundColor = .ypGray
-        } else {
-            readyButton.isEnabled = true
-            readyButton.backgroundColor = .ypBlack
-        }
-    }
-    
-    private func alertForReviewer() {
-        let alert = UIAlertController(title: "Новая категория\n",
-                                              message: "Уважаемый ревьювер)))\n" +
-                                              "В задание 15-го спринта функционал данной вьюхи не предполагает быть реализованным именно в 15-ом спринте," +
-                                              " он будет реализован в 16-ом спринте!\n Честное слово!!!)))\n 😉",
-                                              preferredStyle: .alert)
-                let action = UIAlertAction(title: "OK", style: .default)
-                alert.addAction(action)
-                present(alert, animated: true)
+        viewModel.onEditingTextField(text: text)
     }
 }
+//        if text.isEmpty == true  {
+//            readyButton.isEnabled = false
+//            readyButton.backgroundColor = .ypGray
+//        } else {
+//            readyButton.isEnabled = true
+//            readyButton.backgroundColor = .ypBlack
+//        }
+//    }
+    
+//    private func alertForReviewer() {
+//        let alert = UIAlertController(title: "Новая категория\n",
+//                                              message: "Уважаемый ревьювер)))\n" +
+//                                              "В задание 15-го спринта функционал данной вьюхи не предполагает быть реализованным именно в 15-ом спринте," +
+//                                              " он будет реализован в 16-ом спринте!\n Честное слово!!!)))\n 😉",
+//                                              preferredStyle: .alert)
+//                let action = UIAlertAction(title: "OK", style: .default)
+//                alert.addAction(action)
+//                present(alert, animated: true)
+//    }
+//}
 
 extension AddCategoryVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

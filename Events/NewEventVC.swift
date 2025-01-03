@@ -238,7 +238,8 @@ extension NewEventVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let categoryVC = CategoryVC()
+        let viewModel = CategoryVCViewModel()
+        let categoryVC = CategoryVC(viewModel: viewModel)
         navigationController?.pushViewController(categoryVC, animated: true)
     }
 }
