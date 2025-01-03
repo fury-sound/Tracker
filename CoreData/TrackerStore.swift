@@ -51,7 +51,7 @@ final class TrackerStore: NSObject {
         do {
             try context.save()
         } catch let error as NSError {
-            print("in addTrackerToCoreData", error.localizedDescription)
+            print("in addTrackerToCoreData", error.localizedDescription, error.code)
         }
     }
     

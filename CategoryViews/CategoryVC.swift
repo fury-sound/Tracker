@@ -87,15 +87,15 @@ final class CategoryVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.viewDidLoad()
-        print(viewModel.trackerNameArray)
-        print("imageView.isHidden", imageView.isHidden)
+//        print(viewModel.trackerNameArray)
+//        print("imageView.isHidden", imageView.isHidden)
         if viewModel.trackerNameArray.isEmpty {
-            print("1")
+//            print("1")
             imageView.isHidden = false
             initSlogan.isHidden = false
             setupEmptyVC()
         } else {
-            print("in viewWillAppear 2")
+//            print("in viewWillAppear 2")
             imageView.isHidden = true
             initSlogan.isHidden = true
             setupVCWithTable()
@@ -281,15 +281,15 @@ extension CategoryVC: UITableViewDelegate {
 extension CategoryVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("lines: ", viewModel.trackerNameArray.count)
+//        print("lines: ", viewModel.trackerNameArray.count)
         return viewModel.trackerNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell")
         let usedArray = viewModel.trackerNameArray
-        print("viewModel.trackerNameArray", viewModel.trackerNameArray)
-        print("usedArray", usedArray)
+//        print("viewModel.trackerNameArray", viewModel.trackerNameArray)
+//        print("usedArray", usedArray)
         guard let cell else { return UITableViewCell()}
         cell.selectionStyle = .none
         cell.textLabel?.text = usedArray[indexPath.row]

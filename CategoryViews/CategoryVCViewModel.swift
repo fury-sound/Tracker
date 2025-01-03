@@ -16,7 +16,7 @@ final class CategoryVCViewModel {
 
     var trackerNameArray: [String] = [] {
         didSet {
-            print("changed", counter)
+            print("trackerNameArray in CategoryVCViewModel changed \(counter) times")
             counter += 1
             trackerCategoryStore.countEntities()
         }
@@ -78,7 +78,7 @@ final class CategoryVCViewModel {
     }
     
     func categoryCreateButtonTapped() {
-        print("AddCategoryVC button tapped")
+        print("categoryCreateButtonTapped in CategoryVCViewModel button tapped")
         if let selectedIndex {
             returnToPreviousViewHandler?(trackerNameArray[selectedIndex])
         } else {

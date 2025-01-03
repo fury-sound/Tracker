@@ -10,7 +10,10 @@ import UIKit
 import CoreData
 
 final class TrackerCategoryStore: NSObject {
+    
     private let context: NSManagedObjectContext
+    var finalTrackerCategory: TrackerCategory?
+
     weak var delegateTrackerCategoryForNotifications: TrackerNavigationViewProtocol?
 //    private var currentCell: TrackerCellViewController?
 //    private var trackerId: UUID?
@@ -50,7 +53,7 @@ final class TrackerCategoryStore: NSObject {
     
     func addTrackerCategoryToCoreData(_ trackerCategory: TrackerCategory) throws {
         let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
-        updateTrackerCategoryList(trackerCategoryCoreData, with: trackerCategory)
+        updateTrackerCategoryList(trackerCategoryCoreData) //, with: trackerCategory)
         do {
             try context.save()
         } catch let error as NSError {
@@ -58,11 +61,125 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
-    func updateTrackerCategoryList(_ trackerCategoryCoreData: TrackerCategoryCoreData, with trackerCategory: TrackerCategory) {
+    func updateTrackerCategoryList(_ trackerCategoryCoreData: TrackerCategoryCoreData) {
+        print("finalTrackerCategory", finalTrackerCategory)
+        guard let trackerCategory = finalTrackerCategory else {
+            return
+        }
         trackerCategoryCoreData.title = trackerCategory.title
-        let stringValue = trackerUUIDArrayToString(trackerUUIDArray: trackerCategory.trackerArray)
-        print(stringValue)
+        //        trackerCategoryCoreData.trackerArray = ""
+        //        if trackerCategory.trackerArray.isEmpty {
+        //            trackerCategoryCoreData.trackerArray = ""
+        //        } else {
+        print("finalTrackerCategory in updateTrackerCategoryList", finalTrackerCategory?.trackerArray)
+        print("trackerCategory in updateTrackerCategoryList", trackerCategory.trackerArray)
+        let stringValue = trackerUUIDArrayToString(trackerUUIDArray: trackerCategory.trackerArray)  // temp
+        print("UUID string", stringValue)                                                                          // temp
         trackerCategoryCoreData.trackerArray = trackerUUIDArrayToString(trackerUUIDArray: trackerCategory.trackerArray)
+        //        }
+    }
+
+    func addTrackerCategoryTitleToCoreData(_ trackerCategoryName: String) throws {
+        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
+        trackerCategoryCoreData.title = trackerCategoryName
+        trackerCategoryCoreData.trackerArray = ""
+//        updateTrackerCategoryList(trackerCategoryCoreData, with: trackerCategoryName)
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print("in addTrackerCategoryToCoreData", error.localizedDescription, error.localizedFailureReason, error.code)
+        }
+    }
+    
+    
+    func addTrackerInTrackerCategoryToCoreData(categoryName: String, trackerID: UUID) {
+        print("--1--")
+        retrieveTrackerCategoryByName(title: categoryName)
+        guard var finalTrackerCategory = finalTrackerCategory else { return }
+        print("trackerCategory in addTrackerInTrackerCategoryToCoreData", finalTrackerCategory)
+        finalTrackerCategory.trackerArray.append(trackerID)
+        do {
+            try addTrackerCategoryToCoreData(finalTrackerCategory)
+        } catch let error as NSError {
+            print(error.localizedDescription, error.localizedDescription, error.localizedDescription)
+        }
+    }
+        
+        
+        
+//    func addTrackerInTrackerCategoryToCoreData_old(categoryName: String, trackerID: UUID) {
+//        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
+//        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+//        print("category name", categoryName)
+//        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
+//        do {
+//            let res = try context.fetch(myRequest)
+//            for entity in res {
+//                if entity.title == categoryName {
+//                    entity.trackerArray! = entity.trackerArray! + " " + trackerID.uuidString
+//                }
+//            }
+//            try context.save()
+//        } catch let error as NSError {
+//            print("in addTrackerToTrackerCategory", error.localizedDescription, error.code, error.localizedFailureReason)
+//        }
+//
+//        
+//        ~
+//        do {
+//            let res_count = try context.count(for: myRequest)
+//            print("Number of items:", res_count)
+//            let res = try context.fetch(myRequest)
+////            print("Result:", res)
+////            print("Result:", res[0])
+////            print("Result title:", res[0].title)
+//            print("Result init array:", res[0].trackerArray)
+////            print("Result final array:", res[0].trackerArray! + " " + trackerID.uuidString)
+////            guard let currentTrackerArray = res[0].trackerArray else { return }
+////            trackerCategoryCoreData.trackerArray = currentTrackerArray + " " + trackerID.uuidString
+//            if res[0].trackerArray == nil {
+//                res[0].trackerArray = trackerID.uuidString
+//            } else {
+//                res[0].trackerArray = res[0].trackerArray! + " " + trackerID.uuidString
+//            }
+//            
+//            print("Result final CoreData array:", res[0].trackerArray)
+//            try context.save()
+//
+////            print("Category \(categoryName) exists?", isCategoryAlreadyExist(categoryName: categoryName))
+////            
+////            for entity in res {
+////                if ((entity.trackerArray?.contains(trackerId.uuidString)) != nil) {
+////                    print("Tracker already in category")
+////                } else {
+////                    entity.trackerArray?.append(trackerId.uuidString)
+////                }
+////            }
+//        } catch let error as NSError {
+//            print("in addTrackerToTrackerCategory", error.localizedDescription)
+//        }
+
+//    }
+    
+    func retrieveTrackerCategoryByName(title: String) {
+        print("--2--")
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", title)
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                if entity.title == title {
+                    let currentCategoryArray = stringToTrackerUUIDArray(stringOfUUIDs: entity.trackerArray ?? "")
+                    print("currentCategoryArray in retrieveTrackerCategoryByName \(currentCategoryArray)")
+                    finalTrackerCategory = TrackerCategory(title: title, trackerArray: currentCategoryArray)
+                    print("finalTrackerCategory in retrieveTrackerCategoryByName", finalTrackerCategory)
+                    context.delete(entity)
+                    try context.save()
+                }
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
     }
     
     func findTrackerCategory(trackerId: UUID) -> String {
@@ -105,15 +222,22 @@ final class TrackerCategoryStore: NSObject {
     // MARK: конвертеры
     // массив UUID трекеров в строку
     func trackerUUIDArrayToString(trackerUUIDArray: [UUID?]) -> String {
-        let uuidString = trackerUUIDArray.map( { uuidString in
-            guard let uuidString = uuidString else { return "" }
-            return uuidString.uuidString
+        print("in trackerUUIDArrayToString")
+        print(trackerUUIDArray)
+        let uuidString = trackerUUIDArray.map( { uuidValue in
+            guard let uuidValue = uuidValue else {
+                print()
+                return "No string from UUID"
+            }
+            print("uuidValue in trackerUUIDArrayToString", uuidValue, uuidValue.uuidString)
+            return uuidValue.uuidString
         }).joined(separator: " ")
         return uuidString
     }
     
     // строка в массив UUID трекеров
     func stringToTrackerUUIDArray(stringOfUUIDs: String) -> [UUID?] {
+        print("--3--")
         let stringArray = stringOfUUIDs.split(separator: " ")
         let finalUUIDArray = stringArray.map( { UUID(uuidString: String($0)) })
         return finalUUIDArray
@@ -151,12 +275,12 @@ final class TrackerCategoryStore: NSObject {
 //    func retrieveAllTrackers() -> [TrackerCategory] {
     func retrieveAllTrackers() {
         let myRequest : NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        var allTrackerCategoriesFromCoreData = [TrackerCategory]()
+//        var allTrackerCategoriesFromCoreData = [TrackerCategory]()
         do {
             let res = try context.fetch(myRequest)
             //            print("Entities: \(res)")
             for entity in res {
-                print(entity.title, entity.trackerArray)
+                print("entity title and tracker array", entity.title, entity.trackerArray)
                 print(entity)
             }
         } catch let error as NSError {

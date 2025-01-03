@@ -234,6 +234,11 @@ final class NewHabitVC: UIViewController {
         return dayNames.joined(separator: ", ")
     }
     
+    func addingNewCategory(name: String, trackerID: UUID) {
+//        trackerCategoryStore.addTrackerToTrackerCategory(categoryName: name, trackerID: trackerID)
+        trackerCategoryStore.addTrackerInTrackerCategoryToCoreData(categoryName: name, trackerID: trackerID)
+    }
+    
     // MARK: @objc functions
     @objc private func cancelHabitCreation() {
         textInTextfield = ""
@@ -249,9 +254,13 @@ final class NewHabitVC: UIViewController {
         // заглушка под следующий спринт - пока категории не обрабатываются
         let category = TrackerCategory(title: defaultHeader)
         
-        selectedCategory?.trackerArray.append(addedTracker.id)
-        guard let selectedCategory else {return}
-        try? trackerCategoryStore.addTrackerCategoryToCoreData(selectedCategory)
+        guard var selectedCategory, let title = selectedCategory.title, let id = addedTracker.id else {return}
+//        selectedCategory.trackerArray.append(id)
+        addingNewCategory(name: title, trackerID: id)
+        
+//        try? trackerCategoryStore.addTrackerCategoryToCoreData(selectedCategory)
+//        try? trackerCategoryStore.addTrackerInTrackerCategoryToCoreData(categoryName: selectedCategory.title, trackerID: addedTracker.id)
+        
         try? trackerStore.addTrackerToCoreData(addedTracker)
         textInTextfield = ""
         trackerCategoryStore.countEntities()
