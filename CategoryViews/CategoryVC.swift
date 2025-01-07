@@ -77,7 +77,7 @@ final class CategoryVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Категория"
-//        viewModel.trackerNameArray = ["123", "234"]
+//        viewModel.trackerNameArray = ["123", "234"] // mock category title array
 //        print(viewModel.createButtonNameInModel)
 //        addCategoryButton.setTitle(viewModel.createButtonNameInModel, for: .normal)
         viewSetup()
@@ -87,6 +87,7 @@ final class CategoryVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.viewDidLoad()
+
 //        print(viewModel.trackerNameArray)
 //        print("imageView.isHidden", imageView.isHidden)
         if viewModel.trackerNameArray.isEmpty {
@@ -120,6 +121,7 @@ final class CategoryVC: UIViewController {
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             addCategoryButton.heightAnchor.constraint(equalToConstant: 60)
         ])
+
     }
     
     private func setupEmptyVC() {
@@ -160,7 +162,7 @@ final class CategoryVC: UIViewController {
 //        viewModelAddCategory.delegate = viewModel
         viewModelAddCategory.settingNewCategoryName = { [weak self] newCategoryName in
 //            print(self?.viewModel.trackerNameArray)
-            self?.viewModel.trackerNameArray.append(newCategoryName)
+//            self?.viewModel.trackerNameArray.append(newCategoryName) // adding category name to the trackerNameArray
 //            print(self?.viewModel.trackerNameArray)
             self?.viewModel.selectedCategoryName = newCategoryName
         }
@@ -282,6 +284,8 @@ extension CategoryVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        print("lines: ", viewModel.trackerNameArray.count)
+//        var myCategories = viewModel.retrieveAllTrackerCategories()
+//        print("number of categories in CoreData:", myCategories.count)
         return viewModel.trackerNameArray.count
     }
     

@@ -10,9 +10,9 @@ import UIKit
 final class TrackerCellViewController: UICollectionViewCell {
         
     private var trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
-    private var colorNum: Int = 0
+//    private var colorNum: Int = 0
     var setMarkSign = false
-    var tapped: (() -> Void)?
+    var tappedRecordButton: (() -> Void)?
     
     private lazy var trackerView: UIView = {
         let trackerView = UIView()
@@ -131,7 +131,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     @objc func toggleButton(sender: AnyObject) {
-        tapped?()
+        tappedRecordButton?()
     }
     
     func setLabelText(text: String) {

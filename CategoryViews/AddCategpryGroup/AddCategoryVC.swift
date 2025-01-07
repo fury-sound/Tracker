@@ -81,6 +81,19 @@ final class AddCategoryVC: UIViewController {
             }
         }
         
+        viewModel.errorCreatingNewCategory = { [weak self] categoryName in
+            self?.alertForAddCategoryError(name: categoryName)
+        }
+        
+    }
+    
+    private func alertForAddCategoryError(name: String) {
+        let alert = UIAlertController(title: "Ошибка!\n",
+                                      message: "Категория \(name) уже существует",
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
     
     @objc func creatingNewCategory() {
@@ -88,8 +101,8 @@ final class AddCategoryVC: UIViewController {
         print("trackerNewNameTextfield.text", trackerNewNameTextfield.text)
         viewModel.creatingNewCategoryTapped(name: trackerNewNameTextfield.text ?? "")
         self.navigationController?.popViewController(animated: true)
-//        self?.navigationController?.popViewController(animated: true)
-
+        //        self?.navigationController?.popViewController(animated: true)
+        
         //        let categoryVC = CategoryVC()
         //        navigationController?.pushViewController(categoryVC, animated: true)
     }
@@ -107,7 +120,7 @@ final class AddCategoryVC: UIViewController {
 //            readyButton.backgroundColor = .ypBlack
 //        }
 //    }
-    
+
 //    private func alertForReviewer() {
 //        let alert = UIAlertController(title: "Новая категория\n",
 //                                              message: "Уважаемый ревьювер)))\n" +
@@ -118,12 +131,12 @@ final class AddCategoryVC: UIViewController {
 //                alert.addAction(action)
 //                present(alert, animated: true)
 //    }
-//}
+
 
 extension AddCategoryVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         trackerNewNameTextfield.resignFirstResponder()
-//        view.endEditing(true)
+        //        view.endEditing(true)
         return true
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 //protocol AddCategoryViewModelDelegate: AnyObject {
 //    var selectedCategoryName: String { get set }
@@ -36,6 +37,8 @@ final class AddCategoryViewModel {
     
     var settingNewCategoryName: ((String) -> Void)?
     
+    var errorCreatingNewCategory: ((String) -> Void)?
+    
     func creatingNewCategoryTapped(name: String) {
         print("creatingNewCategoryTapped tapped")
 
@@ -44,10 +47,11 @@ final class AddCategoryViewModel {
             do {
                 try trackerCategoryStore.addTrackerCategoryTitleToCoreData(newCategoryName)
             } catch let error as NSError {
-                print("Error creating new category: \(error)")
+                debugPrint("Error creating new category: \(error)")
             }
         } else {
-            print("Низзя")
+            print("Категория с таким именем уже существует")
+            errorCreatingNewCategory?(name)
         }
     }
     

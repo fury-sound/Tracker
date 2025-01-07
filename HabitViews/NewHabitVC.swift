@@ -30,6 +30,8 @@ final class NewHabitVC: UIViewController {
     private let layout = UICollectionViewFlowLayout()
     private let trackerStore = TrackerStore()
     private let trackerCategoryStore = TrackerCategoryStore()
+    private var selectedCategory: TrackerCategory?
+    private var selectedCategoryName: String?
     private var daysString: String?
 //    {
 //        didSet {
@@ -138,6 +140,10 @@ final class NewHabitVC: UIViewController {
         navigationItem.title = "Новая привычка"
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
+        trackerCategoryStore.retrieveCategoryTitles()
+
+//        print("in NewHabitVC viewDidLoad")
+//        trackerCategoryStore.retrieveAllTrackerCategoryTitles()
     }
     
     // MARK: Public functions
@@ -207,7 +213,7 @@ final class NewHabitVC: UIViewController {
         } else {
             createButton.isEnabled = true
             createButton.backgroundColor = .ypBlack
-            categoryCell.detailTextLabel?.text = defaultHeader
+            categoryCell.detailTextLabel?.text = selectedCategoryName
         }
         buttonTableView.reloadData()
     }
@@ -234,37 +240,51 @@ final class NewHabitVC: UIViewController {
         return dayNames.joined(separator: ", ")
     }
     
-    func addingNewCategory(name: String, trackerID: UUID) {
-//        trackerCategoryStore.addTrackerToTrackerCategory(categoryName: name, trackerID: trackerID)
-        trackerCategoryStore.addTrackerInTrackerCategoryToCoreData(categoryName: name, trackerID: trackerID)
-    }
+//    func addingNewCategory(name: String, trackerID: UUID) {
+////        trackerCategoryStore.addTrackerToTrackerCategory(categoryName: name, trackerID: trackerID)
+////        trackerCategoryStore.addTrackerInTrackerCategoryToCoreData(categoryName: name, trackerID: trackerID)
+//    }
     
     // MARK: @objc functions
     @objc private func cancelHabitCreation() {
         textInTextfield = ""
         self.dismiss(animated: true)
+//        trackerCategoryStore.retrieveAllTrackerCategoryTitles()
     }
-    
-    private var selectedCategory: TrackerCategory?
+
     
     @objc private func createHabit() {
+        print("In createHabit")
         guard let trackerText = trackerNameTextfield.text else { return }
         let idNum = UUID()
         let addedTracker = Tracker(id: idNum, name: trackerText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
+        let addedTrackerCoreData = try? trackerStore.addTrackerToCoreData(addedTracker)
+        let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName!)
+//        print("trackerCategoryToAddTracker", trackerCategoryToAddTracker)
+        try? trackerCategoryStore.addTrackerToCategory(trackerCategoryToAddTracker!, trackerCoreData: addedTrackerCoreData!)
+
         // заглушка под следующий спринт - пока категории не обрабатываются
-        let category = TrackerCategory(title: defaultHeader)
+//        let category = TrackerCategory(title: defaultHeader)
         
-        guard var selectedCategory, let title = selectedCategory.title, let id = addedTracker.id else {return}
+//        guard var selectedCategory, let title = selectedCategory.title, let id = addedTracker.id else {return}
 //        selectedCategory.trackerArray.append(id)
-        addingNewCategory(name: title, trackerID: id)
+//        addingNewCategory(name: title, trackerID: id)
         
 //        try? trackerCategoryStore.addTrackerCategoryToCoreData(selectedCategory)
 //        try? trackerCategoryStore.addTrackerInTrackerCategoryToCoreData(categoryName: selectedCategory.title, trackerID: addedTracker.id)
-        
-        try? trackerStore.addTrackerToCoreData(addedTracker)
+//        print("selectedCategoryName in createHabit", selectedCategoryName)
+
+//        let newTracker = try? trackerStore.addTrackerToCoreData(addedTracker)
+//        guard let newTracker else {
+//            print("error with newTracker")
+//            return
+//        }
+//        try? trackerCategoryStore.addTrackerToCategory(selectedCategoryName ?? defaultHeader, trackerCoreData: newTracker)
+
         textInTextfield = ""
-        trackerCategoryStore.countEntities()
-        trackerCategoryStore.retrieveAllTrackers()
+        trackerStore.countAllEntities() // TODO: temp function to be deleted, counts entries from TrackerStore
+        trackerCategoryStore.countEntities() // TODO: temp function to be deleted, counts entries from TrackerCategoryStore
+//        trackerCategoryStore.retrieveAllTrackerCategories()
         
         self.dismiss(animated: true)
     }
@@ -290,13 +310,16 @@ extension NewHabitVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        trackerCategoryStore.retrieveAllTrackerCategoryTitles()
         if indexPath.row == 0 {
             let viewModel = CategoryVCViewModel()
-            viewModel.retrieveAllTrackerCategories()
+//            viewModel.retrieveAllTrackerCategories() // filling the array for category names
             viewModel.returnToPreviousViewHandler = { [weak self] selectedCategory in
                 guard let self else { return }
-                self.selectedCategory = .init(title: selectedCategory, trackerArray: [])
+//                self.selectedCategory = .init(title: selectedCategory, trackerArray: [])
 //                self.checkAndUpdateTrackerCategoryInCoreData()
+                print("selectedCategory in tableView", selectedCategory)
+                self.selectedCategoryName = selectedCategory
                 tableView.reloadData()
                 self.navigationController?.popViewController(animated: true)
             }
@@ -341,11 +364,11 @@ extension NewHabitVC: UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
         if indexPath.row == 0 {
             categoryCell = cell
-            categoryCell.detailTextLabel?.text = selectedCategory?.title ?? "Название категории"
+//            categoryCell.detailTextLabel?.text = selectedCategory?.title ?? "Название категории"
+            categoryCell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
         } else {
             scheduleCell = cell
 //            print("daysString", daysString)
-            // TODO: не выводятся дни недели в текущей конфигурации, можно убрать закомментированные строки в else блоке в didSelectRowAt
 //            print("1", scheduleCell.detailTextLabel?.text)
             scheduleCell.detailTextLabel?.text = daysString ?? "Дни недели"
 //            print("2", scheduleCell.detailTextLabel?.text)

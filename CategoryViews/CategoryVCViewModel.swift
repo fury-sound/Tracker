@@ -10,7 +10,7 @@ import UIKit
 //final class CategoryVCViewModel: AddCategoryViewModelDelegate {
 final class CategoryVCViewModel {
     
-    var counter = 0
+    var counter = 1
     
     let trackerCategoryStore = TrackerCategoryStore()
 
@@ -18,7 +18,8 @@ final class CategoryVCViewModel {
         didSet {
             print("trackerNameArray in CategoryVCViewModel changed \(counter) times")
             counter += 1
-            trackerCategoryStore.countEntities()
+            reloadDataHandler?()
+//            trackerCategoryStore.countEntities()
         }
     }
     
@@ -61,10 +62,14 @@ final class CategoryVCViewModel {
     
     func viewDidLoad() {
         createButtonNameInModel = "Создать категорию"
+        retrieveAllTrackerCategories()
     }
     
     func retrieveAllTrackerCategories() {
         trackerNameArray = trackerCategoryStore.retrieveAllTrackerCategoryTitles()
+        print("number of categories in TrackerCategoryCoreData:", trackerNameArray.count)
+        print("tracker categories in CoreData:", trackerNameArray)
+//        return trackerNameArray
     }
     
     func didSelectCategoryAtIndex(index: Int) {

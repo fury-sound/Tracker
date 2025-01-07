@@ -206,7 +206,7 @@ final class NewEventVC: UIViewController {
         daysToSend = []
         let addedEvent = Tracker(id: idNum, name: eventText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
         // заглушка под следующий спринт - пока категории не обрабатываются
-        let category = TrackerCategory(title: defaultHeader)
+//        let category = TrackerCategory(title: defaultHeader)
         do {
             try trackerStore.addTrackerToCoreData(addedEvent)
         } catch let error as NSError {
