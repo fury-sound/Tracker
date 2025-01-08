@@ -37,6 +37,7 @@ final class NewHabitVC: UIViewController {
     private var daysString: String?
     private var emojiSelected = false
     private var colorSelected = false
+//    var isTrackerFlag = true
 //    {
 //        didSet {
 //            print("daysString changed to:", daysString)
@@ -297,8 +298,8 @@ final class NewHabitVC: UIViewController {
 //        try? trackerCategoryStore.addTrackerToCategory(selectedCategoryName ?? defaultHeader, trackerCoreData: newTracker)
 
 //        textInTextfield = ""
-        trackerStore.countAllEntities() // TODO: temp function to be deleted, counts entries from TrackerStore
-        trackerCategoryStore.countEntities() // TODO: temp function to be deleted, counts entries from TrackerCategoryStore
+//        trackerStore.countAllEntities() // TODO: temp function to be deleted, counts entries from TrackerStore
+//        trackerCategoryStore.countEntities() // TODO: temp function to be deleted, counts entries from TrackerCategoryStore
 //        trackerCategoryStore.retrieveAllTrackerCategories()
         
         self.dismiss(animated: true)
@@ -326,34 +327,27 @@ extension NewHabitVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        trackerCategoryStore.retrieveAllTrackerCategoryTitles()
         if indexPath.row == 0 {
             let viewModel = CategoryVCViewModel()
-//            viewModel.retrieveAllTrackerCategories() // filling the array for category names
             viewModel.returnToPreviousViewHandler = { [weak self] selectedCategory in
                 guard let self else { return }
-//                self.selectedCategory = .init(title: selectedCategory, trackerArray: [])
-//                self.checkAndUpdateTrackerCategoryInCoreData()
-//                print("selectedCategory in tableView", selectedCategory)
                 self.selectedCategoryName = selectedCategory
+                canEnableCreateButton()
                 tableView.reloadData()
                 self.navigationController?.popViewController(animated: true)
             }
-
             let categoryVC = CategoryVC(viewModel: viewModel)
             navigationController?.pushViewController(categoryVC, animated: true)
-
         } else {
             let scheduleVC = ScheduleVC()
             navigationController?.pushViewController(scheduleVC, animated: true)
             scheduleVC.tappedReady = { [weak self] (wdArray) -> Void in
                 guard let self else { return }
                 daysString = intsToDaysOfWeek(dayArray: wdArray)
+                canEnableCreateButton()
+                tableView.reloadData()
             }
         }
-        tableView.reloadData()
-        canEnableCreateButton()
-        //        canEnableCreateButton(dateArray: daysToSend)
     }
     
 //    func checkAndUpdateTrackerCategoryInCoreData() {

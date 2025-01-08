@@ -70,6 +70,7 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     
     @objc private func habitCreation() {
         newHabitVC.defaultFields()
+//        newHabitVC.isTrackerFlag = true
         navigationController?.pushViewController(newHabitVC, animated: true)
     }
 

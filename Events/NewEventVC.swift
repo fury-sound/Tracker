@@ -10,15 +10,23 @@ import UIKit
 final class NewEventVC: UIViewController {
     
     var daysToSend = [ScheduledDays]()
-    private let buttonNameArray = [("Категория", "Название категории")]
+    private let buttonNameArray = [("Нерегулярное событие", "Название события")]
     private var categoryCell = UITableViewCell()
-    private var defaultHeader = "Трекеры по умолчанию"
+    private var selectedEmojiCell = CellCollectionViewController()
+    private var selectedColorCell = CellCollectionViewController()
+    private var defaultHeader = "Важное"
     private var textInTextfield = ""
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private var selectedEmoji = "🙂"
     private var selectedColor: UIColor = .ypDarkRed
     private let layout = UICollectionViewFlowLayout()
     private let trackerStore = TrackerStore()
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private var selectedCategory: TrackerCategory?
+    private var selectedCategoryName: String?
+    private var daysString: String?
+    private var emojiSelected = false
+    private var colorSelected = false
 
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🫢", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"]
         
@@ -30,7 +38,7 @@ final class NewEventVC: UIViewController {
         eventNameTextfield.backgroundColor = .ypLightGray
         eventNameTextfield.layer.cornerRadius = 16
         eventNameTextfield.clearButtonMode = .whileEditing
-        eventNameTextfield.placeholder = "Введите название привычки"
+        eventNameTextfield.placeholder = "Введите название события"
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         eventNameTextfield.leftView = paddingView
         eventNameTextfield.leftViewMode = .always
@@ -88,8 +96,6 @@ final class NewEventVC: UIViewController {
         return scrollView
     }()
     
-    //    layout.headerReferenceSize
-    
     private lazy var emojiCollectionView: UICollectionView = {
         let emojiAndColorsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         emojiAndColorsCollectionView.backgroundColor = .clear
@@ -120,7 +126,7 @@ final class NewEventVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Новая привычка"
+        navigationItem.title = "Новое событие"
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
     }
@@ -184,19 +190,29 @@ final class NewEventVC: UIViewController {
     }
     
     private func canEnableCreateButton() {
-        if (textInTextfield.isEmpty == true || textInTextfield.count > 38) {
+        if (textInTextfield.isEmpty || textInTextfield.count > 38 || selectedCategoryName == nil || !emojiSelected || !colorSelected) {
             createButton.isEnabled = false
             createButton.backgroundColor = .ypGray
         } else {
             createButton.isEnabled = true
             createButton.backgroundColor = .ypBlack
-            categoryCell.detailTextLabel?.text = defaultHeader
+            categoryCell.detailTextLabel?.text = selectedCategoryName
         }
+        buttonTableView.reloadData()
+    }
+    
+    private func resettingFields() {
+        eventNameTextfield.text = ""
+        selectedEmojiCell.unsetImageViewColor(section: 0)
+        selectedColorCell.unsetImageViewColor(section: 1)
+        selectedCategoryName = nil
+        emojiSelected = false
+        colorSelected = false
     }
     
     // MARK: @objc functions
     @objc private func cancelEventCreation() {
-        textInTextfield = ""
+        resettingFields()
         self.dismiss(animated: true)
     }
     
@@ -205,14 +221,18 @@ final class NewEventVC: UIViewController {
         let idNum = UUID()
         daysToSend = []
         let addedEvent = Tracker(id: idNum, name: eventText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
+        let addedTrackerCoreData = try? trackerStore.addTrackerToCoreData(addedEvent)
+        let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName!)
+        try? trackerCategoryStore.addTrackerToCategory(trackerCategoryToAddTracker!, trackerCoreData: addedTrackerCoreData!)
+        resettingFields()
         // заглушка под следующий спринт - пока категории не обрабатываются
 //        let category = TrackerCategory(title: defaultHeader)
-        do {
-            try trackerStore.addTrackerToCoreData(addedEvent)
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
-        textInTextfield = ""
+//        do {
+//            try trackerStore.addTrackerToCoreData(addedEvent)
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+//        textInTextfield = ""
         self.dismiss(animated: true)
     }
     
@@ -221,17 +241,16 @@ final class NewEventVC: UIViewController {
         textInTextfield = text
         canEnableCreateButton()
     }
-    
 }
 
 // MARK: UITableViewDelegate
 extension NewEventVC: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 //        if indexPath.row == 1 && cell.detailTextLabel?.text != "Дни недели" {
 //            cell.detailTextLabel?.text = "Дни недели"
 //        }
-    }
+//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
@@ -239,6 +258,13 @@ extension NewEventVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewModel = CategoryVCViewModel()
+        viewModel.returnToPreviousViewHandler = { [weak self] selectedCategory in
+            guard let self else { return }
+            self.selectedCategoryName = selectedCategory
+            canEnableCreateButton()
+            tableView.reloadData()
+            self.navigationController?.popViewController(animated: true)
+        }
         let categoryVC = CategoryVC(viewModel: viewModel)
         navigationController?.pushViewController(categoryVC, animated: true)
     }
@@ -253,8 +279,10 @@ extension NewEventVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
+        categoryCell = cell
+        cell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
-        cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
+//        cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
         cell.detailTextLabel?.textColor = .ypGray
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.detailTextLabel?.font = .systemFont(ofSize: 17)
@@ -317,10 +345,15 @@ extension NewEventVC: UICollectionViewDataSource, UICollectionViewDelegate {
             cell.setImageViewColor(section: indexPath.section) // setting selected cell BG
             if indexPath.section == 0 {
                 selectedEmoji = emojis[indexPath.item]
+                selectedEmojiCell = cell
+                emojiSelected = true
             } else {
                 selectedColor = colors[indexPath.item]
+                selectedColorCell = cell
+                colorSelected = true
             }
         }
+        canEnableCreateButton()
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {

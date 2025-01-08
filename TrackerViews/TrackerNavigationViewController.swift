@@ -313,7 +313,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         // MARK: TODO: NB! somehow adds empty TrackerCategory to TrackerCategoryCoreData - commented for now
 //        var categoryAndItsTrackersFilteredFirst: [TrackerCategory]? = trackerCategoryStore.findCategoryWithSuitableTrackers(dayOfWeek: curDayOfWeek)
 //        print("categoryAndItsTrackersFilteredFirst", categoryAndItsTrackersFilteredFirst?.count)
-        guard var trackersFilteredByWeekdaysDictionary else { return }
+        guard let trackersFilteredByWeekdaysDictionary else { return }
         for item in trackersFilteredByWeekdaysDictionary {
             let trackerCategoryTitle = item.key
 //            print("trackerCategoryTitle", trackerCategoryTitle)
@@ -323,13 +323,20 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
                 let isTrackerWithIdinTrackerRecords = trackerRecordStore.countEntities(id: id)
                 let isTrackerWithIdAndDateinTrackerRecords = trackerRecordStore.checkDateForCompletedTrackersInCoreData(trackerRecord: TrackerRecord(id: id, dateExecuted: selectedDateString))
                 if !tracker.schedule.isEmpty { return true }
+                print("!tracker.schedule.isEmpty", !tracker.schedule.isEmpty, tracker.schedule)
                 if isTrackerWithIdAndDateinTrackerRecords { return true }
+                print("isTrackerWithIdAndDateinTrackerRecords", isTrackerWithIdAndDateinTrackerRecords)
                 if tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0 { return true }
+                print("tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0", tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0)
                 return false
             }
+            print("trackersFilteredByWeekdaysArray", trackersFilteredByWeekdaysArray)
             let trackerCategoryAfterSelection = TrackerCategory(title: trackerCategoryTitle, trackerArray: trackersFilteredByWeekdaysArray)
-            categories.append(trackerCategoryAfterSelection)
-            categories.sort(by: { $0.title! < $1.title! })
+            print("trackerCategoryAfterSelection", trackerCategoryAfterSelection)
+            if !trackerCategoryAfterSelection.trackerArray.isEmpty {
+                categories.append(trackerCategoryAfterSelection)
+                categories.sort(by: { $0.title! < $1.title! })
+            }
 //            trackersFilteredByWeekdaysDictionary[trackerCategoryTitle] = trackersFilteredByWeekdaysArray
         }
 //        trackersFilteredByWeekdays = trackersFilteredFirst.filter { tracker in

@@ -16,7 +16,7 @@ final class SplashViewController: UIViewController {
         setupSplashScreen()
 //        storage.removeObject(forKey: "wasLaunched")
         let wasLaunched = storage.bool(forKey: "wasLaunched")
-        print("wasLaunched", wasLaunched)
+//        print("wasLaunched", wasLaunched)
         if wasLaunched {
             switchToNaviBarVC()
         } else {
