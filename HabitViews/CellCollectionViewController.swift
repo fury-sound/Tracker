@@ -19,7 +19,7 @@ final class CellCollectionViewController: UICollectionViewCell {
     
     lazy var viewForItem: UIView = {
         let emojiView = UIView()
-        emojiView.backgroundColor = .clear
+        emojiView.backgroundColor = .white
 //        emojiView.sizeToFit()
 //        emojiView.frame.size.height = cellSize
 //        emojiView.frame.size.width = cellSize
@@ -72,14 +72,13 @@ final class CellCollectionViewController: UICollectionViewCell {
     
     func unsetImageViewColor(section: Int) {
         if section == 0 {
-            viewForItem.backgroundColor = .clear
+            viewForItem.backgroundColor = .ypWhite
         } else {
             viewForItem.layer.borderColor = .none
             viewForItem.layer.borderWidth = .zero
         }
     }
 
-    
     func setCellSize(size: CGFloat, section: Int) {
                                     
         if section == 0 {

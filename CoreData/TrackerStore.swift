@@ -102,10 +102,10 @@ final class TrackerStore: NSObject {
                 } else {
                     allTrackerFromCoreData.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: stringToSchedule(scheduleString: entity.schedule ?? "")))
                 }
-                print("Tracker \(entity.name) category :", entity.category?.title)
+//                print("Tracker \(entity.name) category :", entity.category?.title)
             }
         } catch let error as NSError {
-            print(error.localizedDescription)
+            print("Error retrieving trackers in retrieveAllTrackers(), TrackerStore", error.localizedDescription)
         }
         return allTrackerFromCoreData
     }

@@ -128,15 +128,15 @@ final class TrackerCategoryStore: NSObject {
             let res = try context.fetch(myRequest)
             print("Stored tracker category")
             for entity in res {
-                print("Tracker category title:", entity.title)
-                print("entity.tracker is nil?", entity.tracker == nil)
+//                print("Tracker category title:", entity.title)
+//                print("entity.tracker is nil?", entity.tracker == nil)
 //                entity.tracker?.id as UUID?
                 entity.tracker?.forEach {
 //                    print($0)
                     let trackerUUID = ($0 as AnyObject).id as UUID?
                     let trackerSchedule = ($0 as AnyObject).schedule as String?
-                    print("trackerUUID", trackerUUID!)
-                    print("trackerSchedule", trackerSchedule!)
+//                    print("trackerUUID", trackerUUID!)
+//                    print("trackerSchedule", trackerSchedule!)
 //                    print(($0 as AnyObject).id as UUID?)
 //                    print(($0 as AnyObject).schedule as String?)
                 }
@@ -166,29 +166,10 @@ final class TrackerCategoryStore: NSObject {
 //            print("Found tracker category", res.first?.title)
             return res.first
         } catch let error as NSError {
-            debugPrint("Error with finding suitable tracker category, findCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
+            print("Error with finding suitable tracker category, findCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
             return nil
         }
         return nil
-    }
-    
-    
-    func retrieveCategoryTitles() {
-        print("in retrieveCategoryTitles")
-        //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
-        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        do {
-            let res = try context.fetch(myRequest)
-            print("Stored tracker category")
-            for entity in res {
-                print("Tracker category title:", entity.title)
-                //                print("Tracker:", entity == nil)
-                //                if entity.title == categoryName {
-                //                }
-            }
-        } catch let error as NSError {
-            print("Error with finding suitable tracker category, findCategoryWithSuitableTrackers in TrackerCategoryStore", error.localizedDescription)
-        }
     }
     
     func retrieveAllTrackerCategoryTitles() -> [String] {
@@ -197,7 +178,7 @@ final class TrackerCategoryStore: NSObject {
         //        deleteAllTrackerCategoryCoreDataEntities()
         do {
             let res = try context.fetch(myRequest)
-            print("Entities in retrieveAllTrackerCategoryTitles: \(res)")
+//            print("Entities in retrieveAllTrackerCategoryTitles: \(res)")
             if res.count == 0 {
                 return allTrackerCategoryTitles
             }
@@ -209,6 +190,25 @@ final class TrackerCategoryStore: NSObject {
         }
         return allTrackerCategoryTitles
     }
+ 
+    // temp function
+        func retrieveCategoryTitles() {
+            print("in retrieveCategoryTitles")
+            //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
+            let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+            do {
+                let res = try context.fetch(myRequest)
+                print("Stored tracker category")
+                for entity in res {
+                    print("Tracker category title:", entity.title)
+                    //                print("Tracker:", entity == nil)
+                    //                if entity.title == categoryName {
+                    //                }
+                }
+            } catch let error as NSError {
+                print("Error with finding suitable tracker category, findCategoryWithSuitableTrackers in TrackerCategoryStore", error.localizedDescription)
+            }
+        }
     
     // temp function
     func deleteAllTrackerCategoryCoreDataEntities() {

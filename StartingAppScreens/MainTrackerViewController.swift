@@ -7,9 +7,6 @@
 
 import UIKit
 
-
-
-
 final class MainTrackerViewController: UITabBarController {
 
     let trackerNaviVC = UINavigationController(rootViewController: TrackerNavigationViewController())
@@ -21,7 +18,6 @@ final class MainTrackerViewController: UITabBarController {
     }
     
     private func setupMainNavBarVC() {
-
         trackerNaviVC.tabBarItem = UITabBarItem(title: "", image: UIImage.recordCircleFill, selectedImage: nil)
         statisticsVC.tabBarItem = UITabBarItem(title: "", image: UIImage.hareFill, selectedImage: nil)
         self.viewControllers = [trackerNaviVC, statisticsVC]

@@ -98,7 +98,7 @@ final class AddCategoryVC: UIViewController {
     
     @objc func creatingNewCategory() {
         //        alertForReviewer()
-        print("trackerNewNameTextfield.text", trackerNewNameTextfield.text)
+//        print("trackerNewNameTextfield.text", trackerNewNameTextfield.text)
         viewModel.creatingNewCategoryTapped(name: trackerNewNameTextfield.text ?? "")
         self.navigationController?.popViewController(animated: true)
         //        self?.navigationController?.popViewController(animated: true)

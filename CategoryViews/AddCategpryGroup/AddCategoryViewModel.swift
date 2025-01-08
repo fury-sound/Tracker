@@ -40,14 +40,14 @@ final class AddCategoryViewModel {
     var errorCreatingNewCategory: ((String) -> Void)?
     
     func creatingNewCategoryTapped(name: String) {
-        print("creatingNewCategoryTapped tapped")
+//        print("creatingNewCategoryTapped tapped")
 
         if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: name) {
             newCategoryName = name
             do {
                 try trackerCategoryStore.addTrackerCategoryTitleToCoreData(newCategoryName)
             } catch let error as NSError {
-                debugPrint("Error creating new category: \(error)")
+                print("Error creating new category: \(error)")
             }
         } else {
             print("Категория с таким именем уже существует")

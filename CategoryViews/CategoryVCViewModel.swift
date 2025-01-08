@@ -11,13 +11,12 @@ import UIKit
 final class CategoryVCViewModel {
     
     var counter = 1
-    
     let trackerCategoryStore = TrackerCategoryStore()
 
     var trackerNameArray: [String] = [] {
         didSet {
-            print("trackerNameArray in CategoryVCViewModel changed \(counter) times")
-            counter += 1
+//            print("trackerNameArray in CategoryVCViewModel changed \(counter) times")
+//            counter += 1
             reloadDataHandler?()
 //            trackerCategoryStore.countEntities()
         }
@@ -27,7 +26,7 @@ final class CategoryVCViewModel {
         didSet {
 //            print("in didSet, createButtonNameInModel")
 //            buttonTitle()
-            buttonNameChange?(createButtonNameInModel!)
+            buttonNameChange?(createButtonNameInModel ?? "")
         }
     }
     
@@ -65,15 +64,14 @@ final class CategoryVCViewModel {
         retrieveAllTrackerCategories()
     }
     
-    func retrieveAllTrackerCategories() {
+    private func retrieveAllTrackerCategories() {
         trackerNameArray = trackerCategoryStore.retrieveAllTrackerCategoryTitles()
-        print("number of categories in TrackerCategoryCoreData:", trackerNameArray.count)
-        print("tracker categories in CoreData:", trackerNameArray)
+//        print("number of categories in TrackerCategoryCoreData:", trackerNameArray.count)
+//        print("tracker categories in CoreData:", trackerNameArray)
 //        return trackerNameArray
     }
     
     func didSelectCategoryAtIndex(index: Int) {
-//        print("index", index)
         if selectedIndex == index {
             selectedIndex = nil
         } else {
@@ -83,17 +81,11 @@ final class CategoryVCViewModel {
     }
     
     func categoryCreateButtonTapped() {
-        print("categoryCreateButtonTapped in CategoryVCViewModel button tapped")
         if let selectedIndex {
             returnToPreviousViewHandler?(trackerNameArray[selectedIndex])
         } else {
             addCategoryVCHandler?()
         }
     }
-    
-    func sendingCategoryToPreviousVC(name: String) {
-        selectedCategoryName = name
-    }
-
 }
 

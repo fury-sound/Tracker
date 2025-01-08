@@ -11,6 +11,8 @@
 		B9A216442D05C4C400D46982 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A216432D05C4C400D46982 /* TrackerStore.swift */; };
 		B9A216462D05C4FE00D46982 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A216452D05C4FE00D46982 /* TrackerCategoryStore.swift */; };
 		B9A216482D05C52200D46982 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A216472D05C52200D46982 /* TrackerRecordStore.swift */; };
+		B9A3BD812D2DC360008FD584 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A3BD802D2DC360008FD584 /* PageViewController.swift */; };
+		B9BA627F2D2D863A007D6ECF /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BA627E2D2D863A007D6ECF /* OnboardingViewController.swift */; };
 		B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B9C78A672CE66F7A00613AD1 /* Tracker.xcdatamodeld */; };
 		B9C78A752CE66F7A00613AD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9C78A642CE66F7A00613AD1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -22,6 +24,8 @@
 		B9A216432D05C4C400D46982 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
 		B9A216452D05C4FE00D46982 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
 		B9A216472D05C52200D46982 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
+		B9A3BD802D2DC360008FD584 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		B9BA627E2D2D863A007D6ECF /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		B9C78A642CE66F7A00613AD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9C78A692CE66F7A00613AD1 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +100,7 @@
 		B90C3F352CD6981E00171B84 = {
 			isa = PBXGroup;
 			children = (
+				B9BA627C2D2D85E3007D6ECF /* Onboarding */,
 				B9340CD02D133A8F0054D94A /* Events */,
 				B9A216422D05C49800D46982 /* CoreData */,
 				B90493212CF3923700C34E4C /* Tracker.xcodeproj */,
@@ -137,6 +142,15 @@
 				B9A216472D05C52200D46982 /* TrackerRecordStore.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		B9BA627C2D2D85E3007D6ECF /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B9BA627E2D2D863A007D6ECF /* OnboardingViewController.swift */,
+				B9A3BD802D2DC360008FD584 /* PageViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		B9CF2B3A2CF3C40400873D0D /* Products */ = {
@@ -233,9 +247,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9340CD22D133AAF0054D94A /* NewEventVC.swift in Sources */,
+				B9A3BD812D2DC360008FD584 /* PageViewController.swift in Sources */,
 				B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */,
 				B9A216482D05C52200D46982 /* TrackerRecordStore.swift in Sources */,
 				B9A216462D05C4FE00D46982 /* TrackerCategoryStore.swift in Sources */,
+				B9BA627F2D2D863A007D6ECF /* OnboardingViewController.swift in Sources */,
 				B9A216442D05C4C400D46982 /* TrackerStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
