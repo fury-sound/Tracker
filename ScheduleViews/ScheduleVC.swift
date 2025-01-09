@@ -98,6 +98,7 @@ extension ScheduleVC: UITableViewDelegate {
         return 75
     }
     
+    // TODO: add possibility to press the entire table cell to select a week day
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print("current row \(indexPath.row)")
     }

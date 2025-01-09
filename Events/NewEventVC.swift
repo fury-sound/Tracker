@@ -225,14 +225,6 @@ final class NewEventVC: UIViewController {
         let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName!)
         try? trackerCategoryStore.addTrackerToCategory(trackerCategoryToAddTracker!, trackerCoreData: addedTrackerCoreData!)
         resettingFields()
-        // заглушка под следующий спринт - пока категории не обрабатываются
-//        let category = TrackerCategory(title: defaultHeader)
-//        do {
-//            try trackerStore.addTrackerToCoreData(addedEvent)
-//        } catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
-//        textInTextfield = ""
         self.dismiss(animated: true)
     }
     
@@ -245,12 +237,6 @@ final class NewEventVC: UIViewController {
 
 // MARK: UITableViewDelegate
 extension NewEventVC: UITableViewDelegate {
-    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if indexPath.row == 1 && cell.detailTextLabel?.text != "Дни недели" {
-//            cell.detailTextLabel?.text = "Дни недели"
-//        }
-//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
@@ -282,7 +268,6 @@ extension NewEventVC: UITableViewDataSource {
         categoryCell = cell
         cell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
-//        cell.detailTextLabel?.text = buttonNameArray[indexPath.row].1
         cell.detailTextLabel?.textColor = .ypGray
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.detailTextLabel?.font = .systemFont(ofSize: 17)
@@ -337,10 +322,8 @@ extension NewEventVC: UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.unsetImageViewColor(section: indexPath.section) // unsetting cell BG if selected
             }
         }
-        
         // Select new item, update tracking
         selectedIndexPaths[indexPath.section] = indexPath
-        
         if let cell = collectionView.cellForItem(at: indexPath) as? CellCollectionViewController {
             cell.setImageViewColor(section: indexPath.section) // setting selected cell BG
             if indexPath.section == 0 {

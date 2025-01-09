@@ -12,12 +12,8 @@ import CoreData
 final class TrackerCategoryStore: NSObject {
     
     private let context: NSManagedObjectContext
-    //    var finalTrackerCategory: TrackerCategory?
-    
     weak var delegateTrackerCategoryForNotifications: TrackerNavigationViewProtocol?
-    //    private var currentCell: TrackerCellViewController?
-    //    private var trackerId: UUID?
-    
+
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -62,40 +58,14 @@ final class TrackerCategoryStore: NSObject {
             print("Failed to fetch tracker category titles in addTrackerCategoryTitleToCoreData:", error.localizedDescription)
         }
     }
-    
-    
-    //    func addTrackerToCategory(_ trackerCategoryTitle: String, trackerCoreData: TrackerCoreData) throws {
-    func addTrackerToCategory(_ trackerCategoryCoreData: TrackerCategoryCoreData, trackerCoreData: TrackerCoreData) throws {
-//        print("in addTrackerToCategory")
-        //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
-        //        trackerCategoryCoreData.title = trackerCategoryTitle
-//        print(trackerCategoryCoreData.title) // = "My test category"
-        //        print("category added")
-        trackerCategoryCoreData.addToTracker(trackerCoreData)
-        //        trackerCategoryCoreData.tracker?.adding(trackerToConnect)
-//        print("tracker added")
-//        for elem in trackerCategoryCoreData.tracker! {
-//            print("Newly added tracker for \(trackerCategoryCoreData.title):", elem)
-//        }
         
-//        print("trackerCategoryCoreData", trackerCategoryCoreData)
-        //        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        //        myRequest.predicate = NSPredicate(format: "title == %@", trackerCategoryTitle)
+    func addTrackerToCategory(_ trackerCategoryCoreData: TrackerCategoryCoreData, trackerCoreData: TrackerCoreData) throws {
+        trackerCategoryCoreData.addToTracker(trackerCoreData)
         do {
             try context.save()
-//            print("Success saving tracker \(trackerCoreData.name) added to TrackerCategory \(trackerCategoryCoreData.title)")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
-        //        print(retrieveAllTrackerCategoryTitles())
-        
-        
-        //        updateTrackerCategoryList(trackerCategoryCoreData) //, with: trackerCategory)
-        //        do {
-        //            try context.save()
-        //        } catch let error as NSError {
-        //            print("in addTrackerCategoryToCoreData", error.localizedDescription)
-        //        }
     }
     
     func isCategoryAlreadyExist(categoryName: String) -> Bool {
@@ -104,7 +74,6 @@ final class TrackerCategoryStore: NSObject {
         do {
             let res = try context.fetch(myRequest)
             for entity in res {
-//                print("in isCategoryAlreadyExist", entity.title, categoryName)
                 if entity.title == categoryName {
                     return true
                 }
@@ -117,38 +86,16 @@ final class TrackerCategoryStore: NSObject {
     }
     
     
-    
-    // MARK: TODO: fix category tracker search and filtering for suitable trackers
+    // Category tracker search and filtering for suitable trackers - temp function to be deleted, no callers
     func findCategoryWithSuitableTrackers(dayOfWeek: Int) -> [TrackerCategory]? {
-        //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
         let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        //        print("category name", categoryName)
-        //        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
         do {
             let res = try context.fetch(myRequest)
-//            print("Stored tracker category")
             for entity in res {
-//                print("Tracker category title:", entity.title)
-//                print("entity.tracker is nil?", entity.tracker == nil)
-//                entity.tracker?.id as UUID?
                 entity.tracker?.forEach {
-//                    print($0)
                     let trackerUUID = ($0 as AnyObject).id as UUID?
                     let trackerSchedule = ($0 as AnyObject).schedule as String?
-//                    print("trackerUUID", trackerUUID!)
-//                    print("trackerSchedule", trackerSchedule!)
-//                    print(($0 as AnyObject).id as UUID?)
-//                    print(($0 as AnyObject).schedule as String?)
                 }
-
-//                for trackerElement in entity.tracker! {
-//                    print(type(of: trackerElement))
-//                    print(trackerElement.entity)
-//
-//                }
-                //                print("Tracker:", entity == nil)
-                //                if entity.title == categoryName {
-                //                }
             }
         } catch let error as NSError {
             print("Error with finding suitable tracker category, findCategoryWithSuitableTrackers in TrackerCategoryStore", error.localizedDescription)
@@ -157,13 +104,10 @@ final class TrackerCategoryStore: NSObject {
     }
     
     func findCategoryByName(categoryName: String) -> TrackerCategoryCoreData? {
-        //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
         let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        //        print("category name", categoryName)
         myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
         do {
             let res = try context.fetch(myRequest)
-//            print("Found tracker category", res.first?.title)
             return res.first
         } catch let error as NSError {
             print("Error with finding suitable tracker category, findCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
@@ -175,10 +119,8 @@ final class TrackerCategoryStore: NSObject {
     func retrieveAllTrackerCategoryTitles() -> [String] {
         var allTrackerCategoryTitles = [String]()
         let myRequest : NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        //        deleteAllTrackerCategoryCoreDataEntities()
         do {
             let res = try context.fetch(myRequest)
-//            print("Entities in retrieveAllTrackerCategoryTitles: \(res)")
             if res.count == 0 {
                 return allTrackerCategoryTitles
             }
@@ -193,17 +135,11 @@ final class TrackerCategoryStore: NSObject {
  
     // temp function to be deleted
         func retrieveCategoryTitles() {
-//            print("in retrieveCategoryTitles")
-            //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
             let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
             do {
                 let res = try context.fetch(myRequest)
-//                print("Stored tracker category")
                 for entity in res {
 //                    print("Tracker category title:", entity.title)
-                    //                print("Tracker:", entity == nil)
-                    //                if entity.title == categoryName {
-                    //                }
                 }
             } catch let error as NSError {
                 print("Error with finding suitable tracker category, findCategoryWithSuitableTrackers in TrackerCategoryStore", error.localizedDescription)
@@ -213,7 +149,6 @@ final class TrackerCategoryStore: NSObject {
     // temp function to be deleted
     func deleteAllTrackerCategoryCoreDataEntities() {
         let myRequest : NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        
         do {
             let res = try context.fetch(myRequest)
             //            print("Entities: \(res)")
@@ -228,7 +163,6 @@ final class TrackerCategoryStore: NSObject {
     }
     
     func countEntities() {
-        //        print("in countEntities")
         let myRequest : NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
         //        myRequest.predicate = NSPredicate(format: "schedule CONTAINS[c] \(String(curDayOfWeek))")
         do {
@@ -238,8 +172,41 @@ final class TrackerCategoryStore: NSObject {
             print(error.localizedDescription)
         }
     }
-    
 }
+
+extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+        //        print("in controllerWillChangeContent for TrackerRecordStore")
+        //        let objects = controller.fetchedObjects
+        //        print(objects?.count)
+        //        let objects = controller.fetchedObjects
+        //        var insertedIndexes = IndexSet()
+        //        print(objects)
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+        //        guard let currentCell, let trackerId else {return}
+        //        let counter = countEntities(id: trackerId)
+        //        currentCell.setDayLabelText(days: counter)
+        
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        //        guard let currentCell else {return}
+        //        switch type {
+        //        case .insert:
+        //            currentCell.setButtonSign(isPlusSignOnFlag: true)
+        //        case .delete:
+        //            currentCell.setButtonSign(isPlusSignOnFlag: false)
+        //        default:
+        //            break
+        //        }
+    }
+}
+
+
+// TODO: commented code to be deleted after 18 sprint
 /*
  func addTrackerCategoryToCoreData(_ trackerCategory: TrackerCategory) throws {
  let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
@@ -520,34 +487,4 @@ final class TrackerCategoryStore: NSObject {
  */
 
 
-extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        //        print("in controllerWillChangeContent for TrackerRecordStore")
-        //        let objects = controller.fetchedObjects
-        //        print(objects?.count)
-        //        let objects = controller.fetchedObjects
-        //        var insertedIndexes = IndexSet()
-        //        print(objects)
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        //        guard let currentCell, let trackerId else {return}
-        //        let counter = countEntities(id: trackerId)
-        //        currentCell.setDayLabelText(days: counter)
-        
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        //        guard let currentCell else {return}
-        //        switch type {
-        //        case .insert:
-        //            currentCell.setButtonSign(isPlusSignOnFlag: true)
-        //        case .delete:
-        //            currentCell.setButtonSign(isPlusSignOnFlag: false)
-        //        default:
-        //            break
-        //        }
-    }
-}
 

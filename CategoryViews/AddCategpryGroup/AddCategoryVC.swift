@@ -97,14 +97,8 @@ final class AddCategoryVC: UIViewController {
     }
     
     @objc func creatingNewCategory() {
-        //        alertForReviewer()
-//        print("trackerNewNameTextfield.text", trackerNewNameTextfield.text)
         viewModel.creatingNewCategoryTapped(name: trackerNewNameTextfield.text ?? "")
         self.navigationController?.popViewController(animated: true)
-        //        self?.navigationController?.popViewController(animated: true)
-        
-        //        let categoryVC = CategoryVC()
-        //        navigationController?.pushViewController(categoryVC, animated: true)
     }
     
     @objc func editingFunc(_ sender: UITextField) {
@@ -112,26 +106,6 @@ final class AddCategoryVC: UIViewController {
         viewModel.onEditingTextField(text: text)
     }
 }
-//        if text.isEmpty == true  {
-//            readyButton.isEnabled = false
-//            readyButton.backgroundColor = .ypGray
-//        } else {
-//            readyButton.isEnabled = true
-//            readyButton.backgroundColor = .ypBlack
-//        }
-//    }
-
-//    private func alertForReviewer() {
-//        let alert = UIAlertController(title: "Новая категория\n",
-//                                              message: "Уважаемый ревьювер)))\n" +
-//                                              "В задание 15-го спринта функционал данной вьюхи не предполагает быть реализованным именно в 15-ом спринте," +
-//                                              " он будет реализован в 16-ом спринте!\n Честное слово!!!)))\n 😉",
-//                                              preferredStyle: .alert)
-//                let action = UIAlertAction(title: "OK", style: .default)
-//                alert.addAction(action)
-//                present(alert, animated: true)
-//    }
-
 
 extension AddCategoryVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

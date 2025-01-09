@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import CoreData
 
 struct Tracker {
     let id: UUID?
@@ -49,20 +48,14 @@ struct GeometricParams {
 }
 
 let EmojiArray = [ "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🍄"]
-
 let Colors: [UIColor] = [.ypDarkRed, .ypOrange, .ypDarkBlue, .ypAmethyst, .ypGreen, .ypOrchid, .ypPastelPink, .ypLightBlue, .ypLightGreen, .ypCosmicCobalt, .ypRed, .ypPaleMagentaPink, .ypMacaroniAndCheese, .ypCornflowerBlue, .ypBlueViolet, .ypMediumOrchid, .ypMediumPurple, .ypDarkGreen]
 
 final class TrackerNavigationViewController: UIViewController, TrackerNavigationViewProtocol {
     
     private var categories = [TrackerCategory]()
     private var trackerCategory: TrackerCategory?
-    //    private var categories : [String: [Tracker]] = [:]
-//    private var trackerCategoryDefault = TrackerCategory(title: "Трекеры по умолчанию")
     private var completedTrackers = [TrackerRecord]()
-//    private var trackersFilteredByWeekdays = [Tracker]()
     private var trackersFilteredByWeekdaysDictionary : [String: [Tracker]]? = [:]
-//    private var trackersToDisplay = [Tracker]()
-//    private var allTrackers = [Tracker]()
     private let trackerColorSet = [UIColor.ypBlack, UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
     private let params = GeometricParams(leftInset: 16, rightInset: 16, cellSpacing: 10)
     
@@ -71,24 +64,16 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private var currentDate = Date()
     private var selectedDate = Date()
     private let createTracker = TrackerCreateVC()
-    
-    //    private let emojiArray = [ "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🍄"]
-    
-    //    var context: NSManagedObjectContext!
     private let emojiArray = EmojiArray
     private let colorsArray = Colors
-    
-    //    var context: NSManagedObjectContext {
-    //        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    //    }
     let trackerStore = TrackerStore()
     let trackerRecordStore = TrackerRecordStore()
     let trackerCategoryStore = TrackerCategoryStore()
     
-    // MARK: mock trackers and mock tracker creation function
+    // MARK: mock trackers and mock tracker creation function - to be deleted
 //    var mockTracker1 = Tracker(id: UUID(), name: "test tracker 1", emojiPic: "🍇", color: .green , schedule: [.Mon, .Sun])
 //    var mockTracker2 = Tracker(id: UUID(), name: "test tracker 2", emojiPic: "🍈", color: .red, schedule: [.Mon, .Thu, .Sun])
-    
+
     //    func tempMockTrackerSetup() {
     ////        var colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
     //        var emojiNum = Int.random(in: 0..<emojiArray.count)
@@ -104,6 +89,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     ////        categories[0].trackerArray.append(mockTracker2)
     //////        print(categories) //, categories[0])
     //    }
+    // MARK: mock trackers and mock tracker creation function END
     
     private lazy var searchBar: UISearchController = {
         var searchField = UISearchController()
@@ -163,7 +149,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     override func viewDidLoad() {
         super.viewDidLoad()
         // MARK: temp function calls and variables
-//        deleteAllTrackers()
+        //        deleteAllTrackers()
         //        retrieveAllTrackers()
         //        tempMockTrackerSetup() // calling mockTracker setup function
         //        trackerStore.deleteEntities()
@@ -190,16 +176,9 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         collectionView.reloadData()
     }
     
-    // заглушка под метод проверки наличия категории
-//    func categoryHeaderCheck(categoryTitle: String) -> String {
-//        //        categories.forEach { categoryTitle in
-//        //            print(categoryTitle)
-//        //        }
-//        return ""
-//    }
-    
     // MARK: Private functions
     
+    // TODO: temp function to be deleted
     private func deleteAllTrackers() {
         trackerStore.deleteAllTrackerCoreDataEntities()
         trackerRecordStore.deleteAllTrackerRecordCoreDataEntities()
@@ -207,13 +186,15 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func trackerCategoriesSetup() {
-//        mockCategoryAdding()
-        trackerStore.countAllEntities()
         trackerStore.retrieveAllTrackers()
+// lines to be deleted
+//        mockCategoryAdding()
+//        trackerStore.countAllEntities()
 //        trackerCategoryStore.countEntities()
 //        trackerCategoryStore.retrieveAllTrackerCategories()
     }
-    
+
+    // TODO: to be deleted
 //    private func mockCategoryAdding() {
 //        //        categories["Важное"] = [mockTracker1]
 //        //        categories["Важное"]?.append(mockTracker2)
@@ -228,7 +209,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     private func setupNaviVC() {
         emptyTrackerSetup()
-//        if ((trackersFilteredByWeekdaysDictionary?.isEmpty) != nil) {
         if categories.isEmpty {
             collectionViewSetup()
         } else {
@@ -300,63 +280,31 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         filteringTrackers(curDayOfWeek: curDayOfWeek - 1)
     }
     
-    //TODO: Adapt to filter trackers by weekdays from the CategoryStore, store it as an array or dictionary and then pass to CollectionView generation
+    //The function filters trackers by weekdays from the CategoryStore, stores them as an array or dictionary and then passes for CollectionView generation
     private func filteringTrackers(curDayOfWeek: Int) {
-//        print("in filteringTrackers - 1")
-//        trackerCategoryStore.countEntities()
         var trackersFilteredByWeekdaysArray = [Tracker]()
         categories = []
-//        trackerCategoryStore.retrieveAllTrackerCategoryTitles()
-//        let trackersFilteredFirst: [Tracker]? = trackerStore.filterTrackersByWeekday(dayOfWeek: curDayOfWeek)
         trackersFilteredByWeekdaysDictionary = trackerStore.filterTrackersByWeekday(dayOfWeek: curDayOfWeek)
         
-        // MARK: TODO: NB! somehow adds empty TrackerCategory to TrackerCategoryCoreData - commented for now
-//        var categoryAndItsTrackersFilteredFirst: [TrackerCategory]? = trackerCategoryStore.findCategoryWithSuitableTrackers(dayOfWeek: curDayOfWeek)
-//        print("categoryAndItsTrackersFilteredFirst", categoryAndItsTrackersFilteredFirst?.count)
         guard let trackersFilteredByWeekdaysDictionary else { return }
         for item in trackersFilteredByWeekdaysDictionary {
             let trackerCategoryTitle = item.key
-//            print("trackerCategoryTitle", trackerCategoryTitle)
             trackersFilteredByWeekdaysArray = item.value.filter { tracker in
                 guard let id = tracker.id else { return false }
                 let selectedDateString = getDateFromDatePicker(date: selectedDate)
                 let isTrackerWithIdinTrackerRecords = trackerRecordStore.countEntities(id: id)
                 let isTrackerWithIdAndDateinTrackerRecords = trackerRecordStore.checkDateForCompletedTrackersInCoreData(trackerRecord: TrackerRecord(id: id, dateExecuted: selectedDateString))
                 if !tracker.schedule.isEmpty { return true }
-//                print("!tracker.schedule.isEmpty", !tracker.schedule.isEmpty, tracker.schedule)
                 if isTrackerWithIdAndDateinTrackerRecords { return true }
-//                print("isTrackerWithIdAndDateinTrackerRecords", isTrackerWithIdAndDateinTrackerRecords)
                 if tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0 { return true }
-//                print("tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0", tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0)
                 return false
             }
-//            print("trackersFilteredByWeekdaysArray", trackersFilteredByWeekdaysArray)
             let trackerCategoryAfterSelection = TrackerCategory(title: trackerCategoryTitle, trackerArray: trackersFilteredByWeekdaysArray)
-//            print("trackerCategoryAfterSelection", trackerCategoryAfterSelection)
             if !trackerCategoryAfterSelection.trackerArray.isEmpty {
                 categories.append(trackerCategoryAfterSelection)
                 categories.sort(by: { $0.title! < $1.title! })
             }
-//            trackersFilteredByWeekdaysDictionary[trackerCategoryTitle] = trackersFilteredByWeekdaysArray
         }
-//        trackersFilteredByWeekdays = trackersFilteredFirst.filter { tracker in
-//            guard let id = tracker.id else { return false }
-//            let selectedDateString = getDateFromDatePicker(date: selectedDate)
-//            let isTrackerWithIdinTrackerRecords = trackerRecordStore.countEntities(id: id)
-//            let isTrackerWithIdAndDateinTrackerRecords = trackerRecordStore.checkDateForCompletedTrackersInCoreData(trackerRecord: TrackerRecord(id: id, dateExecuted: selectedDateString))
-//            if !tracker.schedule.isEmpty { return true }
-//            if isTrackerWithIdAndDateinTrackerRecords { return true }
-//            if tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0 { return true }
-//            return false
-//        }
-//        print(trackersFilteredByWeekdays)
-//        print("Tracker category dictionary", trackersFilteredByWeekdaysDictionary)
-//        categories.sort
-//        trackersFilteredByWeekdays.sorted { $0. .category.title < $1.category.title }
-        
-//        print("in filteringTrackers - 2")
-//        trackerCategoryStore.countEntities()
-//        trackerCategoryStore.retrieveAllTrackerCategoryTitles()
     }
     
     private func togglingCompletedTrackers(trackerId: UUID, date: Date) {
@@ -381,14 +329,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func arrayToUse() {
-        //        trackersToDisplay = trackersFilteredByWeekdays
-        //        if trackersToDisplay.count == 0 {
-        //            imageView.isHidden = false
-        //            initLogo.isHidden = false
-        //        } else {
-        //            imageView.isHidden = true
-        //            initLogo.isHidden = true
-        //        }
         if categories.isEmpty {
             imageView.isHidden = false
             initLogo.isHidden = false
@@ -404,7 +344,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         let curDayOfWeek = sender.calendar.component(.weekday, from: selectedDate) - 1
         filteringTrackers(curDayOfWeek: curDayOfWeek)
         arrayToUse()
-//        if trackersToDisplay.isEmpty {
         if categories.isEmpty {
             imageView.isHidden = false
             initLogo.isHidden = false
@@ -428,7 +367,6 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         arrayToUse()
-        //        return trackersToDisplay.count
         return categories[section].trackerArray.count
     }
     
@@ -444,16 +382,10 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
               let color = element.color,
               let emoji = element.emojiPic,
               let text = element.name
-                //              let id = trackersToDisplay[indexPath.item].id,
-                //              let color = trackersToDisplay[indexPath.item].color,
-                //              let emoji = trackersToDisplay[indexPath.item].emojiPic,
-                //              let text = trackersToDisplay[indexPath.item].name else { return UICollectionViewCell() }
         else {
             debugPrint("error for cell")
             return UICollectionViewCell()
         }
-//        print("indexPath.section, indexPath.row", indexPath.section, indexPath.row)
-//        print("element", element, element.name, element.id)
         cell.layer.cornerRadius = 10
         trackerRecordStore.setTrackerRecordParams(trackerId: id, currentCell: cell)
         changeCellButton(cell: cell, trackerId: id)
@@ -466,9 +398,6 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
             guard let self else { return }
             trackerRecordStore.setTrackerRecordParams(trackerId: id, currentCell: cell)
             self.togglingCompletedTrackers(trackerId: id, date: selectedDate)
-            // Вызовы функций переключены на уведомления в CoreData; удалить впоследствии
-            //            changeCellButton(cell: cell, trackerId: id)
-            //            trackerCompletedDaysCount(cell: cell, trackerId: id)
         }
         if !(Calendar.current.isDate(selectedDate, inSameDayAs: currentDate)) && selectedDate > currentDate {
             cell.disablingPlusButton()
@@ -481,16 +410,12 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let id = "header"
         let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath) as! SupplementaryHeaderView
-//        print("For header", indexPath.section, categories[indexPath.section].title)
         let headerText = categories[indexPath.section].title
-//        print("For header text", headerText)
         supplementaryView.headerLabel.text = headerText
-//        supplementaryView.headerLabel.textColor = .ypBlack
         supplementaryView.systemLayoutSizeFitting(CGSize(width: supplementaryView.frame.width,
                                                          height: UIView.layoutFittingExpandedSize.height),
                                                   withHorizontalFittingPriority: .required,
                                                   verticalFittingPriority: .fittingSizeLevel)
-//        if trackersToDisplay.isEmpty == true {
         if categories.isEmpty == true {
             supplementaryView.isHidden = true
         } else {
@@ -501,11 +426,6 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     
     private func trackerCompletedDaysCount(cell: TrackerCellViewController, trackerId: UUID) {
         let counter = trackerRecordStore.countEntities(id: trackerId)
-        //        for element in completedTrackers {
-        //            if element.id == trackerId {
-        //                counter += 1
-        //            }
-        //        }
         cell.setDayLabelText(days: counter)
     }
     

@@ -9,13 +9,14 @@
 import Foundation
 import UIKit
 
+// to be deleted
 //protocol AddCategoryViewModelDelegate: AnyObject {
 //    var selectedCategoryName: String { get set }
 //}
 
 final class AddCategoryViewModel {
     
-//    weak var delegate: AddCategoryViewModelDelegate?
+//    weak var delegate: AddCategoryViewModelDelegate? // to be deleted
     let trackerCategoryStore = TrackerCategoryStore()
     
     private var buttonEnabled: Bool = false {
@@ -26,22 +27,18 @@ final class AddCategoryViewModel {
     
     var newCategoryName: String = "" {
         didSet {
-//            delegate?.selectedCategoryName = newCategoryName
+//            delegate?.selectedCategoryName = newCategoryName // to be deleted
             settingNewCategoryName?(newCategoryName)
         }
     }
     
     var editTextFieldHandler: ((Bool) -> Void)?
-    
-//    var creatingNewCategoryHandler: ((String) -> Void)?
-    
+        
     var settingNewCategoryName: ((String) -> Void)?
     
     var errorCreatingNewCategory: ((String) -> Void)?
     
     func creatingNewCategoryTapped(name: String) {
-//        print("creatingNewCategoryTapped tapped")
-
         if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: name) {
             newCategoryName = name
             do {
@@ -50,23 +47,11 @@ final class AddCategoryViewModel {
                 print("Error creating new category: \(error)")
             }
         } else {
-//            print("Категория с таким именем уже существует")
             errorCreatingNewCategory?(name)
         }
     }
     
-//    func checkAndUpdateTrackerCategoryInCoreData() {
-//        do {
-//            if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: newCategoryName) {
-//                try trackerCategoryStore.addTrackerCategoryToCoreData(TrackerCategory(title: newCategoryName))
-//            }
-//        } catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
-//    }
-    
     func onEditingTextField(text: String) {
-        //        print("editing TextField for Category Name")
         buttonEnabled = !text.isEmpty
     }
     
