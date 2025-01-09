@@ -323,16 +323,16 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
                 let isTrackerWithIdinTrackerRecords = trackerRecordStore.countEntities(id: id)
                 let isTrackerWithIdAndDateinTrackerRecords = trackerRecordStore.checkDateForCompletedTrackersInCoreData(trackerRecord: TrackerRecord(id: id, dateExecuted: selectedDateString))
                 if !tracker.schedule.isEmpty { return true }
-                print("!tracker.schedule.isEmpty", !tracker.schedule.isEmpty, tracker.schedule)
+//                print("!tracker.schedule.isEmpty", !tracker.schedule.isEmpty, tracker.schedule)
                 if isTrackerWithIdAndDateinTrackerRecords { return true }
-                print("isTrackerWithIdAndDateinTrackerRecords", isTrackerWithIdAndDateinTrackerRecords)
+//                print("isTrackerWithIdAndDateinTrackerRecords", isTrackerWithIdAndDateinTrackerRecords)
                 if tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0 { return true }
-                print("tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0", tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0)
+//                print("tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0", tracker.schedule.isEmpty && isTrackerWithIdinTrackerRecords == 0)
                 return false
             }
-            print("trackersFilteredByWeekdaysArray", trackersFilteredByWeekdaysArray)
+//            print("trackersFilteredByWeekdaysArray", trackersFilteredByWeekdaysArray)
             let trackerCategoryAfterSelection = TrackerCategory(title: trackerCategoryTitle, trackerArray: trackersFilteredByWeekdaysArray)
-            print("trackerCategoryAfterSelection", trackerCategoryAfterSelection)
+//            print("trackerCategoryAfterSelection", trackerCategoryAfterSelection)
             if !trackerCategoryAfterSelection.trackerArray.isEmpty {
                 categories.append(trackerCategoryAfterSelection)
                 categories.sort(by: { $0.title! < $1.title! })

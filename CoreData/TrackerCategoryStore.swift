@@ -59,14 +59,14 @@ final class TrackerCategoryStore: NSObject {
         do {
             try context.save()
         } catch let error as NSError {
-            print("in addTrackerCategoryToCoreData", error.localizedDescription)
+            print("Failed to fetch tracker category titles in addTrackerCategoryTitleToCoreData:", error.localizedDescription)
         }
     }
     
     
     //    func addTrackerToCategory(_ trackerCategoryTitle: String, trackerCoreData: TrackerCoreData) throws {
     func addTrackerToCategory(_ trackerCategoryCoreData: TrackerCategoryCoreData, trackerCoreData: TrackerCoreData) throws {
-        print("in addTrackerToCategory")
+//        print("in addTrackerToCategory")
         //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
         //        trackerCategoryCoreData.title = trackerCategoryTitle
 //        print(trackerCategoryCoreData.title) // = "My test category"
@@ -83,7 +83,7 @@ final class TrackerCategoryStore: NSObject {
         //        myRequest.predicate = NSPredicate(format: "title == %@", trackerCategoryTitle)
         do {
             try context.save()
-            print("Success saving tracker \(trackerCoreData.name) added to TrackerCategory \(trackerCategoryCoreData.title)")
+//            print("Success saving tracker \(trackerCoreData.name) added to TrackerCategory \(trackerCategoryCoreData.title)")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -104,7 +104,7 @@ final class TrackerCategoryStore: NSObject {
         do {
             let res = try context.fetch(myRequest)
             for entity in res {
-                print("in isCategoryAlreadyExist", entity.title, categoryName)
+//                print("in isCategoryAlreadyExist", entity.title, categoryName)
                 if entity.title == categoryName {
                     return true
                 }
@@ -126,7 +126,7 @@ final class TrackerCategoryStore: NSObject {
         //        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
         do {
             let res = try context.fetch(myRequest)
-            print("Stored tracker category")
+//            print("Stored tracker category")
             for entity in res {
 //                print("Tracker category title:", entity.title)
 //                print("entity.tracker is nil?", entity.tracker == nil)
@@ -186,21 +186,21 @@ final class TrackerCategoryStore: NSObject {
                 allTrackerCategoryTitles.append(entity.title ?? "empty category")
             }
         } catch let error as NSError {
-            print(error.localizedDescription)
+            print("Error in retrieveAllTrackerCategoryTitles:", error.localizedDescription)
         }
         return allTrackerCategoryTitles
     }
  
-    // temp function
+    // temp function to be deleted
         func retrieveCategoryTitles() {
-            print("in retrieveCategoryTitles")
+//            print("in retrieveCategoryTitles")
             //        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
             let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
             do {
                 let res = try context.fetch(myRequest)
-                print("Stored tracker category")
+//                print("Stored tracker category")
                 for entity in res {
-                    print("Tracker category title:", entity.title)
+//                    print("Tracker category title:", entity.title)
                     //                print("Tracker:", entity == nil)
                     //                if entity.title == categoryName {
                     //                }
@@ -210,7 +210,7 @@ final class TrackerCategoryStore: NSObject {
             }
         }
     
-    // temp function
+    // temp function to be deleted
     func deleteAllTrackerCategoryCoreDataEntities() {
         let myRequest : NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
         
@@ -221,7 +221,7 @@ final class TrackerCategoryStore: NSObject {
                 context.delete(entity)
             }
             try context.save()
-            print("All category entities deleted, saving context")
+//            print("All category entities deleted, saving context")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -233,7 +233,7 @@ final class TrackerCategoryStore: NSObject {
         //        myRequest.predicate = NSPredicate(format: "schedule CONTAINS[c] \(String(curDayOfWeek))")
         do {
             let counter = try context.count(for: myRequest)
-            print("Found tracker categories? \(counter)")
+//            print("Found tracker categories? \(counter)")
         } catch let error as NSError {
             print(error.localizedDescription)
         }

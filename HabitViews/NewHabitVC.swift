@@ -269,7 +269,7 @@ final class NewHabitVC: UIViewController {
     }
 
     @objc private func createHabit() {
-        print("In createHabit")
+//        print("In createHabit")
         guard let trackerText = trackerNameTextfield.text else { return }
         let idNum = UUID()
         let addedTracker = Tracker(id: idNum, name: trackerText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)

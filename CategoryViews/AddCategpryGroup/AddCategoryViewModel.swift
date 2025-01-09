@@ -50,7 +50,7 @@ final class AddCategoryViewModel {
                 print("Error creating new category: \(error)")
             }
         } else {
-            print("Категория с таким именем уже существует")
+//            print("Категория с таким именем уже существует")
             errorCreatingNewCategory?(name)
         }
     }
