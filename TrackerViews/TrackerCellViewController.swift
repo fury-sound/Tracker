@@ -49,7 +49,8 @@ final class TrackerCellViewController: UICollectionViewCell {
     private lazy var daysLabel: UILabel = {
         let daysLabel = UILabel()
         daysLabel.backgroundColor = .clear
-        daysLabel.text = "0 дней"
+//        daysLabel.text = "0 дней"
+//        setDayLabelText(days: 0)
         return daysLabel
     }()
     
@@ -69,6 +70,7 @@ final class TrackerCellViewController: UICollectionViewCell {
         elementArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        setDayLabelText(days: 0)
         contentView.addSubview(trackerView)
         trackerView.addSubview(viewForEmoji)
         trackerView.addSubview(textLabel)
@@ -119,7 +121,6 @@ final class TrackerCellViewController: UICollectionViewCell {
             plusButton.tintColor = .ypWhite
             plusButton.layer.opacity = 1.0
         }
-        
     }
     
     func enablingPlusButton() {
@@ -144,25 +145,32 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     func setDayLabelText(days: Int) {
-        let dayEnding = properDayEndingsInRussian(num: days)
-        daysLabel.text = "\(days) \(dayEnding)"
+//        let dayEnding = properDayEndingsInRussian(num: days)
+        if #available(iOS 15, *) {
+            daysLabel.text = setNumberOfDaysLabelText(days: days)
+        } else {
+//            // Fallback on earlier versions
+            let basicString = NSLocalizedString(setNumberOfDaysLabelText(days: days), comment: "Number of days for completed trackers")
+            daysLabel.text = String.localizedStringWithFormat(basicString, days)
+//            daysLabel.text = "\(days) \(dayEnding)"
+        }
     }
     
-    func properDayEndingsInRussian(num: Int) -> String {
-        var lastNums = abs(num % 100)
-        if lastNums >= 11 && lastNums <= 19 {
-            return "дней"
-        }
-        lastNums = abs(num % 10)
-        switch lastNums {
-        case 1:
-            return "день"
-        case 2,3,4:
-            return "дня"
-        default:
-            return "дней"
-        }
-    }
+//    func properDayEndingsInRussian(num: Int) -> String {
+//        var lastNums = abs(num % 100)
+//        if lastNums >= 11 && lastNums <= 19 {
+//            return "дней"
+//        }
+//        lastNums = abs(num % 10)
+//        switch lastNums {
+//        case 1:
+//            return "день"
+//        case 2,3,4:
+//            return "дня"
+//        default:
+//            return "дней"
+//        }
+//    }
     
     func setColorsInCell(color: UIColor) {
         trackerView.backgroundColor = color

@@ -18,8 +18,8 @@ final class MainTrackerViewController: UITabBarController {
     }
     
     private func setupMainNavBarVC() {
-        trackerNaviVC.tabBarItem = UITabBarItem(title: "", image: UIImage.recordCircleFill, selectedImage: nil)
-        statisticsVC.tabBarItem = UITabBarItem(title: "", image: UIImage.hareFill, selectedImage: nil)
+        trackerNaviVC.tabBarItem = UITabBarItem(title: trackerBarName, image: UIImage.recordCircleFill, selectedImage: nil)
+        statisticsVC.tabBarItem = UITabBarItem(title: statisticsBarName, image: UIImage.hareFill, selectedImage: nil)
         self.viewControllers = [trackerNaviVC, statisticsVC]
         let lineLayer = CALayer()
         lineLayer.backgroundColor = UIColor.ypGray.cgColor

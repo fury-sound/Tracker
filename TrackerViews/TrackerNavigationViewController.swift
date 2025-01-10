@@ -93,7 +93,8 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     private lazy var searchBar: UISearchController = {
         var searchField = UISearchController()
-        searchField.searchBar.placeholder = "Поиск"
+//        searchField.searchBar.placeholder = "Поиск"
+        searchField.searchBar.placeholder = searchBarPlpaceholder
         searchField.searchResultsUpdater = self
         searchField.obscuresBackgroundDuringPresentation = false
         searchField.hidesNavigationBarDuringPresentation = false
@@ -119,8 +120,9 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     private lazy var initLogo: UILabel = {
         let initLogo = UILabel()
-        initLogo.backgroundColor = .clear
-        initLogo.text = "Что будем отслеживать?"
+        initLogo.backgroundColor = .ypWhite
+//        initLogo.text = "Что будем отслеживать?"
+        initLogo.text = initLogoText
         initLogo.font = .systemFont(ofSize: 12, weight: .medium)
         initLogo.textColor = .ypBlack
         initLogo.sizeToFit()
@@ -142,7 +144,10 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ru-RU")
+        
+        // TODO: correct Russian locale if required
+//        dateFormatter.locale = Locale(identifier: "ru-RU")
+        dateFormatter.locale = Locale.current
         return dateFormatter
     }()
     
@@ -220,7 +225,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func emptyTrackerSetup() {
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         imageView.translatesAutoresizingMaskIntoConstraints = false
         initLogo.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
@@ -236,7 +241,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func collectionViewSetup() {
-        view.backgroundColor = .clear
+        view.backgroundColor = .ypWhite
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -253,7 +258,8 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private func naviBarSetup() {
         addHabitButton.tintColor = .black
         self.navigationItem.leftBarButtonItem = addHabitButton
-        navigationItem.title = "Трекеры"
+//        navigationItem.title = "Трекеры"
+        navigationItem.title = naviBarTitle
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchBar
@@ -262,10 +268,10 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         dateField.tintColor = .black
         dateField.inputView = datePicker
         
-        // MARK: Locale set to RU. Can be switched to current settings-dependent
-        //        guard let localeID else { return }
-        //        datePicker.locale = Locale(identifier: localeID)
-        datePicker.locale = Locale(identifier: "ru-RU")
+        // MARK: TODO: Locale set to RU. Can be switched to current settings-dependent
+        guard let localeID else { return }
+        datePicker.locale = Locale(identifier: localeID)
+//        datePicker.locale = Locale(identifier: "ru-RU")
         navigationItem.rightBarButtonItem = myDateField
         tabBarController?.tabBar.backgroundColor = .white
     }

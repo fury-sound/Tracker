@@ -18,13 +18,14 @@ protocol TrackerCreateVCProtocol: AnyObject {
 final class NewHabitVC: UIViewController {
     
     var daysToSend = [ScheduledDays]()
-    private let buttonNameArray = [("Категория", "Название категории"), ("Расписание", "Дни недели")]
+//    private let buttonNameArray = [("Категория", "Название категории"), ("Расписание", "Дни недели")]
+    private let buttonNameArray = [(trackerCategory, trackerCategoryName), (trackerSchedule, trackersDaysOfWeek)]
     weak var delegateTrackerInNewHabitVC: TrackerCreateVCProtocol?
     private var categoryCell = UITableViewCell()
     private var scheduleCell = UITableViewCell()
     private var selectedEmojiCell = CellCollectionViewController()
     private var selectedColorCell = CellCollectionViewController()
-    private var defaultHeader = "Важное"
+    private var defaultHeader = defaultHeaderName
     private var textInTextfield = ""
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private var selectedEmoji = "🙂"
@@ -48,7 +49,8 @@ final class NewHabitVC: UIViewController {
         trackerNameTextfield.backgroundColor = .ypLightGray
         trackerNameTextfield.layer.cornerRadius = 16
         trackerNameTextfield.clearButtonMode = .whileEditing
-        trackerNameTextfield.placeholder = "Введите название трекера"
+//        trackerNameTextfield.placeholder = "Введите название трекера"
+        trackerNameTextfield.placeholder = trackerNamePlaceholder
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         trackerNameTextfield.leftView = paddingView
         trackerNameTextfield.leftViewMode = .always
@@ -62,7 +64,7 @@ final class NewHabitVC: UIViewController {
         cancelButton.backgroundColor = .ypWhite
         cancelButton.layer.cornerRadius = 16
         cancelButton.setTitleColor(.ypRed, for: .normal)
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(cancelButtonText, for: .normal)
         cancelButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         cancelButton.layer.borderColor = UIColor.ypRed.cgColor
         cancelButton.layer.borderWidth = 1
@@ -76,7 +78,7 @@ final class NewHabitVC: UIViewController {
         createButton.backgroundColor = .ypGray
         createButton.isEnabled = false
         createButton.setTitleColor(.ypWhite, for: .normal)
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(createButtonText, for: .normal)
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
         return createButton
@@ -136,7 +138,8 @@ final class NewHabitVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Новая привычка"
+//        navigationItem.title = "Новая привычка"
+        navigationItem.title = newTrackerTitle
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
     }
@@ -216,13 +219,22 @@ final class NewHabitVC: UIViewController {
     private func intsToDaysOfWeek(dayArray: [Int]) -> String {
         if dayArray.count == 7 {
             daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
-            return "Каждый день"
+//            return "Каждый день"
+            return returnedEveryDay
         }
-        let russianLocale = Locale(identifier: "ru-RU")
-        var russianCalendar = Calendar.current
-        russianCalendar.locale = russianLocale
-        let weekDaySymbols = russianLocale.calendar.shortWeekdaySymbols
         
+        // TODO: adjust use of th Russian locale for days of week
+//        let russianLocale = Locale(identifier: "ru-RU")
+//        var russianCalendar = Calendar.current
+//        russianCalendar.locale = russianLocale
+//        let weekDaySymbols = russianLocale.calendar.shortWeekdaySymbols
+        
+        let currentLocale = Locale.current
+        var currentCalendar = Calendar.current
+        currentCalendar.locale = currentLocale
+        let weekDaySymbols = currentLocale.calendar.shortWeekdaySymbols
+        print(weekDaySymbols)
+
         daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
         var dayNames = dayArray.compactMap { index in
             index >= 0 && index < weekDaySymbols.count ? weekDaySymbols[index] : nil
@@ -317,10 +329,12 @@ extension NewHabitVC: UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
         if indexPath.row == 0 {
             categoryCell = cell
-            categoryCell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
+//            categoryCell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
+            categoryCell.detailTextLabel?.text = selectedCategoryName ?? trackerCategoryPlaceholder
         } else {
             scheduleCell = cell
-            scheduleCell.detailTextLabel?.text = daysString ?? "Дни недели"
+//            scheduleCell.detailTextLabel?.text = daysString ?? "Дни недели"
+            scheduleCell.detailTextLabel?.text = daysString ?? trackerWeekdayPlaceholder
         }
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
         cell.detailTextLabel?.textColor = .ypGray
@@ -405,7 +419,8 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
         if indexPath.section == 0 {
             headerText = "Emoji"
         } else {
-            headerText = "Цвет"
+//            headerText = "Цвет"
+            headerText = headerTextForColor
         }
         supplementaryView.headerLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         supplementaryView.headerLabel.text = headerText

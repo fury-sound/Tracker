@@ -7,9 +7,19 @@
 
 import UIKit
 
+enum weekDaysEnum: String {
+    case Mon = "Monday"
+    case Tue = "Tuesday"
+    case Wed = "Wednesday"
+    case Thu = "Thursday"
+    case Fri = "Friday"
+    case Sat = "Saturday"
+    case Sun = "Sunday"
+}
 final class ScheduleVC: UIViewController {
        
-    private let weekdayArray = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"]
+//    private let weekdayArray = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"]
+    private let weekdayArray = [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
     private let switchTags = [1,2,3,4,5,6,0]
     private var selectedWeekDates: Set<Int> = []
     var tappedReady: (([Int]) -> Void)?
@@ -19,7 +29,8 @@ final class ScheduleVC: UIViewController {
         readyButton.layer.cornerRadius = 16
         readyButton.backgroundColor = .ypGray
         readyButton.setTitleColor(.ypWhite, for: .normal)
-        readyButton.setTitle("Готово", for: .normal)
+//        readyButton.setTitle("Готово", for: .normal)
+        readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         readyButton.isEnabled = false
         readyButton.addTarget(self, action: #selector(scheduleAdded), for: .touchUpInside)
@@ -44,7 +55,8 @@ final class ScheduleVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Расписание"
+//        navigationItem.title = "Расписание"
+        navigationItem.title = scheduleTitle
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
     }

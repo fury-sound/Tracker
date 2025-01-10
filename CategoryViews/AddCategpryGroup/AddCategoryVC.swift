@@ -15,7 +15,8 @@ final class AddCategoryVC: UIViewController {
         var trackerNameTextfield = UITextField()
         trackerNameTextfield.backgroundColor = .ypLightGray
         trackerNameTextfield.layer.cornerRadius = 16
-        trackerNameTextfield.placeholder = "Введите название категории"
+//        trackerNameTextfield.placeholder = "Введите название категории"
+        trackerNameTextfield.placeholder = categoryNamePlaceholder
         trackerNameTextfield.clearButtonMode = .whileEditing
         trackerNameTextfield.delegate = self
         trackerNameTextfield.addTarget(self, action: #selector(editingFunc(_ :)), for: .editingChanged)
@@ -26,7 +27,8 @@ final class AddCategoryVC: UIViewController {
         let readyButton = UIButton()
         readyButton.layer.cornerRadius = 16
         readyButton.setTitleColor(.ypWhite, for: .normal)
-        readyButton.setTitle("Готово", for: .normal)
+//        readyButton.setTitle("Готово", for: .normal)
+        readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         readyButton.addTarget(self, action: #selector(creatingNewCategory), for: .touchUpInside)
         return readyButton
@@ -43,7 +45,8 @@ final class AddCategoryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Новая категория"
+//        navigationItem.title = "Новая категория"
+        navigationItem.title = newCategoryTitle
         navigationItem.setHidesBackButton(true, animated: true)
         viewSetup()
         viewModel.viewDidLoad()
@@ -88,8 +91,10 @@ final class AddCategoryVC: UIViewController {
     }
     
     private func alertForAddCategoryError(name: String) {
-        let alert = UIAlertController(title: "Ошибка!\n",
-                                      message: "Категория \(name) уже существует",
+//        let alert = UIAlertController(title: "Ошибка!\n",
+        let alert = UIAlertController(title: alertTitle,
+//                                      message: "Категория \(name) уже существует",
+                                      message: keyCategoryExists,
                                       preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

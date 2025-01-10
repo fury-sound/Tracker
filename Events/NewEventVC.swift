@@ -10,11 +10,13 @@ import UIKit
 final class NewEventVC: UIViewController {
     
     var daysToSend = [ScheduledDays]()
-    private let buttonNameArray = [("Нерегулярное событие", "Название события")]
+//    private let buttonNameArray = [("Нерегулярное событие", "Название события")]
+    private let buttonNameArray = [(eventsTitle, eventsName)]
     private var categoryCell = UITableViewCell()
     private var selectedEmojiCell = CellCollectionViewController()
     private var selectedColorCell = CellCollectionViewController()
-    private var defaultHeader = "Важное"
+//    private var defaultHeader = "Важное"
+    private var defaultHeader = defaultHeaderName
     private var textInTextfield = ""
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private var selectedEmoji = "🙂"
@@ -38,7 +40,8 @@ final class NewEventVC: UIViewController {
         eventNameTextfield.backgroundColor = .ypLightGray
         eventNameTextfield.layer.cornerRadius = 16
         eventNameTextfield.clearButtonMode = .whileEditing
-        eventNameTextfield.placeholder = "Введите название события"
+//        eventNameTextfield.placeholder = "Введите название события"
+        eventNameTextfield.placeholder = eventNamePlaceholder
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         eventNameTextfield.leftView = paddingView
         eventNameTextfield.leftViewMode = .always
@@ -52,7 +55,8 @@ final class NewEventVC: UIViewController {
         cancelButton.backgroundColor = .ypWhite
         cancelButton.layer.cornerRadius = 16
         cancelButton.setTitleColor(.ypRed, for: .normal)
-        cancelButton.setTitle("Отменить", for: .normal)
+//        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(cancelButtonText, for: .normal)
         cancelButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         cancelButton.layer.borderColor = UIColor.ypRed.cgColor
         cancelButton.layer.borderWidth = 1
@@ -66,7 +70,8 @@ final class NewEventVC: UIViewController {
         createButton.backgroundColor = .ypGray
         createButton.isEnabled = false
         createButton.setTitleColor(.ypWhite, for: .normal)
-        createButton.setTitle("Создать", for: .normal)
+//        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(createButtonText, for: .normal)
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.addTarget(self, action: #selector(createEvent), for: .touchUpInside)
         return createButton
@@ -126,7 +131,8 @@ final class NewEventVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Новое событие"
+//        navigationItem.title = "Новое событие"
+        navigationItem.title = newEventTitle
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
     }
@@ -266,7 +272,8 @@ extension NewEventVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
         categoryCell = cell
-        cell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
+//        cell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
+        cell.detailTextLabel?.text = selectedCategoryName ?? eventCategoryPlaceholder
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
         cell.detailTextLabel?.textColor = .ypGray
         cell.textLabel?.font = .systemFont(ofSize: 17)
@@ -350,7 +357,8 @@ extension NewEventVC: UICollectionViewDataSource, UICollectionViewDelegate {
         if indexPath.section == 0 {
             headerText = "Emoji"
         } else {
-            headerText = "Цвет"
+//            headerText = "Цвет"
+            headerText = headerTextForColor
         }
         supplementaryView.headerLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         supplementaryView.headerLabel.text = headerText

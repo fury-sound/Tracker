@@ -48,7 +48,8 @@ final class CategoryVCViewModel {
     var buttonNameChange: ((String) -> Void)?
     
     func viewDidLoad() {
-        createButtonNameInModel = "Создать категорию"
+//        createButtonNameInModel = "Создать категорию"
+        createButtonNameInModel = createCategoryText
         retrieveAllTrackerCategories()
     }
     
@@ -62,7 +63,8 @@ final class CategoryVCViewModel {
         } else {
             selectedIndex = index
         }
-        createButtonNameInModel = (selectedIndex == nil ? "Создать категорию" : "Добавить категорию")
+//        createButtonNameInModel = (selectedIndex == nil ? "Создать категорию" : "Добавить категорию")
+        createButtonNameInModel = (selectedIndex == nil ? createCategoryText : addCategoryText)
     }
     
     func categoryCreateButtonTapped() {

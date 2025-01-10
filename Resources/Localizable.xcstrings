@@ -1,0 +1,521 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld days" : {
+      "comment" : "TrackerCellViewController, setDayLabelText()",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld day"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld days"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "needs_review",
+                  "value" : "%lld days"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld дня"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld дней"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld день"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld дней"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld дней"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Add category" : {
+      "comment" : "CategoryVCViewModel, didSelectCategoryAtIndex",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить категорию"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "comment" : "NewEventVC, cancelButtonText\nNewHabitVC, cancelButtonText",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
+          }
+        }
+      }
+    },
+    "Category" : {
+      "comment" : "CategoryVC, viewDidLoad\nNewHabitVC, buttonNameArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категория"
+          }
+        }
+      }
+    },
+    "Category name" : {
+      "comment" : "NewEventVC, cellForRowAt\nNewHabitVC, buttonNameArray\nNewHabitVC, cellForRowAt",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название категории"
+          }
+        }
+      }
+    },
+    "Color" : {
+      "comment" : "NewEventVC, viewForSupplementaryElementOfKind\nNewHabitVC, viewForSupplementaryElementOfKind",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвет"
+          }
+        }
+      }
+    },
+    "Create" : {
+      "comment" : "NewEventVC, createButtonText\nNewHabitVC, createButtonText",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать"
+          }
+        }
+      }
+    },
+    "Create category" : {
+      "comment" : "CategoryVCViewModel, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать категорию"
+          }
+        }
+      }
+    },
+    "Creating a tracker" : {
+      "comment" : "TrackerCreateVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создание трекера"
+          }
+        }
+      }
+    },
+    "Days of week" : {
+      "comment" : "NewHabitVC, buttonNameArray\nNewHabitVC, cellForRowAt",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дни недели"
+          }
+        }
+      }
+    },
+    "Enter Category name" : {
+      "comment" : "AddCategoryVC, trackerNameTextfield",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите название категории"
+          }
+        }
+      }
+    },
+    "Enter Event name" : {
+      "comment" : "NewEventVC, eventNameTextfield",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите название события"
+          }
+        }
+      }
+    },
+    "Enter Tracker name" : {
+      "comment" : "NewHabitVC, trackerNameTextfield",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите название трекера"
+          }
+        }
+      }
+    },
+    "Error!\n" : {
+      "comment" : "AddCategoryVC, alertForAddCategoryError",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка!\\n"
+          }
+        }
+      }
+    },
+    "Even if it's \n not amount of water or yoga" : {
+      "comment" : "OnboardingViewController, labelRightText",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отслеживайте только \\n то, что хотите"
+          }
+        }
+      }
+    },
+    "Even if it's not amount of water or yoga" : {
+      "comment" : "OnboardingViewController, labelRightText"
+    },
+    "Event category" : {
+      "comment" : "NewEventVC, buttonNameArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название события"
+          }
+        }
+      }
+    },
+    "Every day" : {
+      "comment" : "NewHabitVC, intsToDaysOfWeek",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждый день"
+          }
+        }
+      }
+    },
+    "Follow only \n what you need" : {
+      "comment" : "OnboardingViewController, labelLeftText",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Даже если это\\n не литры воды и йога"
+          }
+        }
+      }
+    },
+    "Follow only what you need" : {
+      "comment" : "OnboardingViewController, labelLeftText"
+    },
+    "Friday" : {
+      "comment" : "ScheduleVC, weekdayArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пятница"
+          }
+        }
+      }
+    },
+    "Habit" : {
+      "comment" : "TrackerCreateVC, habitButton",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привычка"
+          }
+        }
+      }
+    },
+    "Important" : {
+      "comment" : "NewEventVC, defaultHeader\nNewHabitVC, defaultHeader",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Важное"
+          }
+        }
+      }
+    },
+    "Irregular event" : {
+      "comment" : "TrackerCreateVC, eventButton",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нерегулярное событие"
+          }
+        }
+      }
+    },
+    "Irregular events" : {
+      "comment" : "NewEventVC, buttonNameArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нерегулярные события"
+          }
+        }
+      }
+    },
+    "Monday" : {
+      "comment" : "ScheduleVC, weekdayArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Понедельник"
+          }
+        }
+      }
+    },
+    "New category" : {
+      "comment" : "AddCategoryVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая категория"
+          }
+        }
+      }
+    },
+    "New Event" : {
+      "comment" : "NewEventVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новое событие"
+          }
+        }
+      }
+    },
+    "New Habit" : {
+      "comment" : "NewHabitVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая привычка"
+          }
+        }
+      }
+    },
+    "Ready" : {
+      "comment" : "AddCategoryVC, readyButton\nScheduleVC, readyButton",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "Saturday" : {
+      "comment" : "ScheduleVC, weekdayArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суббота"
+          }
+        }
+      }
+    },
+    "Schedule" : {
+      "comment" : "NewHabitVC, buttonNameArray\nScheduleVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расписание"
+          }
+        }
+      }
+    },
+    "Search" : {
+      "comment" : "TrackerNavigationViewController, searchBar",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск"
+          }
+        }
+      }
+    },
+    "Statistics" : {
+      "comment" : "MainTrackerViewController, setupMainNavBarVC",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статистика"
+          }
+        }
+      }
+    },
+    "Such category already exists!" : {
+      "comment" : "AddCategoryVC, alertForAddCategoryError",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Такая категория уже существует!"
+          }
+        }
+      }
+    },
+    "Sunday" : {
+      "comment" : "ScheduleVC, weekdayArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Воскресенье"
+          }
+        }
+      }
+    },
+    "Thursday" : {
+      "comment" : "ScheduleVC, weekdayArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Четверг"
+          }
+        }
+      }
+    },
+    "Trackers" : {
+      "comment" : "MainTrackerViewController, setupMainNavBarVC\nTrackerNavigationViewController, naviBarSetup",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Трекеры"
+          }
+        }
+      }
+    },
+    "Trackers and events \n can be combined" : {
+      "comment" : "CategoryVC, initSlogan",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привычки и события можно \\n объединять по смыслу"
+          }
+        }
+      }
+    },
+    "Truly hi-tec!" : {
+      "comment" : "OnboardingViewController, wowButton",
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вот это технологии!"
+          }
+        }
+      }
+    },
+    "Truly hi-tech!" : {
+      "comment" : "OnboardingViewController, wowButton"
+    },
+    "Tuesday" : {
+      "comment" : "ScheduleVC, weekdayArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вторник"
+          }
+        }
+      }
+    },
+    "Wednesday" : {
+      "comment" : "ScheduleVC, weekdayArray",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Среда"
+          }
+        }
+      }
+    },
+    "What you gonna track?" : {
+      "comment" : "TrackerNavigationViewController, initLogo",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что будем отслеживать?"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

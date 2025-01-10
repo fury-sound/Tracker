@@ -23,7 +23,8 @@ final class CategoryVC: UIViewController {
         let initSlogan = UILabel()
         initSlogan.backgroundColor = .clear
         initSlogan.numberOfLines = 2
-        initSlogan.text = "Привычки и события можно \n объединять по смыслу"
+//        initSlogan.text = "Привычки и события можно \n объединять по смыслу"
+        initSlogan.text = initSloganText
         initSlogan.textAlignment = .center
         initSlogan.font = .systemFont(ofSize: 12, weight: .medium)
         initSlogan.textColor = .ypBlack
@@ -70,7 +71,8 @@ final class CategoryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Категория"
+//        navigationItem.title = "Категория"
+        navigationItem.title = categoryTitle
 //        viewModel.trackerNameArray = ["123", "234"] // mock category title array, to be deleted
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
