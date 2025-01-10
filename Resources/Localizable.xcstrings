@@ -220,9 +220,6 @@
         }
       }
     },
-    "Even if it's not amount of water or yoga" : {
-      "comment" : "OnboardingViewController, labelRightText"
-    },
     "Event category" : {
       "comment" : "NewEventVC, buttonNameArray",
       "localizations" : {
@@ -255,9 +252,6 @@
           }
         }
       }
-    },
-    "Follow only what you need" : {
-      "comment" : "OnboardingViewController, labelLeftText"
     },
     "Friday" : {
       "comment" : "ScheduleVC, weekdayArray",
