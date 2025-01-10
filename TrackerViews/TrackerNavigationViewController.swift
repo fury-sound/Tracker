@@ -94,7 +94,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private lazy var searchBar: UISearchController = {
         var searchField = UISearchController()
 //        searchField.searchBar.placeholder = "Поиск"
-        searchField.searchBar.placeholder = searchBarPlpaceholder
+        searchField.searchBar.placeholder = searchBarPlaceholder
         searchField.searchResultsUpdater = self
         searchField.obscuresBackgroundDuringPresentation = false
         searchField.hidesNavigationBarDuringPresentation = false
