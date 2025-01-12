@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B9340CD22D133AAF0054D94A /* NewEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9340CD12D133AAF0054D94A /* NewEventVC.swift */; };
+		B96274C12D32B0620042FE05 /* TrackerColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96274C02D32B0620042FE05 /* TrackerColors.swift */; };
 		B96C8BDF2D3139C900C00631 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B96C8BDE2D3139C900C00631 /* Localizable.xcstrings */; };
 		B96C8BE12D313AF100C00631 /* LocalizationStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96C8BE02D313ADF00C00631 /* LocalizationStrings.swift */; };
 		B96C8BF02D3145A300C00631 /* LocalizableDictionary.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = B96C8BEE2D3145A300C00631 /* LocalizableDictionary.stringsdict */; };
@@ -24,6 +25,7 @@
 		B90493212CF3923700C34E4C /* Tracker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Tracker.xcodeproj; sourceTree = SOURCE_ROOT; };
 		B90C3F3E2CD6981E00171B84 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9340CD12D133AAF0054D94A /* NewEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventVC.swift; sourceTree = "<group>"; };
+		B96274C02D32B0620042FE05 /* TrackerColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerColors.swift; sourceTree = "<group>"; };
 		B96C8BDE2D3139C900C00631 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B96C8BE02D313ADF00C00631 /* LocalizationStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationStrings.swift; sourceTree = "<group>"; };
 		B96C8BEF2D3145A300C00631 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/LocalizableDictionary.stringsdict; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				B9C78A642CE66F7A00613AD1 /* Assets.xcassets */,
 				B96C8BDE2D3139C900C00631 /* Localizable.xcstrings */,
 				B96C8BEE2D3145A300C00631 /* LocalizableDictionary.stringsdict */,
+				B96274C02D32B0620042FE05 /* TrackerColors.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9340CD22D133AAF0054D94A /* NewEventVC.swift in Sources */,
+				B96274C12D32B0620042FE05 /* TrackerColors.swift in Sources */,
 				B9A3BD812D2DC360008FD584 /* PageViewController.swift in Sources */,
 				B9C78A722CE66F7A00613AD1 /* Tracker.xcdatamodeld in Sources */,
 				B9A216482D05C52200D46982 /* TrackerRecordStore.swift in Sources */,

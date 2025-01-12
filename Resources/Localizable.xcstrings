@@ -211,6 +211,7 @@
     },
     "Even if it's \n not amount of water or yoga" : {
       "comment" : "OnboardingViewController, labelRightText",
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -219,6 +220,9 @@
           }
         }
       }
+    },
+    "Even if it's not about \n amount of water or yoga" : {
+      "comment" : "OnboardingViewController, labelRightText"
     },
     "Event category" : {
       "comment" : "NewEventVC, buttonNameArray",

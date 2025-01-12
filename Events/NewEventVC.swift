@@ -37,11 +37,12 @@ final class NewEventVC: UIViewController {
     
     private lazy var eventNameTextfield: UITextField = {
         var eventNameTextfield = UITextField()
-        eventNameTextfield.backgroundColor = .ypLightGray
+        eventNameTextfield.backgroundColor = .ypBackground
         eventNameTextfield.layer.cornerRadius = 16
         eventNameTextfield.clearButtonMode = .whileEditing
 //        eventNameTextfield.placeholder = "Введите название события"
         eventNameTextfield.placeholder = eventNamePlaceholder
+        eventNameTextfield.tintColor = .ypGray
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         eventNameTextfield.leftView = paddingView
         eventNameTextfield.leftViewMode = .always
@@ -52,10 +53,9 @@ final class NewEventVC: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
-        cancelButton.backgroundColor = .ypWhite
+        cancelButton.backgroundColor = TrackerColors.viewBackgroundColor
         cancelButton.layer.cornerRadius = 16
         cancelButton.setTitleColor(.ypRed, for: .normal)
-//        cancelButton.setTitle("Отменить", for: .normal)
         cancelButton.setTitle(cancelButtonText, for: .normal)
         cancelButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         cancelButton.layer.borderColor = UIColor.ypRed.cgColor
@@ -69,8 +69,8 @@ final class NewEventVC: UIViewController {
         createButton.layer.cornerRadius = 16
         createButton.backgroundColor = .ypGray
         createButton.isEnabled = false
-        createButton.setTitleColor(.ypWhite, for: .normal)
-//        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
+        createButton.setTitleColor(.ypWhite, for: .disabled)
         createButton.setTitle(createButtonText, for: .normal)
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.addTarget(self, action: #selector(createEvent), for: .touchUpInside)
@@ -80,7 +80,7 @@ final class NewEventVC: UIViewController {
     private lazy var buttonTableView: UITableView = {
         let buttonTableView = UITableView()
         buttonTableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
-        buttonTableView.backgroundColor = .ypLightGray
+        buttonTableView.backgroundColor = .ypBackground
         buttonTableView.isScrollEnabled = false
         buttonTableView.delegate = self
         buttonTableView.dataSource = self
@@ -103,7 +103,7 @@ final class NewEventVC: UIViewController {
     
     private lazy var emojiCollectionView: UICollectionView = {
         let emojiAndColorsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        emojiAndColorsCollectionView.backgroundColor = .clear
+        emojiAndColorsCollectionView.backgroundColor = TrackerColors.viewBackgroundColor
         emojiAndColorsCollectionView.isScrollEnabled = false
         emojiAndColorsCollectionView.allowsMultipleSelection = true
         emojiAndColorsCollectionView.dataSource = self
@@ -146,13 +146,13 @@ final class NewEventVC: UIViewController {
     
     // MARK: Private functions
     private func viewSetup() {
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = TrackerColors.viewBackgroundColor
         [scrollView, stackView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
-        
         containingView.translatesAutoresizingMaskIntoConstraints = false
+        TrackerColors.setPlaceholderTextColor(textField: eventNameTextfield)
         scrollView.addSubview(containingView)
         let containedArray = [eventNameTextfield, buttonTableView, emojiCollectionView]
         containedArray.forEach {
@@ -201,7 +201,7 @@ final class NewEventVC: UIViewController {
             createButton.backgroundColor = .ypGray
         } else {
             createButton.isEnabled = true
-            createButton.backgroundColor = .ypBlack
+            createButton.backgroundColor = TrackerColors.backgroundButtonColor
             categoryCell.detailTextLabel?.text = selectedCategoryName
         }
         buttonTableView.reloadData()
@@ -278,7 +278,7 @@ extension NewEventVC: UITableViewDataSource {
         cell.detailTextLabel?.textColor = .ypGray
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.detailTextLabel?.font = .systemFont(ofSize: 17)
-        cell.backgroundColor = .ypBackgroundDay
+        cell.backgroundColor = .ypBackground
         cell.accessoryType = .disclosureIndicator
         return cell
     }

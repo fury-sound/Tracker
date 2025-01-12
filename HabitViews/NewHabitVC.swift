@@ -46,10 +46,9 @@ final class NewHabitVC: UIViewController {
     
     private lazy var trackerNameTextfield: UITextField = {
         var trackerNameTextfield = UITextField()
-        trackerNameTextfield.backgroundColor = .ypLightGray
+        trackerNameTextfield.backgroundColor = .ypBackground
         trackerNameTextfield.layer.cornerRadius = 16
         trackerNameTextfield.clearButtonMode = .whileEditing
-//        trackerNameTextfield.placeholder = "Введите название трекера"
         trackerNameTextfield.placeholder = trackerNamePlaceholder
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         trackerNameTextfield.leftView = paddingView
@@ -61,7 +60,7 @@ final class NewHabitVC: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
-        cancelButton.backgroundColor = .ypWhite
+        cancelButton.backgroundColor = TrackerColors.viewBackgroundColor
         cancelButton.layer.cornerRadius = 16
         cancelButton.setTitleColor(.ypRed, for: .normal)
         cancelButton.setTitle(cancelButtonText, for: .normal)
@@ -77,7 +76,8 @@ final class NewHabitVC: UIViewController {
         createButton.layer.cornerRadius = 16
         createButton.backgroundColor = .ypGray
         createButton.isEnabled = false
-        createButton.setTitleColor(.ypWhite, for: .normal)
+        createButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
+        createButton.setTitleColor(.ypWhite, for: .disabled)
         createButton.setTitle(createButtonText, for: .normal)
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
@@ -87,7 +87,7 @@ final class NewHabitVC: UIViewController {
     private lazy var buttonTableView: UITableView = {
         let buttonTableView = UITableView()
         buttonTableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
-        buttonTableView.backgroundColor = .ypLightGray
+        buttonTableView.backgroundColor = .ypBackground
         buttonTableView.isScrollEnabled = false
         buttonTableView.delegate = self
         buttonTableView.dataSource = self
@@ -110,7 +110,7 @@ final class NewHabitVC: UIViewController {
         
     private lazy var emojiCollectionView: UICollectionView = {
         let emojiAndColorsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        emojiAndColorsCollectionView.backgroundColor = .clear
+        emojiAndColorsCollectionView.backgroundColor = TrackerColors.viewBackgroundColor
         emojiAndColorsCollectionView.isScrollEnabled = false
         emojiAndColorsCollectionView.allowsMultipleSelection = true
         emojiAndColorsCollectionView.dataSource = self
@@ -154,14 +154,15 @@ final class NewHabitVC: UIViewController {
     
     // MARK: Private functions
     private func viewSetup() {
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = TrackerColors.viewBackgroundColor
         [scrollView, stackView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
         containingView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(containingView)
+        TrackerColors.setPlaceholderTextColor(textField: trackerNameTextfield)
 
+        scrollView.addSubview(containingView)
         let containedArray = [trackerNameTextfield, buttonTableView, emojiCollectionView]
         containedArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -210,7 +211,7 @@ final class NewHabitVC: UIViewController {
             createButton.backgroundColor = .ypGray
         } else {
             createButton.isEnabled = true
-            createButton.backgroundColor = .ypBlack
+            createButton.backgroundColor = TrackerColors.backgroundButtonColor
             categoryCell.detailTextLabel?.text = selectedCategoryName
         }
         buttonTableView.reloadData()
@@ -340,7 +341,7 @@ extension NewHabitVC: UITableViewDataSource {
         cell.detailTextLabel?.textColor = .ypGray
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.detailTextLabel?.font = .systemFont(ofSize: 17)
-        cell.backgroundColor = .ypBackgroundDay
+        cell.backgroundColor = .ypBackground
         cell.accessoryType = .disclosureIndicator
         return cell
     }

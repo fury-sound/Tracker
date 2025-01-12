@@ -27,8 +27,9 @@ final class ScheduleVC: UIViewController {
     private lazy var readyButton: UIButton = {
         let readyButton = UIButton()
         readyButton.layer.cornerRadius = 16
-        readyButton.backgroundColor = .ypGray
-        readyButton.setTitleColor(.ypWhite, for: .normal)
+        readyButton.backgroundColor = TrackerColors.backgroundButtonColor
+        readyButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
+        readyButton.setTitleColor(.ypWhite, for: .disabled)
 //        readyButton.setTitle("Готово", for: .normal)
         readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -40,7 +41,7 @@ final class ScheduleVC: UIViewController {
     private lazy var weekdayTableView: UITableView = {
         let weekdayTableView = UITableView()
         weekdayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
-        weekdayTableView.backgroundColor = .ypLightGray
+        weekdayTableView.backgroundColor = .ypBackground
         weekdayTableView.isScrollEnabled = false
         weekdayTableView.delegate = self
         weekdayTableView.dataSource = self
@@ -62,7 +63,7 @@ final class ScheduleVC: UIViewController {
     }
     
     private func viewSetup() {
-        view.backgroundColor = .white
+        view.backgroundColor = TrackerColors.viewBackgroundColor
         
         let elementArray = [weekdayTableView, readyButton]
         elementArray.forEach {
@@ -90,6 +91,7 @@ final class ScheduleVC: UIViewController {
     @objc func switchOnOff(_ sender: UISwitch) {
         let indexValue = sender.tag
         let isOn = sender.isOn
+//        isOn ? selectedWeekDates.insert(indexValue) : selectedWeekDates.remove(indexValue)
         if isOn {
             selectedWeekDates.insert(indexValue)
         } else {
@@ -100,7 +102,7 @@ final class ScheduleVC: UIViewController {
             readyButton.backgroundColor = .ypGray
         } else {
             readyButton.isEnabled = true
-            readyButton.backgroundColor = .ypBlack
+            readyButton.backgroundColor = TrackerColors.backgroundButtonColor
         }
     }
 }
@@ -128,7 +130,7 @@ extension ScheduleVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell")
         guard let cell else { return UITableViewCell()}
         cell.textLabel?.text = weekdayArray[indexPath.row]
-        cell.backgroundColor = .ypBackgroundDay
+        cell.backgroundColor = .ypBackground
         cell.selectionStyle = .none
         cell.isHighlighted = false
         cell.accessoryView = weekdaySwitch

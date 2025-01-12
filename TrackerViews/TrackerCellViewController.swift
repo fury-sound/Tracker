@@ -9,7 +9,7 @@ import UIKit
 
 final class TrackerCellViewController: UICollectionViewCell {
         
-    private var trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
+//    private var trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
 //    private var colorNum: Int = 0
     var setMarkSign = false
     var tappedRecordButton: (() -> Void)?
@@ -118,7 +118,7 @@ final class TrackerCellViewController: UICollectionViewCell {
             }
             let signImage = image.withRenderingMode(.alwaysTemplate)
             plusButton.setImage(signImage, for: .normal)
-            plusButton.tintColor = .ypWhite
+            plusButton.tintColor = TrackerColors.buttonTintColor
             plusButton.layer.opacity = 1.0
         }
     }

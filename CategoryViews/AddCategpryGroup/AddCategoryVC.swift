@@ -13,8 +13,9 @@ final class AddCategoryVC: UIViewController {
     
     private lazy var trackerNewNameTextfield: UITextField = {
         var trackerNameTextfield = UITextField()
-        trackerNameTextfield.backgroundColor = .ypLightGray
+        trackerNameTextfield.backgroundColor = .ypBackground
         trackerNameTextfield.layer.cornerRadius = 16
+        
 //        trackerNameTextfield.placeholder = "Введите название категории"
         trackerNameTextfield.placeholder = categoryNamePlaceholder
         trackerNameTextfield.clearButtonMode = .whileEditing
@@ -26,7 +27,9 @@ final class AddCategoryVC: UIViewController {
     private lazy var readyButton: UIButton = {
         let readyButton = UIButton()
         readyButton.layer.cornerRadius = 16
-        readyButton.setTitleColor(.ypWhite, for: .normal)
+        readyButton.backgroundColor = TrackerColors.backgroundButtonColor
+        readyButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
+        readyButton.setTitleColor(.ypWhite, for: .disabled)
 //        readyButton.setTitle("Готово", for: .normal)
         readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -53,7 +56,7 @@ final class AddCategoryVC: UIViewController {
     }
     
     private func viewSetup() {
-        view.backgroundColor = .white
+        view.backgroundColor = TrackerColors.viewBackgroundColor
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         trackerNewNameTextfield.leftView = paddingView
         trackerNewNameTextfield.leftViewMode = .always
@@ -80,7 +83,7 @@ final class AddCategoryVC: UIViewController {
                 self.readyButton.backgroundColor = .ypGray
             } else {
                 self.readyButton.isEnabled = true
-                self.readyButton.backgroundColor = .ypBlack
+                self.readyButton.backgroundColor = TrackerColors.backgroundButtonColor
             }
         }
         

@@ -66,6 +66,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private let createTracker = TrackerCreateVC()
     private let emojiArray = EmojiArray
     private let colorsArray = Colors
+//    private let trackerColors = TrackerColors()
     let trackerStore = TrackerStore()
     let trackerRecordStore = TrackerRecordStore()
     let trackerCategoryStore = TrackerCategoryStore()
@@ -95,6 +96,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         var searchField = UISearchController()
 //        searchField.searchBar.placeholder = "Поиск"
         searchField.searchBar.placeholder = searchBarPlaceholder
+        searchField.searchBar.backgroundColor = TrackerColors.viewBackgroundColor
         searchField.searchResultsUpdater = self
         searchField.obscuresBackgroundDuringPresentation = false
         searchField.hidesNavigationBarDuringPresentation = false
@@ -225,7 +227,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func emptyTrackerSetup() {
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = TrackerColors.viewBackgroundColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         initLogo.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
@@ -241,7 +243,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func collectionViewSetup() {
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = TrackerColors.viewBackgroundColor
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -256,16 +258,17 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func naviBarSetup() {
-        addHabitButton.tintColor = .black
+//        addHabitButton.tintColor = .black
+        addHabitButton.tintColor = TrackerColors.backgroundButtonColor
         self.navigationItem.leftBarButtonItem = addHabitButton
 //        navigationItem.title = "Трекеры"
         navigationItem.title = naviBarTitle
-        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.backgroundColor = TrackerColors.viewBackgroundColor
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchBar
         let myDateField = UIBarButtonItem(customView: datePicker)
-        dateField.backgroundColor = .lightGray
-        dateField.tintColor = .black
+        dateField.backgroundColor = .ypLightGray
+        dateField.tintColor = .ypBlack
         dateField.inputView = datePicker
         
         // MARK: TODO: Locale set to RU. Can be switched to current settings-dependent
@@ -273,7 +276,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         datePicker.locale = Locale(identifier: localeID)
 //        datePicker.locale = Locale(identifier: "ru-RU")
         navigationItem.rightBarButtonItem = myDateField
-        tabBarController?.tabBar.backgroundColor = .white
+        tabBarController?.tabBar.backgroundColor = TrackerColors.viewBackgroundColor
     }
     
     private func showingTrackersForCurrentDate() {

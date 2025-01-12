@@ -58,11 +58,12 @@ final class CategoryVCViewModel {
     }
     
     func didSelectCategoryAtIndex(index: Int) {
-        if selectedIndex == index {
-            selectedIndex = nil
-        } else {
-            selectedIndex = index
-        }
+        selectedIndex = (selectedIndex == index) ? nil : index
+//        if selectedIndex == index {
+//            selectedIndex = nil
+//        } else {
+//            selectedIndex = index
+//        }
 //        createButtonNameInModel = (selectedIndex == nil ? "Создать категорию" : "Добавить категорию")
         createButtonNameInModel = (selectedIndex == nil ? createCategoryText : addCategoryText)
     }

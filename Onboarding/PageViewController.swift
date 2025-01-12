@@ -27,7 +27,7 @@ final class PageViewController: UIViewController {
         textLabel.text = textLabelText
         textLabel.textColor = .ypBlack
         textLabel.backgroundColor = .clear
-        textLabel.numberOfLines = 2
+        textLabel.numberOfLines = 3
         textLabel.font = .systemFont(ofSize: 32, weight: .bold)
         textLabel.textAlignment = .center
         

@@ -25,7 +25,7 @@ func setNumberOfDaysLabelText(days: Int) -> String {
 //MARK: OnboardingViewController
 
 let labelLeftText = NSLocalizedString("Follow only \n what you need", comment: "OnboardingViewController, labelLeftText")
-let labelRightText = NSLocalizedString("Even if it's \n not amount of water or yoga", comment: "OnboardingViewController, labelRightText")
+let labelRightText = NSLocalizedString("Even if it's not about \n amount of water or yoga", comment: "OnboardingViewController, labelRightText")
 let buttonText = NSLocalizedString("Truly hi-tech!", comment: "OnboardingViewController, wowButton")
 
 //MARK: NewHabitVC
@@ -100,8 +100,8 @@ let trackerBarName = NSLocalizedString("Trackers", comment: "MainTrackerViewCont
 let statisticsBarName = NSLocalizedString("Statistics", comment: "MainTrackerViewController, setupMainNavBarVC")
 
 // MARK: TrackerCreateVC
-let habitButtonName = NSLocalizedString("Habit", comment: "TrackerCreateVC, habitButton").localizedCapitalized
-let eventButtonName = NSLocalizedString("Irregular event", comment: "TrackerCreateVC, eventButton").localizedCapitalized
-let createTrackerTitle = NSLocalizedString("Creating a tracker", comment: "TrackerCreateVC, viewDidLoad").localizedCapitalized
+let habitButtonName = NSLocalizedString("Habit", comment: "TrackerCreateVC, habitButton")
+let eventButtonName = NSLocalizedString("Irregular event", comment: "TrackerCreateVC, eventButton")
+let createTrackerTitle = NSLocalizedString("Creating a tracker", comment: "TrackerCreateVC, viewDidLoad")
 
 

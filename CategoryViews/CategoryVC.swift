@@ -35,8 +35,9 @@ final class CategoryVC: UIViewController {
     private lazy var addCategoryButton: UIButton = {
         let addCategoryButton = UIButton()
         addCategoryButton.layer.cornerRadius = 16
-        addCategoryButton.backgroundColor = .ypBlack
-        addCategoryButton.setTitleColor(.ypWhite, for: .normal)
+        addCategoryButton.backgroundColor = TrackerColors.backgroundButtonColor
+        addCategoryButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
+//        addCategoryButton.setTitleColor(.ypWhite, for: .disabled)
         addCategoryButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         addCategoryButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
         return addCategoryButton
@@ -131,12 +132,13 @@ final class CategoryVC: UIViewController {
     }
     
     private func viewSetup() {
-        view.backgroundColor = .white
-        if viewModel.trackerNameArray.isEmpty {
-            setupEmptyVC()
-        } else {
-            setupVCWithTable()
-        }
+        view.backgroundColor = TrackerColors.viewBackgroundColor
+        viewModel.trackerNameArray.isEmpty ? setupEmptyVC() : setupVCWithTable()
+//        if viewModel.trackerNameArray.isEmpty {
+//            setupEmptyVC()
+//        } else {
+//            setupVCWithTable()
+//        }
         let viewModelAddCategory = AddCategoryViewModel()
 //        viewModelAddCategory.delegate = viewModel // to be deleted
         
@@ -195,9 +197,9 @@ extension CategoryVC: UITableViewDataSource {
         guard let cell else { return UITableViewCell()}
         cell.selectionStyle = .none
         cell.textLabel?.text = usedArray[indexPath.row]
-        cell.textLabel?.textColor = .ypBlack
+        cell.textLabel?.textColor = TrackerColors.backgroundButtonColor
         cell.textLabel?.font = .systemFont(ofSize: 17)
-        cell.backgroundColor = .ypBackgroundDay
+        cell.backgroundColor = .ypBackground
 
         if let selectedIndex = viewModel.selectedIndex, indexPath.row == selectedIndex {
             cell.accessoryType = .checkmark
