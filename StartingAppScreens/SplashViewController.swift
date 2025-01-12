@@ -9,14 +9,22 @@ import UIKit
 
 final class SplashViewController: UIViewController {
     
+    private let storage: UserDefaults = .standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSplashScreen()
-        switchToNaviBarVC()
+        storage.removeObject(forKey: "wasLaunched")  // to be deleted once the app is completed
+        let wasLaunched = storage.bool(forKey: "wasLaunched")
+        if wasLaunched {
+            switchToNaviBarVC()
+        } else {
+            storage.set(true, forKey: "wasLaunched")
+            switchToOnboardingVC()
+        }
     }
     
     private func setupSplashScreen() {
-        
         view.backgroundColor = .ypBlue
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
@@ -30,13 +38,26 @@ final class SplashViewController: UIViewController {
             imageView.widthAnchor.constraint(equalToConstant: 94)
         ])
     }
-    
+        
+    private func switchToOnboardingVC() {
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Invalid windows configuration")
+            return
+        }
+        let mainOnboardingVC = OnboardingViewController()
+        mainOnboardingVC.modalTransitionStyle = .crossDissolve
+        mainOnboardingVC.modalPresentationStyle = .fullScreen
+        window.rootViewController = mainOnboardingVC
+        self.dismiss(animated: true)
+    }
+
     private func switchToNaviBarVC() {
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid windows configuration")
             return
         }
         let mainNaviBarVC = MainTrackerViewController()
+        mainNaviBarVC.tabBar.backgroundColor = TrackerColors.viewBackgroundColor
         mainNaviBarVC.modalTransitionStyle = .crossDissolve
         mainNaviBarVC.modalPresentationStyle = .fullScreen
         window.rootViewController = mainNaviBarVC
