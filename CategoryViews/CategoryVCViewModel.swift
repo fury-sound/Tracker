@@ -34,16 +34,20 @@ final class CategoryVCViewModel {
             reloadDataHandler?()
         }
     }
+        
+    typealias EmptyClosure = () -> Void
+    typealias StringClosure = (String) -> Void
     
-//    var sendCategoryHandler: (() -> Void)?
-    
-    var addCategoryVCHandler: (() -> Void)?
-    
-    var returnToPreviousViewHandler: ((String) -> Void)?
-    
-    var reloadDataHandler: (() -> Void)?
-    
-    var buttonNameChange: ((String) -> Void)?
+    var addCategoryVCHandler: EmptyClosure?
+    var reloadDataHandler: EmptyClosure?
+    var returnToPreviousViewHandler: StringClosure?
+    var buttonNameChange: StringClosure?
+
+//    var sendCategoryHandler: (() -> Void)? // never called
+//    var addCategoryVCHandler: (() -> Void)?
+//    var returnToPreviousViewHandler: ((String) -> Void)?
+//    var reloadDataHandler: (() -> Void)?
+//    var buttonNameChange: ((String) -> Void)?
     
     func viewDidLoad() {
         createButtonNameInModel = createCategoryText

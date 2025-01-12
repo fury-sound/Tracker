@@ -32,11 +32,16 @@ final class AddCategoryViewModel {
         }
     }
     
-    var editTextFieldHandler: ((Bool) -> Void)?
-        
-    var settingNewCategoryName: ((String) -> Void)?
+    typealias BoolClosure = ((Bool) -> Void)
+    typealias StringClosure = ((String) -> Void)
     
-    var errorCreatingNewCategory: ((String) -> Void)?
+    var editTextFieldHandler: BoolClosure?
+    var settingNewCategoryName: StringClosure?
+    var errorCreatingNewCategory: StringClosure?
+    
+//    var editTextFieldHandler: ((Bool) -> Void)?
+//    var settingNewCategoryName: ((String) -> Void)?
+//    var errorCreatingNewCategory: ((String) -> Void)?
     
     func creatingNewCategoryTapped(name: String) {
         if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: name) {
