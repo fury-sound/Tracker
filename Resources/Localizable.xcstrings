@@ -209,20 +209,16 @@
         }
       }
     },
-    "Even if it's \n not amount of water or yoga" : {
+    "Even if it's not about \n amount of water or yoga" : {
       "comment" : "OnboardingViewController, labelRightText",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отслеживайте только \\n то, что хотите"
+            "value" : "Даже если это \\n не литры воды и йога"
           }
         }
       }
-    },
-    "Even if it's not about \n amount of water or yoga" : {
-      "comment" : "OnboardingViewController, labelRightText"
     },
     "Event category" : {
       "comment" : "NewEventVC, buttonNameArray",
@@ -356,6 +352,17 @@
         }
       }
     },
+    "Nothing was found!" : {
+      "comment" : "TrackerNavigationViewController, textForEmptySearch",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ничего не найдено!"
+          }
+        }
+      }
+    },
     "Ready" : {
       "comment" : "AddCategoryVC, readyButton\nScheduleVC, readyButton",
       "localizations" : {
@@ -466,9 +473,8 @@
         }
       }
     },
-    "Truly hi-tec!" : {
+    "Truly hi-tech!" : {
       "comment" : "OnboardingViewController, wowButton",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -477,9 +483,6 @@
           }
         }
       }
-    },
-    "Truly hi-tech!" : {
-      "comment" : "OnboardingViewController, wowButton"
     },
     "Tuesday" : {
       "comment" : "ScheduleVC, weekdayArray",

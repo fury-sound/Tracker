@@ -128,7 +128,7 @@ final class TrackerStore: NSObject {
     }
     
     func filterTrackersByWeekday(dayOfWeek: Int) -> [String: [Tracker]]? {
-        var arrayForTrackers = [Tracker]()
+//        var arrayForTrackers = [Tracker]()
         var dictionaryForTrackerCategory: [String: [Tracker]] = [:]
         let arr: [ScheduledDays] = []
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
@@ -141,10 +141,10 @@ final class TrackerStore: NSObject {
                     dictionaryForTrackerCategory[categoryTitle] = []
                 }
                 if entity.schedule == "" {
-                    arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))
+//                    arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))
                     dictionaryForTrackerCategory[categoryTitle]?.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))
                 } else {
-                    arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: stringToSchedule(scheduleString: entity.schedule ?? "")))
+//                    arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: stringToSchedule(scheduleString: entity.schedule ?? "")))
                     dictionaryForTrackerCategory[categoryTitle]?.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: stringToSchedule(scheduleString: entity.schedule ?? "")))
                 }
             }

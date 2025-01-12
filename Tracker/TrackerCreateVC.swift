@@ -17,7 +17,6 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
         let habitButton = UIButton()
         habitButton.backgroundColor = TrackerColors.backgroundButtonColor
         habitButton.layer.cornerRadius = 16
-//        habitButton.setTitle("Привычка", for: .normal)
         habitButton.setTitle(habitButtonName, for: .normal)
         habitButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
 //        habitButton.titleLabel?.textColor = TrackerColors.buttonTintColor
@@ -30,7 +29,6 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
         let eventButton = UIButton()
         eventButton.layer.cornerRadius = 16
         eventButton.backgroundColor = TrackerColors.backgroundButtonColor
-//        eventButton.setTitle("Нерегулярное событие", for: .normal)
         eventButton.setTitle(eventButtonName, for: .normal)
         eventButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
 //        eventButton.titleLabel?.textColor = TrackerColors.backgroundButtonColor
@@ -42,7 +40,6 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = createTrackerTitle
-//        navigationItem.title = "Создание трекера"
 //        navigationController?.navigationBar.tintColor = .ypBlack
         newHabitVC.delegateTrackerInNewHabitVC = self
         viewSetup()

@@ -94,6 +94,7 @@ let keyCategoryExists = NSLocalizedString("Such category already exists!", comme
 let searchBarPlaceholder = NSLocalizedString("Search", comment: "TrackerNavigationViewController, searchBar")
 let initLogoText = NSLocalizedString("What you gonna track?", comment: "TrackerNavigationViewController, initLogo")
 let naviBarTitle = NSLocalizedString("Trackers", comment: "TrackerNavigationViewController, naviBarSetup")
+let emptySearchText = NSLocalizedString("Nothing was found!", comment: "TrackerNavigationViewController, textForEmptySearch")
 
 // MARK: MainTrackerViewController
 let trackerBarName = NSLocalizedString("Trackers", comment: "MainTrackerViewController, setupMainNavBarVC")
