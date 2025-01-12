@@ -9,5 +9,5 @@ import Foundation
 
 struct CategoryModel {
     let categoryName: String
-    var categoryArray: [Tracker]
+    let categoryArray: [Tracker]
 }

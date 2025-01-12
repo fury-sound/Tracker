@@ -16,7 +16,7 @@ final class NewEventVC: UIViewController {
     private var selectedEmojiCell = CellCollectionViewController()
     private var selectedColorCell = CellCollectionViewController()
 //    private var defaultHeader = "Важное"
-    private var defaultHeader = defaultHeaderName
+//    private var defaultHeader = defaultHeaderName
     private var textInTextfield = ""
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private var selectedEmoji = "🙂"
@@ -24,9 +24,9 @@ final class NewEventVC: UIViewController {
     private let layout = UICollectionViewFlowLayout()
     private let trackerStore = TrackerStore()
     private let trackerCategoryStore = TrackerCategoryStore()
-    private var selectedCategory: TrackerCategory?
+//    private var selectedCategory: TrackerCategory?
     private var selectedCategoryName: String?
-    private var daysString: String?
+//    private var daysString: String?
     private var emojiSelected = false
     private var colorSelected = false
 
@@ -131,7 +131,6 @@ final class NewEventVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.title = "Новое событие"
         navigationItem.title = newEventTitle
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)

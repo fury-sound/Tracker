@@ -16,7 +16,7 @@ final class AddCategoryVC: UIViewController {
         trackerNameTextfield.backgroundColor = .ypBackground
         trackerNameTextfield.layer.cornerRadius = 16
         
-//        trackerNameTextfield.placeholder = "Введите название категории"
+        //        trackerNameTextfield.placeholder = "Введите название категории"
         trackerNameTextfield.placeholder = categoryNamePlaceholder
         trackerNameTextfield.clearButtonMode = .whileEditing
         trackerNameTextfield.delegate = self
@@ -30,7 +30,7 @@ final class AddCategoryVC: UIViewController {
         readyButton.backgroundColor = TrackerColors.backgroundButtonColor
         readyButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
         readyButton.setTitleColor(.ypWhite, for: .disabled)
-//        readyButton.setTitle("Готово", for: .normal)
+        //        readyButton.setTitle("Готово", for: .normal)
         readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         readyButton.addTarget(self, action: #selector(creatingNewCategory), for: .touchUpInside)
@@ -48,7 +48,7 @@ final class AddCategoryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.title = "Новая категория"
+        //        navigationItem.title = "Новая категория"
         navigationItem.title = newCategoryTitle
         navigationItem.setHidesBackButton(true, animated: true)
         viewSetup()
@@ -78,13 +78,15 @@ final class AddCategoryVC: UIViewController {
         
         viewModel.editTextFieldHandler = { [weak self] buttonEnabled in
             guard let self else { return }
-            if !buttonEnabled  {
-                self.readyButton.isEnabled = false
-                self.readyButton.backgroundColor = .ypGray
-            } else {
-                self.readyButton.isEnabled = true
-                self.readyButton.backgroundColor = TrackerColors.backgroundButtonColor
-            }
+            self.readyButton.isEnabled = !buttonEnabled
+            self.readyButton.backgroundColor = buttonEnabled ? TrackerColors.backgroundButtonColor : .ypGray
+            //            if !buttonEnabled  {
+            //                self.readyButton.isEnabled = false
+            //                self.readyButton.backgroundColor = .ypGray
+            //            } else {
+            //                self.readyButton.isEnabled = true
+            //                self.readyButton.backgroundColor = TrackerColors.backgroundButtonColor
+            //            }
         }
         
         viewModel.errorCreatingNewCategory = { [weak self] categoryName in
@@ -94,19 +96,22 @@ final class AddCategoryVC: UIViewController {
     }
     
     private func alertForAddCategoryError(name: String) {
-//        let alert = UIAlertController(title: "Ошибка!\n",
-        let alert = UIAlertController(title: alertTitle,
-//                                      message: "Категория \(name) уже существует",
-                                      message: keyCategoryExists,
-                                      preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
+        let alert = UIAlertController(
+            title: alertTitle,
+            message: keyCategoryExists,
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(
+            title: "OK",
+            style: .default
+        )
         alert.addAction(action)
         present(alert, animated: true)
     }
     
     @objc func creatingNewCategory() {
         viewModel.creatingNewCategoryTapped(name: trackerNewNameTextfield.text ?? "")
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func editingFunc(_ sender: UITextField) {
@@ -118,7 +123,6 @@ final class AddCategoryVC: UIViewController {
 extension AddCategoryVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         trackerNewNameTextfield.resignFirstResponder()
-        //        view.endEditing(true)
         return true
     }
 }

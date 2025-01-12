@@ -17,7 +17,7 @@ import UIKit
 final class AddCategoryViewModel {
     
 //    weak var delegate: AddCategoryViewModelDelegate? // to be deleted
-    let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     private var buttonEnabled: Bool = false {
         didSet {
@@ -25,7 +25,7 @@ final class AddCategoryViewModel {
         }
     }
     
-    var newCategoryName: String = "" {
+    private var newCategoryName: String = "" {
         didSet {
 //            delegate?.selectedCategoryName = newCategoryName // to be deleted
             settingNewCategoryName?(newCategoryName)

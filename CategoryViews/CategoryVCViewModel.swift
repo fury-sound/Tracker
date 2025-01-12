@@ -10,18 +10,16 @@ import UIKit
 //final class CategoryVCViewModel: AddCategoryViewModelDelegate { // to be deleted
 final class CategoryVCViewModel {
     
-    var counter = 1
-    let trackerCategoryStore = TrackerCategoryStore()
-
-    var trackerNameArray: [String] = [] {
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private var createButtonNameInModel: String? {
         didSet {
-            reloadDataHandler?()
+            buttonNameChange?(createButtonNameInModel ?? "")
         }
     }
     
-    var createButtonNameInModel: String? {
+    var trackerNameArray: [String] = [] {
         didSet {
-            buttonNameChange?(createButtonNameInModel ?? "")
+            reloadDataHandler?()
         }
     }
     
@@ -37,7 +35,7 @@ final class CategoryVCViewModel {
         }
     }
     
-    var sendCategoryHandler: (() -> Void)?
+//    var sendCategoryHandler: (() -> Void)?
     
     var addCategoryVCHandler: (() -> Void)?
     
@@ -48,7 +46,6 @@ final class CategoryVCViewModel {
     var buttonNameChange: ((String) -> Void)?
     
     func viewDidLoad() {
-//        createButtonNameInModel = "Создать категорию"
         createButtonNameInModel = createCategoryText
         retrieveAllTrackerCategories()
     }
@@ -64,7 +61,6 @@ final class CategoryVCViewModel {
 //        } else {
 //            selectedIndex = index
 //        }
-//        createButtonNameInModel = (selectedIndex == nil ? "Создать категорию" : "Добавить категорию")
         createButtonNameInModel = (selectedIndex == nil ? createCategoryText : addCategoryText)
     }
     

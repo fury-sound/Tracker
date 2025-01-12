@@ -9,8 +9,8 @@ import UIKit
 
 final class CategoryVC: UIViewController {
     
-    private var viewModel: CategoryVCViewModel
-    private var prevCell = UITableViewCell()
+    private let viewModel: CategoryVCViewModel
+//    private var prevCell = UITableViewCell()
     
     private lazy var imageView: UIImageView = {
         let image = UIImage.flyingStar
@@ -23,7 +23,6 @@ final class CategoryVC: UIViewController {
         let initSlogan = UILabel()
         initSlogan.backgroundColor = .clear
         initSlogan.numberOfLines = 2
-//        initSlogan.text = "Привычки и события можно \n объединять по смыслу"
         initSlogan.text = initSloganText
         initSlogan.textAlignment = .center
         initSlogan.font = .systemFont(ofSize: 12, weight: .medium)
@@ -37,7 +36,6 @@ final class CategoryVC: UIViewController {
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.backgroundColor = TrackerColors.backgroundButtonColor
         addCategoryButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
-//        addCategoryButton.setTitleColor(.ypWhite, for: .disabled)
         addCategoryButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         addCategoryButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
         return addCategoryButton
@@ -72,7 +70,6 @@ final class CategoryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.title = "Категория"
         navigationItem.title = categoryTitle
 //        viewModel.trackerNameArray = ["123", "234"] // mock category title array, to be deleted
         viewSetup()
@@ -82,15 +79,19 @@ final class CategoryVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.viewDidLoad()
-        if viewModel.trackerNameArray.isEmpty {
-            imageView.isHidden = false
-            initSlogan.isHidden = false
-            setupEmptyVC()
-        } else {
-            imageView.isHidden = true
-            initSlogan.isHidden = true
-            setupVCWithTable()
-        }
+        imageView.isHidden = !viewModel.trackerNameArray.isEmpty
+        initSlogan.isHidden = !viewModel.trackerNameArray.isEmpty
+        viewModel.trackerNameArray.isEmpty ? setupEmptyVC() : setupVCWithTable()
+        
+//        if viewModel.trackerNameArray.isEmpty {
+//            imageView.isHidden = false
+//            initSlogan.isHidden = false
+//            setupEmptyVC()
+//        } else {
+//            imageView.isHidden = true
+//            initSlogan.isHidden = true
+//            setupVCWithTable()
+//        }
     }
     
     private func setupVCWithTable() {
