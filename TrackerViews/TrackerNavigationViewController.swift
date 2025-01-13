@@ -158,11 +158,16 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
         return searchField
     }()
     
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.backgroundColor = .clear
-        collectionView.register(TrackerCellViewController.self, forCellWithReuseIdentifier: "cell")
-        return collectionView
+    private lazy var trackerCollectionView: UICollectionView = {
+        let trackerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        trackerCollectionView.backgroundColor = .clear
+//        collectionView.isUserInteractionEnabled = true
+        trackerCollectionView.allowsMultipleSelection = true
+        trackerCollectionView.isScrollEnabled = true
+        trackerCollectionView.dataSource = self
+        trackerCollectionView.delegate = self
+        trackerCollectionView.register(TrackerCellViewController.self, forCellWithReuseIdentifier: "trackerCell")
+        return trackerCollectionView
     }()
     
     private lazy var imageView: UIImageView = {
@@ -250,7 +255,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     func addingTrackerOnScreen() {
         showingTrackersForSelectedDate()
         arrayToUse()
-        collectionView.reloadData()
+        trackerCollectionView.reloadData()
     }
     
     // MARK: Private functions
@@ -293,7 +298,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
             initLogo.isHidden.toggle()
             collectionViewSetup()
         }
-        collectionView.reloadData()
+        trackerCollectionView.reloadData()
     }
     
     private func emptyTrackerSetup() {
@@ -314,7 +319,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     private func collectionViewSetup() {
         view.backgroundColor = TrackerColors.viewBackgroundColor
-        let objectsToShow = [emptySearchImage, emptySearchLabel, collectionView]
+        let objectsToShow = [emptySearchImage, emptySearchLabel, trackerCollectionView]
         objectsToShow.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
@@ -322,10 +327,10 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
 //        collectionView.translatesAutoresizingMaskIntoConstraints = false
 //        view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            trackerCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            trackerCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            trackerCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            trackerCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             emptySearchImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptySearchImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptySearchImage.heightAnchor.constraint(equalToConstant: 80),
@@ -333,9 +338,8 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
             emptySearchLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptySearchLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8)
         ])
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(SupplementaryHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+
+        trackerCollectionView.register(SupplementaryHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
     
     private func naviBarSetup() {
@@ -425,8 +429,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     private func arrayToUse() {
-//            imageView.isHidden = !categories.isEmpty
-//            initLogo.isHidden = !categories.isEmpty
         
         if categories.isEmpty && searchBarText == "" {
             imageView.isHidden = false
@@ -470,7 +472,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
 //            imageView.isHidden = true
 //            initLogo.isHidden = true
 //        }
-        collectionView.reloadData()
+        trackerCollectionView.reloadData()
     }
     
     @objc func leftAddHabit() {
@@ -494,7 +496,7 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TrackerCellViewController
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trackerCell", for: indexPath) as? TrackerCellViewController
         guard let cell,
               let element = categories[indexPath.section].trackerArray[indexPath.row],
               let id = element.id,
@@ -503,7 +505,7 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
               let text = element.name
         else {
             debugPrint("error for cell")
-            return UICollectionViewCell()
+            return TrackerCellViewController()
         }
         cell.layer.cornerRadius = 10
         trackerRecordStore.setTrackerRecordParams(trackerId: id, currentCell: cell)
@@ -551,6 +553,27 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     private func changeCellButton(cell: TrackerCellViewController, trackerId: UUID) {
         checkingCompletedTrackers(trackerId: trackerId) ? cell.setButtonSign(isPlusSignOnFlag: true) : cell.setButtonSign(isPlusSignOnFlag: false)
     }
+    
+//    private func pinTracker(cell: TrackerCellViewController, trackerId: UUID) {
+    private func pinTracker(indexPath: IndexPath) {
+        print("pin action")
+//        trackerRecordStore.updateTrackerRecordList(trackerId: trackerId)
+//        cell.setButtonSign(isPlusSignOnFlag: true)
+    }
+
+//    private func editTracker(cell: TrackerCellViewController, trackerId: UUID) {
+    private func editTracker(indexPath: IndexPath) {
+        print("edit action")
+//        trackerRecordStore.updateTrackerRecordList(trackerId: trackerId)
+//        cell.setButtonSign(isPlusSignOnFlag: true)
+    }
+
+//    private func deleteTracker(cell: TrackerCellViewController, trackerId: UUID) {
+    private func deleteTracker(indexPath: IndexPath) {
+        print("delete action")
+//        trackerRecordStore.updateTrackerRecordList(trackerId: trackerId)
+//        cell.setButtonSign(isPlusSignOnFlag: true)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -579,9 +602,64 @@ extension TrackerNavigationViewController: UICollectionViewDelegateFlowLayout {
 //MARK: - UICollectionViewDelegate
 
 extension TrackerCellViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        print("tapped item")
+//        let cell = collectionView.cellForItem(at: indexPath) as? TrackerCellViewController
+//
+////                cell?.titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+//    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        print("highlighted item")
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("we are here")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        print("in contextMenuConfigurationForItemsAt")
+        guard indexPaths.count > 0 else { return nil }
+        let indexPath = indexPaths[0]
+        
+        return UIContextMenuConfiguration(actionProvider: { actions in
+            return UIMenu(children: [
+                UIAction(title: "Pin") { [weak self] _ in
+                    guard let self else { return }
+                    self.pinTracker(indexPath: indexPath)
+                },
+                UIAction(title: "Edit") { [weak self] _ in
+                    guard let self else { return }
+                    self.editTracker(indexPath: indexPath)
+                },
+                UIAction(title: "Delete") { [weak self] _ in
+                    guard let self else { return }
+                    self.deleteTracker(indexPath: indexPath)
+                }
+            ])
+        })
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+//
+//        return UIContextMenuConfiguration(actionProvider: { actions in
+//            return UIMenu(children: [
+//                UIAction(title: "Pin") { [weak self] _ in
+//                    guard let self else { return }
+//                    self.pinTracker(indexPath: indexPath)
+//                },
+//                UIAction(title: "Edit") { [weak self] _ in
+//                    guard let self else { return }
+//                    self.editTracker(indexPath: indexPath)
+//                },
+//                UIAction(title: "Delete") { [weak self] _ in
+//                    guard let self else { return }
+//                    self.deleteTracker(indexPath: indexPath)
+//                }
+//            ])
+//        })
+////        return UIContextMenuConfiguration(identifier: nil, menuItems: menuItems)
+//    }
 }
 
 //MARK: - UISearchController
@@ -593,7 +671,7 @@ extension TrackerNavigationViewController: UISearchControllerDelegate, UISearchR
         if searchController.searchBar.text == "" {
             searchBarText = ""
             showingTrackersForSelectedDate()
-            collectionView.reloadData()
+            trackerCollectionView.reloadData()
             arrayToUse()
         }
     }
@@ -608,10 +686,10 @@ extension TrackerNavigationViewController: UISearchControllerDelegate, UISearchR
 //    }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("final text", searchBar.text)
+//        print("final text", searchBar.text)
         searchBarText = searchBar.text ?? ""
         showingTrackersForSelectedDate()
-        collectionView.reloadData()
+        trackerCollectionView.reloadData()
         arrayToUse()
     }
 }

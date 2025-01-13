@@ -16,6 +16,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     private lazy var trackerView: UIView = {
         let trackerView = UIView()
+        trackerView.isUserInteractionEnabled = false
         trackerView.layer.cornerRadius = 10
         trackerView.layer.masksToBounds = true
         return trackerView
@@ -31,6 +32,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     private lazy var viewForEmoji: UIView = {
         let emojiView = UIView()
+        emojiView.isUserInteractionEnabled = false
         emojiView.backgroundColor = .white
         emojiView.layer.opacity = 0.3
         emojiView.layer.cornerRadius = 12
@@ -40,6 +42,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
+//        textLabel.isUserInteractionEnabled = false
         textLabel.backgroundColor = .clear
         textLabel.textColor = .ypWhite
         textLabel.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -49,6 +52,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     private lazy var daysLabel: UILabel = {
         let daysLabel = UILabel()
         daysLabel.backgroundColor = .clear
+//        daysLabel.isUserInteractionEnabled = true
 //        daysLabel.text = "0 дней"
 //        setDayLabelText(days: 0)
         return daysLabel
@@ -66,11 +70,18 @@ final class TrackerCellViewController: UICollectionViewCell {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        setupGesture()
+//        print("isUserInteractionEnabled", isUserInteractionEnabled)
+//        print("isUserInteractionEnabled", self.isUserInteractionEnabled)
+//        print("isUserInteractionEnabled", contentView.isUserInteractionEnabled)
+        self.isUserInteractionEnabled = true
+        self.isAccessibilityElement = true
         let elementArray = [trackerView, viewForEmoji, emojiLabel, textLabel, daysLabel, plusButton]
         elementArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         setDayLabelText(days: 0)
+        contentView.backgroundColor = .red
         contentView.addSubview(trackerView)
         trackerView.addSubview(viewForEmoji)
         trackerView.addSubview(textLabel)
@@ -79,7 +90,7 @@ final class TrackerCellViewController: UICollectionViewCell {
         contentView.addSubview(emojiLabel)
         NSLayoutConstraint.activate([
             trackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
             trackerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trackerView.heightAnchor.constraint(equalToConstant: 2 * contentView.frame.height / 3),
             viewForEmoji.topAnchor.constraint(equalTo: trackerView.topAnchor, constant: 12),
@@ -106,6 +117,17 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+//        setupGesture()
+    }
+    
+//    private func setupGesture() {
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+//        daysLabel.addGestureRecognizer(tapGesture)
+//    }
+    
+    @objc private func handleTap() {
+        print("tap gesture")
+//        delegate?.didTapTrackerCell(self)
     }
     
     func setButtonSign(isPlusSignOnFlag: Bool) {
@@ -175,5 +197,18 @@ final class TrackerCellViewController: UICollectionViewCell {
     func setColorsInCell(color: UIColor) {
         trackerView.backgroundColor = color
         plusButton.backgroundColor = color
+    }
+    
+    func pinTracker(indexPath: IndexPath) {
+        print("pin action")
+    }
+
+    func editTracker(indexPath: IndexPath) {
+        print("edit action")
+    }
+
+    func deleteTracker(indexPath: IndexPath) {
+        print("delete action")
+
     }
 }
