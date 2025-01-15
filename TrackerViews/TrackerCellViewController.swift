@@ -13,6 +13,7 @@ final class TrackerCellViewController: UICollectionViewCell {
 //    private var colorNum: Int = 0
     var setMarkSign = false
     var tappedRecordButton: (() -> Void)?
+    var tappedCellButton: (() -> UUID)?
     
     private lazy var trackerView: UIView = {
         let trackerView = UIView()
@@ -71,9 +72,6 @@ final class TrackerCellViewController: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 //        setupGesture()
-//        print("isUserInteractionEnabled", isUserInteractionEnabled)
-//        print("isUserInteractionEnabled", self.isUserInteractionEnabled)
-//        print("isUserInteractionEnabled", contentView.isUserInteractionEnabled)
         self.isUserInteractionEnabled = true
         self.isAccessibilityElement = true
         let elementArray = [trackerView, viewForEmoji, emojiLabel, textLabel, daysLabel, plusButton]
@@ -81,7 +79,9 @@ final class TrackerCellViewController: UICollectionViewCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         setDayLabelText(days: 0)
-        contentView.backgroundColor = .red
+        contentView.backgroundColor = .clear
+//        contentView.backgroundColor = .red
+//        contentView.isUserInteractionEnabled = true
         contentView.addSubview(trackerView)
         trackerView.addSubview(viewForEmoji)
         trackerView.addSubview(textLabel)
@@ -90,7 +90,8 @@ final class TrackerCellViewController: UICollectionViewCell {
         contentView.addSubview(emojiLabel)
         NSLayoutConstraint.activate([
             trackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
+            trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
             trackerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trackerView.heightAnchor.constraint(equalToConstant: 2 * contentView.frame.height / 3),
             viewForEmoji.topAnchor.constraint(equalTo: trackerView.topAnchor, constant: 12),
@@ -117,18 +118,17 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-//        setupGesture()
     }
     
 //    private func setupGesture() {
 //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-//        daysLabel.addGestureRecognizer(tapGesture)
+//        self.addGestureRecognizer(tapGesture)
 //    }
-    
-    @objc private func handleTap() {
-        print("tap gesture")
-//        delegate?.didTapTrackerCell(self)
-    }
+//    
+//    @objc private func handleTap() {
+//        print("tap gesture")
+////        delegate?.didTapTrackerCell(self)
+//    }
     
     func setButtonSign(isPlusSignOnFlag: Bool) {
         if isPlusSignOnFlag {
@@ -199,16 +199,15 @@ final class TrackerCellViewController: UICollectionViewCell {
         plusButton.backgroundColor = color
     }
     
-    func pinTracker(indexPath: IndexPath) {
-        print("pin action")
-    }
-
-    func editTracker(indexPath: IndexPath) {
-        print("edit action")
-    }
-
-    func deleteTracker(indexPath: IndexPath) {
-        print("delete action")
-
-    }
+//    func pinTracker(indexPath: IndexPath) {
+//        print("pin action")
+//    }
+//
+//    func editTracker(indexPath: IndexPath) {
+//        print("edit action")
+//    }
+//
+//    func deleteTracker(indexPath: IndexPath) {
+//        print("delete action")
+//    }
 }

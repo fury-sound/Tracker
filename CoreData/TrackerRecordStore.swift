@@ -84,6 +84,27 @@ final class TrackerRecordStore: NSObject {
         }
     }
     
+    func checkDateForUncompletedTrackersInCoreData(trackerRecord: TrackerRecord) -> Bool {
+        
+        let myRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "(dateExecuted != %@) AND (id == %@)", trackerRecord.dateExecuted, trackerRecord.id as CVarArg)
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                print("entity.id, entity.dateExecuted", entity.id, entity.dateExecuted)
+            }
+            
+            if res.isEmpty {
+                return false
+            } else {
+                return true
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return false
+        }
+    }
+    
     func isTrackerIdInTrackerRecords(trackerRecord: TrackerRecord) -> Bool {
         
         let myRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
@@ -98,6 +119,20 @@ final class TrackerRecordStore: NSObject {
         } catch let error as NSError {
             print(error.localizedDescription)
             return false
+        }
+    }
+    
+    func deleteTrackerRecordByID(by id: UUID) {
+        let myRequest : NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                context.delete(entity)
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
     }
     
@@ -136,6 +171,19 @@ final class TrackerRecordStore: NSObject {
         do {
             let counter = try context.count(for: myRequest)
 //            print("Found trackerRecords? \(counter)")
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func retrieveAllTrackerRecordCoreDataInfo() {
+        let myRequest : NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        do {
+            let res = try context.fetch(myRequest)
+//            print("Entities: \(res)")
+            for entity in res {
+                print("Entities: \(res)")
+            }
         } catch let error as NSError {
             print(error.localizedDescription)
         }

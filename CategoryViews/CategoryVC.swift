@@ -165,8 +165,6 @@ final class CategoryVC: UIViewController {
     @objc func addCategory() {
         viewModel.categoryCreateButtonTapped()
     }
-
-
 }
 
 // MARK: UITableViewDelegate
@@ -181,7 +179,9 @@ extension CategoryVC: UITableViewDelegate {
 //    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didSelectCategoryAtIndex(index: indexPath.row)
+        if indexPath.row != 0 {
+            viewModel.didSelectCategoryAtIndex(index: indexPath.row)
+        }
     }
 }
 
@@ -198,6 +198,9 @@ extension CategoryVC: UITableViewDataSource {
         guard let cell else { return UITableViewCell()}
         cell.selectionStyle = .none
         cell.textLabel?.text = usedArray[indexPath.row]
+//        if cell.textLabel?.text == "Pinned" {
+//            cell.isUserInteractionEnabled = false
+//        }
         cell.textLabel?.textColor = TrackerColors.backgroundButtonColor
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.backgroundColor = .ypBackground

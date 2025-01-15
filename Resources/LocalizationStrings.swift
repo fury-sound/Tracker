@@ -95,6 +95,12 @@ let searchBarPlaceholder = NSLocalizedString("Search", comment: "TrackerNavigati
 let initLogoText = NSLocalizedString("What you gonna track?", comment: "TrackerNavigationViewController, initLogo")
 let naviBarTitle = NSLocalizedString("Trackers", comment: "TrackerNavigationViewController, naviBarSetup")
 let emptySearchText = NSLocalizedString("Nothing was found!", comment: "TrackerNavigationViewController, textForEmptySearch")
+let pinActionText = NSLocalizedString("Pin", comment: "TrackerNavigationViewController, pinAction")
+let unPinActionText = NSLocalizedString("Unpin", comment: "TrackerNavigationViewController, unpinAction")
+let editActionText = NSLocalizedString("Edit", comment: "TrackerNavigationViewController, pinAction")
+let deleteActionText = NSLocalizedString("Delete", comment: "TrackerNavigationViewController, pinAction")
+let pinnedHeaderText = NSLocalizedString("Pinned", comment: "TrackerNavigationViewController, pinnedHeader")
+let filterButtonText = NSLocalizedString("Filters", comment: "TrackerNavigationViewController, trackerFilters")
 
 // MARK: MainTrackerViewController
 let trackerBarName = NSLocalizedString("Trackers", comment: "MainTrackerViewController, setupMainNavBarVC")
@@ -105,4 +111,10 @@ let habitButtonName = NSLocalizedString("Habit", comment: "TrackerCreateVC, habi
 let eventButtonName = NSLocalizedString("Irregular event", comment: "TrackerCreateVC, eventButton")
 let createTrackerTitle = NSLocalizedString("Creating a tracker", comment: "TrackerCreateVC, viewDidLoad")
 
+// MARK: FiltersVC
+let filterHeaderTitle = NSLocalizedString("Filters", comment: "FiltersVC, viewDidLoad")
+let allTrackersTitle = NSLocalizedString("All trackers", comment: "FiltersVC, viewDidLoad")
+let todayTrackersTitle = NSLocalizedString("Today trackers", comment: "FiltersVC, viewDidLoad")
+let completedTrackersTitle = NSLocalizedString("Completed trackers", comment: "FiltersVC, viewDidLoad")
+let uncompletedTrackersTitle = NSLocalizedString("Uncompleted trackers", comment: "FiltersVC, viewDidLoad")
 

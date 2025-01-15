@@ -56,6 +56,16 @@ final class TrackerStore: NSObject {
         return trackerCoreData
     }
     
+    func pinTrackerToCoreData(_ tracker: Tracker) throws -> TrackerCoreData {
+        let trackerCoreData = TrackerCoreData(context: context)
+//        updateTrackerList(trackerCoreData, with: tracker)
+//        trackerCoreData.isPinned = true
+//        do {
+//            try context.setValue(true, forKey: "isPinned")
+//        }
+        return TrackerCoreData()
+    }
+    
     func updateTrackerList(_ trackerCoreData: TrackerCoreData, with tracker: Tracker) {
         trackerCoreData.id = tracker.id
         trackerCoreData.name = tracker.name
@@ -140,6 +150,11 @@ final class TrackerStore: NSObject {
                 if dictionaryForTrackerCategory[categoryTitle] == nil {
                     dictionaryForTrackerCategory[categoryTitle] = []
                 }
+//                if entity.trackerRecord?.dateExecuted != nil {
+//                    print("Found in TrackerRecord - entity.name, entity.trackerRecord?.id, entity.trackerRecord?.dateExecuted", entity.name, entity.trackerRecord?.id, entity.trackerRecord?.dateExecuted)
+//                } else {
+//                    print("Not completed for the date")
+//                }
                 if entity.schedule == "" {
 //                    arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))
                     dictionaryForTrackerCategory[categoryTitle]?.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))

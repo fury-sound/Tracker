@@ -31,6 +31,7 @@ final class AddCategoryVC: UIViewController {
         readyButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
         readyButton.setTitleColor(.ypWhite, for: .disabled)
         //        readyButton.setTitle("Готово", for: .normal)
+//        readyButton.isEnabled = false
         readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         readyButton.addTarget(self, action: #selector(creatingNewCategory), for: .touchUpInside)
@@ -77,22 +78,23 @@ final class AddCategoryVC: UIViewController {
         ])
         
         viewModel.editTextFieldHandler = { [weak self] buttonEnabled in
+            print("in editTextFieldHandler")
             guard let self else { return }
-            self.readyButton.isEnabled = !buttonEnabled
-            self.readyButton.backgroundColor = buttonEnabled ? TrackerColors.backgroundButtonColor : .ypGray
-            //            if !buttonEnabled  {
-            //                self.readyButton.isEnabled = false
-            //                self.readyButton.backgroundColor = .ypGray
-            //            } else {
-            //                self.readyButton.isEnabled = true
-            //                self.readyButton.backgroundColor = TrackerColors.backgroundButtonColor
-            //            }
+//            print("self.readyButton.isEnabled", self.readyButton.isEnabled)
+//            self.readyButton.isEnabled = !buttonEnabled
+//            self.readyButton.backgroundColor = buttonEnabled ? TrackerColors.backgroundButtonColor : .ypGray
+            if !buttonEnabled  {
+                self.readyButton.isEnabled = false
+                self.readyButton.backgroundColor = .ypGray
+            } else {
+                self.readyButton.isEnabled = true
+                self.readyButton.backgroundColor = TrackerColors.backgroundButtonColor
+            }
         }
         
         viewModel.errorCreatingNewCategory = { [weak self] categoryName in
             self?.alertForAddCategoryError(name: categoryName)
         }
-        
     }
     
     private func alertForAddCategoryError(name: String) {
@@ -110,6 +112,7 @@ final class AddCategoryVC: UIViewController {
     }
     
     @objc func creatingNewCategory() {
+        print("tapped")
         viewModel.creatingNewCategoryTapped(name: trackerNewNameTextfield.text ?? "")
         navigationController?.popViewController(animated: true)
     }

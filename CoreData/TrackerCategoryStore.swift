@@ -113,7 +113,6 @@ final class TrackerCategoryStore: NSObject {
             print("Error with finding suitable tracker category, findCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
             return nil
         }
-        return nil
     }
     
     func retrieveAllTrackerCategoryTitles() -> [String] {

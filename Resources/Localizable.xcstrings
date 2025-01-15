@@ -77,6 +77,17 @@
         }
       }
     },
+    "All trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все трекеры"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "comment" : "NewEventVC, cancelButtonText\nNewHabitVC, cancelButtonText",
       "localizations" : {
@@ -121,6 +132,17 @@
         }
       }
     },
+    "Completed trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершенные"
+          }
+        }
+      }
+    },
     "Create" : {
       "comment" : "NewEventVC, createButtonText\nNewHabitVC, createButtonText",
       "localizations" : {
@@ -161,6 +183,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дни недели"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "comment" : "TrackerNavigationViewController, pinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Edit" : {
+      "comment" : "TrackerNavigationViewController, pinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактировать"
           }
         }
       }
@@ -238,6 +282,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Каждый день"
+          }
+        }
+      }
+    },
+    "Filters" : {
+      "comment" : "FiltersVC, viewDidLoad\nTrackerNavigationViewController, trackerFilters",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фильтры"
           }
         }
       }
@@ -363,6 +418,28 @@
         }
       }
     },
+    "Pin" : {
+      "comment" : "TrackerNavigationViewController, pinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрепить"
+          }
+        }
+      }
+    },
+    "Pinned" : {
+      "comment" : "TrackerNavigationViewController, pinnedHeader",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрепленные"
+          }
+        }
+      }
+    },
     "Ready" : {
       "comment" : "AddCategoryVC, readyButton\nScheduleVC, readyButton",
       "localizations" : {
@@ -451,6 +528,17 @@
         }
       }
     },
+    "Today trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Трекеры на сегодня"
+          }
+        }
+      }
+    },
     "Trackers" : {
       "comment" : "MainTrackerViewController, setupMainNavBarVC\nTrackerNavigationViewController, naviBarSetup",
       "localizations" : {
@@ -491,6 +579,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вторник"
+          }
+        }
+      }
+    },
+    "Uncompleted trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Незавершенные"
+          }
+        }
+      }
+    },
+    "Unpin" : {
+      "comment" : "TrackerNavigationViewController, unpinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открепить"
           }
         }
       }

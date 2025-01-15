@@ -8,6 +8,7 @@
         <attribute name="color" optional="YES" attributeType="Transformable"/>
         <attribute name="emojiPic" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isPinned" optional="YES" attributeType="String" defaultValueString="Pinned"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="schedule" attributeType="String"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerCategoryCoreData" inverseName="tracker" inverseEntity="TrackerCategoryCoreData"/>
