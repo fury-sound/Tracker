@@ -68,6 +68,65 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
+    func switchTrackerCategory(trackerCoreData: TrackerCoreData, categoryField: String, isPinnedField: String) {
+//        print("in switchTrackerCategory: ", categoryField)
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", categoryField)
+        do {
+            let res = try context.fetch(myRequest)
+//            print(res)
+            for entity in res {
+                if entity.title == categoryField {
+//                    print("entity.tracker", entity.tracker)
+                    entity.removeFromTracker(trackerCoreData)
+//                    print("entity.tracker", entity.tracker)
+                    let requiredCategory = findCategoryByName(categoryName: isPinnedField)
+                    guard let requiredCategory else {
+                        print("error with requiredCategory in switchTrackerCategory")
+                        return
+                    }
+//                    print(requiredCategory.title)
+                    requiredCategory.addToTracker(trackerCoreData)
+//                    print("requiredCategory.tracker", requiredCategory.tracker)
+                }
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func findCategoryByName(categoryName: String) -> TrackerCategoryCoreData? {
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
+        do {
+            let res = try context.fetch(myRequest)
+            return res.first
+        } catch let error as NSError {
+            print("Error with finding suitable tracker category, findCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
+            return nil
+        }
+    }
+    
+    func showCategoryContentByName(categoryName: String) {
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
+        do {
+            let res = try context.fetch(myRequest)
+            print("Count", res.count)
+            for entity in res {
+                print("Name:", entity.title)
+                entity.tracker?.forEach {
+                    print("Tracker ID:", ($0 as AnyObject).id as UUID?)
+                    print("Tracker name:", ($0 as AnyObject).name as String?)
+                }
+            }
+        } catch let error as NSError {
+            print("Error with finding suitable tracker category, findCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
+            return
+        }
+    }
+    
     func isCategoryAlreadyExist(categoryName: String) -> Bool {
         let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
         myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
@@ -102,19 +161,7 @@ final class TrackerCategoryStore: NSObject {
         }
         return nil
     }
-    
-    func findCategoryByName(categoryName: String) -> TrackerCategoryCoreData? {
-        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
-        do {
-            let res = try context.fetch(myRequest)
-            return res.first
-        } catch let error as NSError {
-            print("Error with finding suitable tracker category, findCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
-            return nil
-        }
-    }
-    
+        
     func retrieveAllTrackerCategoryTitles() -> [String] {
         var allTrackerCategoryTitles = [String]()
         let myRequest : NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
@@ -138,7 +185,7 @@ final class TrackerCategoryStore: NSObject {
             do {
                 let res = try context.fetch(myRequest)
                 for entity in res {
-//                    print("Tracker category title:", entity.title)
+                    print("Tracker category title:", entity.title)
                 }
             } catch let error as NSError {
                 print("Error with finding suitable tracker category, findCategoryWithSuitableTrackers in TrackerCategoryStore", error.localizedDescription)

@@ -136,7 +136,6 @@ extension FiltersVC: UITableViewDataSource {
         } else {
             cell.accessoryType = .none
         }
-        
         return cell
     }
     

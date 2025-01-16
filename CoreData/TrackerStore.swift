@@ -11,6 +11,7 @@ import CoreData
 final class TrackerStore: NSObject {
     private let context: NSManagedObjectContext
     weak var delegateTrackerForNotifications: TrackerNavigationViewProtocol?
+    private var trackerCategoryStore: TrackerCategoryStore?
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
         let fetchRequest = TrackerCoreData.fetchRequest()
@@ -33,6 +34,7 @@ final class TrackerStore: NSObject {
     
     init(context: NSManagedObjectContext) {
         self.context = context
+//        self.trackerCategoryStore = TrackerCategoryStore(context: context)
         super.init()
         setupFRC()
     }
@@ -114,6 +116,74 @@ final class TrackerStore: NSObject {
             print("Error retrieving trackers in retrieveAllTrackers(), TrackerStore", error.localizedDescription)
         }
         return allTrackerFromCoreData
+    }
+    
+    func retrieveTrackerCategory(by id: UUID) -> Tracker? {
+        var trackerToFind: Tracker?
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                print("Tracker name: \(entity.name), \(entity.id)")
+                print("Tracker category: \(entity.category?.title)")
+                print("Tracker pinned: \(entity.isPinned)")
+//                entity.isPinned = entity.category?.title
+//                entity.category?.title = "Pinned"
+//                print("Tracker category: \(entity.category?.title)")
+//                print("Tracker pinned - stored category: \(entity.isPinned)")
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return trackerToFind
+    }
+    
+    
+    // MARK: switchTrackerCategories
+    func switchTrackerCategories(by id: UUID) {
+//        var trackerToFind: Tracker?
+        let trackerCategoryStore = TrackerCategoryStore(context: context)
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                guard let mainCategoryTitle = entity.category?.title, let isPinned = entity.isPinned else { return }
+//                print("1")
+//                print("Tracker name: \(String(describing: entity.name)), \(String(describing: entity.id))")
+//                print("Tracker category: \(String(describing: entity.category?.title))")
+//                print("Tracker pinned: \(String(describing: entity.isPinned))")
+//                trackerCategoryStore.retrieveCategoryTitles()
+//                if entity.isPinned == "Pinned" {
+                    trackerCategoryStore.switchTrackerCategory(trackerCoreData: entity, categoryField: mainCategoryTitle, isPinnedField: isPinned)
+                    entity.isPinned = mainCategoryTitle
+//                } else {
+//                    trackerCategoryStore.switchTrackerCategory(trackerCoreData: entity, categoryField: isPinned, isPinnedField: mainCategoryTitle)
+//                    entity.isPinned = isPinned
+//                }
+//                print("2")
+//                print("Tracker name: \(String(describing: entity.name)), \(String(describing: entity.id))")
+//                print("Tracker category: \(String(describing: entity.category?.title))")
+//                print("Tracker pinned: \(String(describing: entity.isPinned))")
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func isPinnedState(by id: UUID) -> String? {
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            return res.first?.isPinned ?? ""
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return nil
+        }
     }
     
     func retrieveTracker(by id: UUID) -> Tracker? {

@@ -78,7 +78,7 @@ final class AddCategoryVC: UIViewController {
         ])
         
         viewModel.editTextFieldHandler = { [weak self] buttonEnabled in
-            print("in editTextFieldHandler")
+//            print("in editTextFieldHandler")
             guard let self else { return }
 //            print("self.readyButton.isEnabled", self.readyButton.isEnabled)
 //            self.readyButton.isEnabled = !buttonEnabled
