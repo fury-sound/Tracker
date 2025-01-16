@@ -144,7 +144,7 @@
       }
     },
     "Create" : {
-      "comment" : "NewEventVC, createButtonText\nNewHabitVC, createButtonText",
+      "comment" : "NewEventVC, createButtonText\nNewHabitVC, createOrSaveButtonText",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -205,6 +205,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Редактировать"
+          }
+        }
+      }
+    },
+    "Edit the Habit" : {
+      "comment" : "NewHabitVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактирование привычки"
           }
         }
       }
@@ -458,6 +469,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Суббота"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "comment" : "NewHabitVC, createOrSaveButtonText",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
           }
         }
       }

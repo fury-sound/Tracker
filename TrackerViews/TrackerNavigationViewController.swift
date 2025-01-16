@@ -77,6 +77,11 @@ enum MockTrackers {
     //        }
 }
 
+enum viewControllerState {
+    case creating
+    case editing(tracker: Tracker)
+}
+
 //enum Constants {
 //    case EmojiArray
 //    case Colors
@@ -595,8 +600,8 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
                     categories.insert(transferredTrackerCategory, at: 0)
                 }
             }
-            print("Category order:")
-            categories.forEach { print($0.title!) }
+//            print("Category order in trackersFilteredByWeekdaysDictionary:")
+//            categories.forEach { print($0.title!) }
         }
     }
     
@@ -729,7 +734,7 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
         let id = "header"
         let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath) as! SupplementaryHeaderView
         let headerText = categories[indexPath.section].title
-        supplementaryView.headerLabel.text = headerText
+        supplementaryView.headerLabel.text = (headerText == "Pinned" ? pinnedHeaderText : headerText)
         supplementaryView.systemLayoutSizeFitting(CGSize(width: supplementaryView.frame.width,
                                                          height: UIView.layoutFittingExpandedSize.height),
                                                   withHorizontalFittingPriority: .required,
@@ -779,18 +784,27 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
         //        cell.setButtonSign(isPlusSignOnFlag: true)
     }
     
-    private func setPin(trackerID: UUID) {
-        trackerStore.switchTrackerCategories(by: trackerID)
-    }
-
-    private func setUnpin(trackerID: UUID) {
-        trackerStore.switchTrackerCategories(by: trackerID)
-    }
-    
     //    private func editTracker(cell: TrackerCellViewController, trackerId: UUID) {
     private func editTracker(indexPath: IndexPath) {
         print("edit action")
-        trackerCategoryStore.retrieveCategoryTitles()
+        guard let trackerID = currentTrackerItem?.id else {
+            print("error with trackerID \(currentTrackerItem?.id), editTracker, TrackerNavigationViewController")
+            return
+        }
+        let trackerToEdit = trackerStore.retrieveTracker(by: trackerID)
+//        viewControllerState = .edit
+        guard let trackerToEdit else { return }
+        print("tracker name to edit", trackerToEdit.name)
+        let editHabitVC = NewHabitVC()
+        let navigationController = UINavigationController(rootViewController: editHabitVC)
+        navigationController.modalPresentationStyle = .formSheet
+        editHabitVC.isModalInPresentation = true
+        editHabitVC.habitViewState = .editing(tracker: trackerToEdit)
+//        editHabitVC.setEditedTrackersData(tracker: trackerToEdit)
+        present(navigationController, animated: true)
+        
+//        navigationController?.pushViewController(editHabitVC, animated: true)
+//        trackerCategoryStore.retrieveCategoryTitles()
 //        showAllTrackersData()
         //        trackerRecordStore.updateTrackerRecordList(trackerId: trackerId)
         //        cell.setButtonSign(isPlusSignOnFlag: true)
@@ -855,11 +869,9 @@ extension TrackerNavigationViewController: UICollectionViewDelegate {
         guard indexPaths.count > 0 else { return nil }
         let indexPath = indexPaths[0]
         let cell = collectionView.cellForItem(at: indexPath) as? TrackerCellViewController
-        guard let cell else { return nil }
-        guard let trackerAction = cell.tappedCellButton else { return nil }
+        guard let cell, let trackerAction = cell.tappedCellButton else { return nil }
         let currentTrackerID = trackerAction()
         let pinStateValue = trackerStore.isPinnedState(by: currentTrackerID)
-        
         var pinAction: String {
             if pinStateValue == "Pinned" {
                 return pinActionText

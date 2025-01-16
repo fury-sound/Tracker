@@ -74,12 +74,14 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
         newHabitVC.defaultFields()
 //        newHabitVC.isTrackerFlag = true
         navigationController?.pushViewController(newHabitVC, animated: true)
+        newHabitVC.habitViewState = .creating
         newHabitVC.isModalInPresentation = true
     }
 
     @objc private func eventCreation() {
         newEventVC.defaultFields()
         navigationController?.pushViewController(newEventVC, animated: true)
+//        newEventVC.eventViewState = .creating
         newEventVC.isModalInPresentation = true
     }
 }

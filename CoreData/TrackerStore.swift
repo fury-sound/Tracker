@@ -47,6 +47,28 @@ final class TrackerStore: NSObject {
         }
     }
     
+    func editTrackerInCoreData(_ tracker: Tracker) throws {
+//        let trackerCoreData = TrackerCoreData(context: context)
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", tracker.id! as CVarArg)
+        do {
+            let res = try context.fetch(myRequest)
+            let editedEntity = res.first
+            guard let editedEntity else { return }
+            editedEntity.name = tracker.name
+            editedEntity.emojiPic = tracker.emojiPic
+            editedEntity.color = tracker.color
+            if tracker.schedule.isEmpty {
+                editedEntity.schedule = ""
+            } else {
+                editedEntity.schedule = scheduleToString(schedule: tracker.schedule)
+            }
+            try context.save()
+        } catch let error as NSError {
+            print("Error with adding tracker to CoreData in addTrackerToCoreData, TrackerStore:", error.localizedDescription, error.code, error.userInfo)
+        }
+    }
+    
     func addTrackerToCoreData(_ tracker: Tracker) throws -> TrackerCoreData {
         let trackerCoreData = TrackerCoreData(context: context)
         updateTrackerList(trackerCoreData, with: tracker)
@@ -118,7 +140,21 @@ final class TrackerStore: NSObject {
         return allTrackerFromCoreData
     }
     
-    func retrieveTrackerCategory(by id: UUID) -> Tracker? {
+    func retrieveTrackerCategoryByID(by id: UUID) -> String? {
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                return entity.category?.title
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    func retrieveTrackerByID(by id: UUID) -> Tracker? {
         var trackerToFind: Tracker?
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
         myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")

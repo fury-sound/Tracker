@@ -63,7 +63,7 @@ final class CellCollectionViewController: UICollectionViewCell {
     
     func setImageViewColor(section: Int) {
         if section == 0 {
-            viewForItem.backgroundColor = .ypLightGray
+            viewForItem.backgroundColor = .ypGray
         } else {
             viewForItem.layer.borderColor = itemColor.cgColor //UIColor.ypGreen.cgColor
             viewForItem.layer.borderWidth = 3.0
