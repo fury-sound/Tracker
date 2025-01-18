@@ -88,8 +88,19 @@
         }
       }
     },
+    "Attention!" : {
+      "comment" : "CategoryVC, tableTappedAlert, deleteCategoryAlert",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внимание!"
+          }
+        }
+      }
+    },
     "Cancel" : {
-      "comment" : "NewEventVC, cancelButtonText\nNewHabitVC, cancelButtonText",
+      "comment" : "CategoryVC, deleteCategoryAlert\nNewEventVC, cancelButtonText\nNewHabitVC, cancelButtonText",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -110,6 +121,17 @@
         }
       }
     },
+    "Category 'Pinned' cannot be edited. \n Use context menu to change this tracker category" : {
+      "comment" : "CategoryVC, tableTappedAlert",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категория “Закрепленные” не является редактируемый. Для изменения категории данного трекера используйте контекстное меню трекера "
+          }
+        }
+      }
+    },
     "Category name" : {
       "comment" : "NewEventVC, cellForRowAt\nNewHabitVC, buttonNameArray\nNewHabitVC, cellForRowAt",
       "localizations" : {
@@ -117,6 +139,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Название категории"
+          }
+        }
+      }
+    },
+    "Change category" : {
+      "comment" : "CategoryVCViewModel, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить категорию"
           }
         }
       }
@@ -188,12 +221,23 @@
       }
     },
     "Delete" : {
-      "comment" : "TrackerNavigationViewController, pinAction",
+      "comment" : "CategoryVC, deleteCategoryAlert\nTrackerNavigationViewController, pinAction",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Don't need this category? \n All related trackers to be deleted as well" : {
+      "comment" : "CategoryVC, deleteCategoryAlert",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта категория точно не нужна? Все связанные с ней трекеры будут удалены"
           }
         }
       }
@@ -205,6 +249,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Редактировать"
+          }
+        }
+      }
+    },
+    "Edit the category" : {
+      "comment" : "AddCategoryVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактирование категории"
           }
         }
       }
@@ -259,7 +314,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ошибка!\\n"
+            "value" : "Ошибка!"
           }
         }
       }
@@ -270,7 +325,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Даже если это \\n не литры воды и йога"
+            "value" : "Даже если это не литры воды и йога"
           }
         }
       }
@@ -314,7 +369,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Даже если это\\n не литры воды и йога"
+            "value" : "Даже если это не литры воды и йога"
           }
         }
       }
@@ -578,7 +633,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Привычки и события можно \\n объединять по смыслу"
+            "value" : "Привычки и события можно объединять по смыслу"
           }
         }
       }

@@ -19,6 +19,15 @@ final class AddCategoryViewModel {
 //    weak var delegate: AddCategoryViewModelDelegate? // to be deleted
     private let trackerCategoryStore = TrackerCategoryStore()
     
+    var addCategoryVCViewModelState: viewControllerForCategoryState = .creating {
+        didSet {
+//            guard let selectedCategoryVCTitle else { return }
+//            print("selectedCategoryVCTitle", selectedCategoryVCTitle)
+//            updateCategoryVCUIForState?(selectedCategoryVCTitle)
+//            updateUIParameters()
+        }
+    }
+    
     private var buttonEnabled: Bool = false {
         didSet {
             editTextFieldHandler?(buttonEnabled)
@@ -34,25 +43,44 @@ final class AddCategoryViewModel {
     
     typealias BoolClosure = ((Bool) -> Void)
     typealias StringClosure = ((String) -> Void)
+    typealias EmptyClosure = (() -> Void)
     
     var editTextFieldHandler: BoolClosure?
     var settingNewCategoryName: StringClosure?
     var errorCreatingNewCategory: StringClosure?
+    var updateAddCategoryVCUIForState: StringClosure?
     
 //    var editTextFieldHandler: ((Bool) -> Void)?
 //    var settingNewCategoryName: ((String) -> Void)?
 //    var errorCreatingNewCategory: ((String) -> Void)?
     
-    func creatingNewCategoryTapped(name: String) {
-        if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: name) {
-            newCategoryName = name
-            do {
-                try trackerCategoryStore.addTrackerCategoryTitleToCoreData(newCategoryName)
-            } catch let error as NSError {
-                print("Error creating new category: \(error)")
+    func updateUIParameters() {
+        switch addCategoryVCViewModelState {
+        case .creating:
+            buttonEnabled = false
+            updateAddCategoryVCUIForState?("")
+        case .editing(let categoryName):
+            print("2. in editing, updateUIParameters, categoryName", categoryName)
+            buttonEnabled = true
+            updateAddCategoryVCUIForState?(categoryName)
+        }
+    }
+    
+    func readyCategoryTapped(targetcategoryName: String) {
+        switch addCategoryVCViewModelState {
+        case .creating:
+            if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: targetcategoryName) {
+                newCategoryName = targetcategoryName
+                do {
+                    try trackerCategoryStore.addTrackerCategoryTitleToCoreData(newCategoryName)
+                } catch let error as NSError {
+                    print("Error creating new category: \(error)")
+                }
+            } else {
+                errorCreatingNewCategory?(targetcategoryName)
             }
-        } else {
-            errorCreatingNewCategory?(name)
+        case .editing(let existingCategoryName):
+            trackerCategoryStore.changeTrackerCategoryName(startCategory: existingCategoryName, targetCategory: targetcategoryName)
         }
     }
     
@@ -61,7 +89,7 @@ final class AddCategoryViewModel {
     }
     
     func viewDidLoad() {
-        buttonEnabled = false
+        updateUIParameters()
     }
     
 }

@@ -71,14 +71,21 @@ let scheduleTitle = NSLocalizedString("Schedule", comment: "ScheduleVC, viewDidL
 //MARK: CategoryVC
 let initSloganText = NSLocalizedString("Trackers and events \n can be combined", comment: "CategoryVC, initSlogan")
 let categoryTitle = NSLocalizedString("Category", comment: "CategoryVC, viewDidLoad").localizedCapitalized
+let alertTitleForCategory = NSLocalizedString("Attention!", comment: "CategoryVC, tableTappedAlert, deleteCategoryAlert")
+let changingPinnedCategory = NSLocalizedString("Category 'Pinned' cannot be edited. \n Use context menu to change this tracker category", comment: "CategoryVC, tableTappedAlert")
+let deletingCategory = NSLocalizedString("Don't need this category? \n All related trackers to be deleted as well", comment: "CategoryVC, deleteCategoryAlert")
+let deleteText = NSLocalizedString("Delete", comment: "CategoryVC, deleteCategoryAlert")
+let cancelText = NSLocalizedString("Cancel", comment: "CategoryVC, deleteCategoryAlert")
 
 //MARK: CategoryVCViewModel
 let createCategoryText = NSLocalizedString("Create category", comment: "CategoryVCViewModel, viewDidLoad")
 let addCategoryText = NSLocalizedString("Add category", comment: "CategoryVCViewModel, didSelectCategoryAtIndex")
+let changeCategoryText = NSLocalizedString("Change category", comment: "CategoryVCViewModel, viewDidLoad")
 
 //MARK: AddCategoryVC
 let categoryNamePlaceholder = NSLocalizedString("Enter Category name", comment: "AddCategoryVC, trackerNameTextfield")
 let newCategoryTitle = NSLocalizedString("New category", comment: "AddCategoryVC, viewDidLoad")
+let editCategoryTitle = NSLocalizedString("Edit the category", comment: "AddCategoryVC, viewDidLoad")
 let alertTitle = NSLocalizedString("Error!\n", comment: "AddCategoryVC, alertForAddCategoryError")
 let keyCategoryExists = NSLocalizedString("Such category already exists!", comment: "AddCategoryVC, alertForAddCategoryError")
 

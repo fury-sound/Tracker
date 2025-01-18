@@ -36,7 +36,7 @@ final class NewHabitVC: UIViewController {
     private var editedTracker: Tracker?
     private var selectedCategory: TrackerCategory?
     private var selectedCategoryName: String?
-//    private var textInTextfield = ""
+    //    private var textInTextfield = ""
     private var selectedEmoji = "🙂"
     private var selectedColor: UIColor = .ypDarkRed
     private var daysString: String?
@@ -89,7 +89,7 @@ final class NewHabitVC: UIViewController {
         createOrSaveButton.isEnabled = false
         createOrSaveButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
         createOrSaveButton.setTitleColor(.ypWhite, for: .disabled)
-//        createOrSaveButton.setTitle(createOrSaveButtonText, for: .normal)
+        //        createOrSaveButton.setTitle(createOrSaveButtonText, for: .normal)
         createOrSaveButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createOrSaveButton.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
         return createOrSaveButton
@@ -170,7 +170,7 @@ final class NewHabitVC: UIViewController {
         case .editing(let tracker):
             habitViewTitle = editTrackerTitle
             createOrSaveButton.setTitle(saveButtonText, for: .normal)
-//            createOrSaveButton.isEnabled = true
+            //            createOrSaveButton.isEnabled = true
             setEditedTrackersData(tracker: tracker)
             emojiSelected = true
             colorSelected = true
@@ -186,13 +186,13 @@ final class NewHabitVC: UIViewController {
     func setEditedTrackersData(tracker: Tracker) {
         guard let trackerID = tracker.id, let trackerName = tracker.name, let emojiPic = tracker.emojiPic, let color = tracker.color else { return }
         trackerNameTextfield.text = trackerName
-//        textInTextfield = tracker.name
+        //        textInTextfield = tracker.name
         selectedCategoryName = trackerStore.retrieveTrackerCategoryByID(by: trackerID)
         let scheduleToIntArray: [Int] = tracker.schedule.map { $0.rawValue }
         daysString = intsToDaysOfWeek(dayArray: scheduleToIntArray)
-//        print("tracker.emojiPic", tracker.emojiPic)
-//        selectedEmoji = emojiPic
-//        print("tracker.color", tracker.color)
+        //        print("tracker.emojiPic", tracker.emojiPic)
+        //        selectedEmoji = emojiPic
+        //        print("tracker.color", tracker.color)
         
         //        scheduleCell.detailTextLabel?.text = tracker.schedule
         //        categoryCell.detailTextLabel?.text = buttonNameArray[tracker.id.0].1
@@ -252,8 +252,8 @@ final class NewHabitVC: UIViewController {
     }
     
     private func canEnableCreateButton() {
-//        print("textInTextfield == '' || textInTextfield.count > 38 || selectedCategoryName == nil || daysString == nil || !emojiSelected || !colorSelected")
-//        print(textInTextfield, textInTextfield.count, selectedCategoryName, daysString, !emojiSelected, !colorSelected)
+        //        print("textInTextfield == '' || textInTextfield.count > 38 || selectedCategoryName == nil || daysString == nil || !emojiSelected || !colorSelected")
+        //        print(textInTextfield, textInTextfield.count, selectedCategoryName, daysString, !emojiSelected, !colorSelected)
         guard let trackerName = trackerNameTextfield.text else { return }
         if (trackerName == "" || trackerName.count > 38 || selectedCategoryName == nil || daysString == nil || !emojiSelected || !colorSelected) {
             createOrSaveButton.isEnabled = false
@@ -331,8 +331,11 @@ final class NewHabitVC: UIViewController {
             print(selectedCategoryName, tracker.id, trackerNameTextfield.text, daysToSend, selectedEmoji, selectedColor)
             let tempTracker = Tracker(id: tracker.id, name: trackerNameTextfield.text, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
             try? trackerStore.editTrackerInCoreData(tempTracker)
+            guard let trackerID = tempTracker.id, let selectedCategoryName else { return }
+            trackerStore.changeTrackerCategories(by: trackerID, newCategoryTitle: selectedCategoryName)
             print("changed tracker", trackerStore.retrieveTracker(by: tracker.id!))
-            print("changed tracker Category", trackerCategoryStore.retrieveAllTrackerCategoryTitles())
+            print("changed tracker Category", trackerStore.retrieveTrackerCategoryByID(by: tracker.id!))
+            print("all tracker Category", trackerCategoryStore.retrieveAllTrackerCategoryTitles())
         }
         
         resettingFields()
@@ -356,6 +359,15 @@ extension NewHabitVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let viewModel = CategoryVCViewModel()
+            let newCategoryVC = CategoryVC(viewModel: viewModel)
+            switch habitViewState {
+                case .creating:
+                    viewModel.categoryVCViewModelState = .creating
+                    newCategoryVC.categoryVCState = .creating
+                case .editing(tracker: let tracker):
+                    viewModel.categoryVCViewModelState = .editing(tracker: tracker)
+                    newCategoryVC.categoryVCState = .editing(tracker: tracker)
+            }
             viewModel.returnToPreviousViewHandler = { [weak self] selectedCategoryInModel in
                 guard let self else { return }
                 self.selectedCategoryName = selectedCategoryInModel
@@ -363,8 +375,7 @@ extension NewHabitVC: UITableViewDelegate {
                 tableView.reloadData()
                 self.navigationController?.popViewController(animated: true)
             }
-            let categoryVC = CategoryVC(viewModel: viewModel)
-            navigationController?.pushViewController(categoryVC, animated: true)
+                navigationController?.pushViewController(newCategoryVC, animated: true)
         } else {
             let scheduleVC = ScheduleVC()
             navigationController?.pushViewController(scheduleVC, animated: true)
@@ -375,6 +386,7 @@ extension NewHabitVC: UITableViewDelegate {
                 tableView.reloadData()
             }
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -438,7 +450,7 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
                 collectionViewCell.emojiLabel.backgroundColor = .clear
             case .editing(let tracker):
                 if tracker.emojiPic == "\(emojis[indexPath.row])" {
-//                    print("tracker.emojiPic, emojis[indexPath.row]", tracker.emojiPic, emojis[indexPath.row])
+                    //                    print("tracker.emojiPic, emojis[indexPath.row]", tracker.emojiPic, emojis[indexPath.row])
                     collectionViewCell.setImageViewColor(section: 0)
                     selectedEmoji = emojis[indexPath.item]
                     selectedEmojiCell = collectionViewCell
@@ -455,7 +467,7 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
             case .creating: break
             case .editing(let tracker):
                 if tracker.color == colors[indexPath.row] {
-//                    print("tracker.color, colors[indexPath.row]", tracker.color, colors[indexPath.row])
+                    //                    print("tracker.color, colors[indexPath.row]", tracker.color, colors[indexPath.row])
                     collectionViewCell.setImageViewColor(section: 1)
                     selectedColor = colors[indexPath.item]
                     selectedColorCell = collectionViewCell

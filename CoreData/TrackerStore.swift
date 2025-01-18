@@ -14,7 +14,7 @@ final class TrackerStore: NSObject {
     private var trackerCategoryStore: TrackerCategoryStore?
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
-        let fetchRequest = TrackerCoreData.fetchRequest()
+        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "name", ascending: true)
         ]
@@ -38,8 +38,9 @@ final class TrackerStore: NSObject {
         super.init()
         setupFRC()
     }
-    
+        
     func setupFRC() {
+        
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {
@@ -80,15 +81,15 @@ final class TrackerStore: NSObject {
         return trackerCoreData
     }
     
-    func pinTrackerToCoreData(_ tracker: Tracker) throws -> TrackerCoreData {
-        let trackerCoreData = TrackerCoreData(context: context)
-//        updateTrackerList(trackerCoreData, with: tracker)
-//        trackerCoreData.isPinned = true
-//        do {
-//            try context.setValue(true, forKey: "isPinned")
-//        }
-        return TrackerCoreData()
-    }
+//    func pinTrackerToCoreData(_ tracker: Tracker) throws -> TrackerCoreData {
+//        let trackerCoreData = TrackerCoreData(context: context)
+////        updateTrackerList(trackerCoreData, with: tracker)
+////        trackerCoreData.isPinned = true
+////        do {
+////            try context.setValue(true, forKey: "isPinned")
+////        }
+//        return TrackerCoreData()
+//    }
     
     func updateTrackerList(_ trackerCoreData: TrackerCoreData, with tracker: Tracker) {
         trackerCoreData.id = tracker.id
@@ -195,6 +196,38 @@ final class TrackerStore: NSObject {
 //                if entity.isPinned == "Pinned" {
                     trackerCategoryStore.switchTrackerCategory(trackerCoreData: entity, categoryField: mainCategoryTitle, isPinnedField: isPinned)
                     entity.isPinned = mainCategoryTitle
+//                } else {
+//                    trackerCategoryStore.switchTrackerCategory(trackerCoreData: entity, categoryField: isPinned, isPinnedField: mainCategoryTitle)
+//                    entity.isPinned = isPinned
+//                }
+//                print("2")
+//                print("Tracker name: \(String(describing: entity.name)), \(String(describing: entity.id))")
+//                print("Tracker category: \(String(describing: entity.category?.title))")
+//                print("Tracker pinned: \(String(describing: entity.isPinned))")
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func changeTrackerCategories(by id: UUID, newCategoryTitle: String) {
+//        var trackerToFind: Tracker?
+        let trackerCategoryStore = TrackerCategoryStore(context: context)
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                guard let startCategoryTitle = entity.category?.title, let isPinned = entity.isPinned else { return }
+//                print("1")
+//                print("Tracker name: \(String(describing: entity.name)), \(String(describing: entity.id))")
+//                print("Tracker category: \(String(describing: entity.category?.title))")
+//                print("Tracker pinned: \(String(describing: entity.isPinned))")
+//                trackerCategoryStore.retrieveCategoryTitles()
+//                if entity.isPinned == "Pinned" {
+                    trackerCategoryStore.changeTrackerCategory(trackerCoreData: entity, startCategory: startCategoryTitle, targetCategory: newCategoryTitle)
+//                    entity.isPinned = mainCategoryTitle
 //                } else {
 //                    trackerCategoryStore.switchTrackerCategory(trackerCoreData: entity, categoryField: isPinned, isPinnedField: mainCategoryTitle)
 //                    entity.isPinned = isPinned
@@ -382,6 +415,26 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
             return
         }
         delegateTrackerForNotifications.addingTrackerOnScreen()
+//        : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        var objects = fetchedResultsController.fetchedObjects
+        print("objects in TrackerStore (FRC)")
+        for (index, item) in objects!.enumerated() {
+            print("\(index). tracker name", item.name)
+            print("\(index). tracker category", item.category?.title)
+        }
+//        do {
+//            let res = try context.fetch(fetchRequest)
+////            print("Entities: \(res)")
+//            for entity in res {
+//                print(entity as! TrackerCoreData)
+//                
+//            }
+////            try context.save()
+//            //            print("All entities deleted, saving context")
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+        
     }
 }
 

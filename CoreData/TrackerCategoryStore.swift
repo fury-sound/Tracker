@@ -95,6 +95,44 @@ final class TrackerCategoryStore: NSObject {
             print(error.localizedDescription)
         }
     }
+
+    func changeTrackerCategory(trackerCoreData: TrackerCoreData, startCategory: String, targetCategory: String) {
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", startCategory)
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                if entity.title == startCategory {
+                    entity.removeFromTracker(trackerCoreData)
+                    let targetCategoryInCoreData = findCategoryByName(categoryName: targetCategory)
+                    guard let targetCategoryInCoreData else {
+                        print("error with targetCategoryInCoreData in changeTrackerCategory")
+                        return
+                    }
+                    targetCategoryInCoreData.addToTracker(trackerCoreData)
+                }
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+
+    func changeTrackerCategoryName(startCategory: String, targetCategory: String) {
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", startCategory)
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                if entity.title == startCategory {
+                    entity.title = targetCategory
+                }
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
     
     func findCategoryByName(categoryName: String) -> TrackerCategoryCoreData? {
         let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()

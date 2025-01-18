@@ -164,6 +164,11 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		B9C197002D3B1658009B917D /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
 		B9FE627E2D368F5700BE13E2 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,6 +313,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B90C3F3F2CD6981E00171B84 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B9C197002D3B1658009B917D /* Products */;
+					ProjectRef = B90493212CF3923700C34E4C /* Tracker.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				B90C3F3D2CD6981E00171B84 /* Tracker */,

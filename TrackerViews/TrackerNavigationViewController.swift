@@ -82,6 +82,11 @@ enum viewControllerState {
     case editing(tracker: Tracker)
 }
 
+enum viewControllerForCategoryState {
+    case creating
+    case editing(existingCategoryName: String)
+}
+
 //enum Constants {
 //    case EmojiArray
 //    case Colors
@@ -547,7 +552,6 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
 //            print("Pinned found")
 //        }
 
-                
         guard let trackersFilteredByWeekdaysDictionary else { return }
         for item in trackersFilteredByWeekdaysDictionary {
             let trackerCategoryTitle = item.key
