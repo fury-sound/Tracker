@@ -450,6 +450,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     private func emptyTrackerSetup() {
         view.backgroundColor = TrackerColors.viewBackgroundColor
+//        view.backgroundColor = .red
         imageView.translatesAutoresizingMaskIntoConstraints = false
         initLogo.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
@@ -466,6 +467,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     private func collectionViewSetup() {
         view.backgroundColor = TrackerColors.viewBackgroundColor
+//        view.backgroundColor = .red
         let objectsToShow = [emptySearchImage, emptySearchLabel, trackerCollectionView, trackerFiltersButton]
         objectsToShow.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false

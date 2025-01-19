@@ -110,8 +110,8 @@
             filePath = "TrackerViews/TrackerNavigationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "576"
-            endingLineNumber = "576"
+            startingLineNumber = "578"
+            endingLineNumber = "578"
             landmarkName = "filteringTrackers(curDayOfWeek:usedDate:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "TrackerViews/TrackerNavigationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
             landmarkName = "filteringTrackers(curDayOfWeek:usedDate:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "TrackerViews/TrackerNavigationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "769"
-            endingLineNumber = "769"
+            startingLineNumber = "771"
+            endingLineNumber = "771"
             landmarkName = "pinTracker(indexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +206,8 @@
             filePath = "TrackerViews/TrackerNavigationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "539"
-            endingLineNumber = "539"
+            startingLineNumber = "541"
+            endingLineNumber = "541"
             landmarkName = "filteringTrackers(curDayOfWeek:usedDate:)"
             landmarkType = "7">
             <Actions>
@@ -230,8 +230,8 @@
             filePath = "TrackerViews/TrackerNavigationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "553"
-            endingLineNumber = "553"
+            startingLineNumber = "555"
+            endingLineNumber = "555"
             landmarkName = "filteringTrackers(curDayOfWeek:usedDate:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -361,22 +361,6 @@
             startingLineNumber = "198"
             endingLineNumber = "198"
             landmarkName = "viewSetup()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "978977A4-005C-4B12-B6C1-0AB8CE163258"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CategoryViews/CategoryVCViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "didSelectCategoryAtIndex(index:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
