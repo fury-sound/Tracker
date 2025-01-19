@@ -60,7 +60,6 @@ final class AddCategoryViewModel {
             buttonEnabled = false
             updateAddCategoryVCUIForState?("")
         case .editing(let categoryName):
-            print("2. in editing, updateUIParameters, categoryName", categoryName)
             buttonEnabled = true
             updateAddCategoryVCUIForState?(categoryName)
         }

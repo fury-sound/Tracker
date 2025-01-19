@@ -10,29 +10,14 @@ import CoreData
 
 final class TrackerRecordStore: NSObject {
     private let context: NSManagedObjectContext
-    
-//    private var trackerRecords: Int = 0
-    
     weak var delegateTrackerRecordForNotifications: TrackerNavigationViewProtocol?
     
-//    weak var delegate: CounterProtocol?
 //    weak var delegate: TrackerRecordStoreDelegate?
 //    private var statisticsViewController: StatisticsTableViewController?
-    
-//    func controllerDidUpdateFetchedResults(_ controller: NSFetchedResultsController<TrackerRecordCoreData>) {
-//        print("in controllerDidUpdateFetchedResults")
-//        delegateTrackerStatisticsNotifications?.controllerDidUpdateFetchedResults(controller)
-//    }
-    
-//    func recordsCounter() {
-//        trackerRecords = countEntitiesForStatistics() ?? 0
-//        delegate?.didUpdateCount(trackerRecords)
-//    }
     
     private var currentCell: TrackerCellViewController?
 //    private var statisticsVC: StatisticsTableViewController?
     private var trackerId: UUID?
-//    private var trackerRecordCoreData: TrackerRecordCoreData? // let trackerRecordCoreData = TrackerRecordCoreData(context: context)
         
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData> = {
         let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
@@ -65,58 +50,23 @@ final class TrackerRecordStore: NSObject {
         self.context = context
         super.init()
         setupFRC()
-        
-//        setupFRC(context: )
-//        let delegate = delegateTrackerStatisticsNotifications
     }
     
-//    func setupFRC(with context: NSManagedObjectContext) {
     func setupFRC() {
         do {
             try fetchedResultsController.performFetch()
-//            print("perfomFetch, setupFRC, TrackerRecordStore")
-//            if let records = fetchedResultsController.fetchedObjects {
-//                delegate?.didUpdateRecords(records)
-//            }
-//            guard let delegate else {
-//                print("no delegate")
-//                return
-//            }
-//            if let completedTrackerNumber = countEntitiesForStatistics() {
-//                delegate.sendingStatisticsData(completedTrackerNumber)
-//            }
-//            delegate.sendingStatisticsData(1)
-            
         } catch let error as NSError {
             print("Failed to fetch entities: \(error.localizedDescription)")
         }
     }
     
-//    func notifyDelegate() {
-//        if let completedTrackerNumber = countEntitiesForStatistics() {
-//            delegate?.sendingStatisticsData(completedTrackerNumber)
-//        }
-//    }
-    
-//    func setStatisticsInstance(statistics: StatisticsTableViewController) {
-//        statisticsViewController = statistics
-//    }
-    
-//    func setTrackerRecordParams(trackerId: UUID, currentCell: TrackerCellViewController, delegate: TrackerRecordStoreDelegate?) {
-//    func setTrackerRecordParams(trackerId: UUID, currentCell: TrackerCellViewController, statisticsVC: StatisticsTableViewController) {
     func setTrackerRecordParams(trackerId: UUID, currentCell: TrackerCellViewController) {
         self.currentCell = currentCell
         self.trackerId = trackerId
     }
     
-//    func setTrackerRecordForStatistics(statisticsVC: StatisticsTableViewController) {
-//        print("in statisticsVC, setTrackerRecordForStatistics")
-//        self.statisticsVC = statisticsVC
-//    }
-    
     func addTrackerRecordToCoreData(_ trackerRecord: TrackerRecord) throws {
         let trackerRecordCoreData = TrackerRecordCoreData(context: context)
-//        guard let trackerRecordCoreData else { return }
         updateTrackerRecordList(trackerRecordCoreData, with: trackerRecord)
         do {
             try context.save()
@@ -152,10 +102,6 @@ final class TrackerRecordStore: NSObject {
         myRequest.predicate = NSPredicate(format: "(dateExecuted != %@) AND (id == %@)", trackerRecord.dateExecuted, trackerRecord.id as CVarArg)
         do {
             let res = try context.fetch(myRequest)
-//            for entity in res {
-//                print("entity.id, entity.dateExecuted", entity.id, entity.dateExecuted)
-//            }
-            
             if res.isEmpty {
                 return false
             } else {
@@ -214,7 +160,6 @@ final class TrackerRecordStore: NSObject {
     
     // MARK: temp functions
     func countEntities(id: UUID) -> Int {
-//        print("in countEntities")
         var counter = 0
         let myRequest : NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         myRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
@@ -228,7 +173,6 @@ final class TrackerRecordStore: NSObject {
     }
     
     func countEntitiesForStatistics() -> Int? {
-//        print("in countEntities")
         let myRequest : NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         var completedTrackerCount = 0
         do {
@@ -238,12 +182,6 @@ final class TrackerRecordStore: NSObject {
                     completedTrackerCount += 1
                 }
             }
-//            print("completedTrackerCount", completedTrackerCount)
-//        do {
-//            for (index, entity) in res.enumerated() {
-//                print("entity info", entity.obje)
-//                completedTrackerCount += entity.dateExecuted?.count ?? 0
-//            }
             return completedTrackerCount
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -252,7 +190,6 @@ final class TrackerRecordStore: NSObject {
     }
     
     func countEntities() {
-//        print("in countEntities")
         let myRequest : NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         do {
             let counter = try context.count(for: myRequest)
@@ -267,11 +204,10 @@ final class TrackerRecordStore: NSObject {
         print("All entities in TrackerRecordCoreData:")
         do {
             let res = try context.fetch(myRequest)
-//            print("Entities: \(res)")
             for (index, entity) in res.enumerated() {
-                print("\(index) Entity: \(entity)")
-                print("\(index) Entity name: \(entity.id)")
-                print("\(index) Entity date: \(entity.dateExecuted)")
+//                print("\(index) Entity: \(entity)")
+//                print("\(index) Entity name: \(entity.id)")
+//                print("\(index) Entity date: \(entity.dateExecuted)")
             }
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -287,7 +223,6 @@ final class TrackerRecordStore: NSObject {
                 context.delete(entity)
             }
             try context.save()
-            //            print("All entities deleted, saving context")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -308,20 +243,9 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-//        print("didChangeContent - in controllerDidChangeContent for TrackerRecordStore")
         guard let currentCell, let trackerId else {return}
         let counter = countEntities(id: trackerId)
         currentCell.setDayLabelText(days: counter)
-
-//        let completedTrackers = countEntitiesForStatistics()
-//        guard let completedTrackers else {
-//            print("no completed Trackers")
-//            return}
-//        guard let statisticsVC = self.statisticsVC else {
-//            print("no statisticsVC")
-//            return}
-//        print("completedTrackers in didChangeContent:", completedTrackers)
-//        statisticsVC.sendingStatisticsData(completedTrackers)
         
 //        ### for delegate pattern - not working
 //        print("context.name in didChangeContent:", context.name)
@@ -347,10 +271,8 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
         switch type {
         case .insert:
             currentCell.setButtonSign(isPlusSignOnFlag: true)
-//            print("pressed plus on")
         case .delete:
             currentCell.setButtonSign(isPlusSignOnFlag: false)
-//            print("pressed plus off")
         default:
             break
         }

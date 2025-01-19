@@ -7,7 +7,6 @@
 
 import UIKit
 
-//final class CategoryVCViewModel: AddCategoryViewModelDelegate { // to be deleted
 final class CategoryVCViewModel {
     
     private let trackerCategoryStore = TrackerCategoryStore()
@@ -31,7 +30,6 @@ final class CategoryVCViewModel {
     
     var addCategoryVCViewModelState: viewControllerForCategoryState = .creating {
         didSet {
-            print("addCategoryVCViewModelState", addCategoryVCViewModelState)
             switch addCategoryVCViewModelState {
             case .creating:
                 setCreatForAddCategoryVCState?()
@@ -59,7 +57,6 @@ final class CategoryVCViewModel {
             case .creating:
                 reloadDataHandler?()
             case .editing(let tracker):
-                print("selectedCategoryName", selectedCategoryName)
                 if selectedCategoryName == "Pinned" {
                     lockTableFromChanges?()
                 }
@@ -91,15 +88,6 @@ final class CategoryVCViewModel {
     
     /// при выборе трекера из категории Pinned для редактирования не дает взаимодействовать с таблицей категорий
     var lockTableFromChanges: EmptyClosure?
-//    var updateAddCategoryState: StringClosure?
-    
-//    addCategoryState = .editing(existingCategoryName: tracker.name)
-    
-    //    var sendCategoryHandler: (() -> Void)? // never called
-    //    var addCategoryVCHandler: (() -> Void)?
-    //    var returnToPreviousViewHandler: ((String) -> Void)?
-    //    var reloadDataHandler: (() -> Void)?
-    //    var buttonNameChange: ((String) -> Void)?
     
     func viewDidLoad() {
         retrieveAllTrackerCategoriesToTable()
@@ -118,25 +106,15 @@ final class CategoryVCViewModel {
     }
     
     private func retrieveAllTrackerCategoriesToTable() {
-        print(trackerCategoryStore.retrieveAllTrackerCategoryTitles())
         trackerNameArray = trackerCategoryStore.retrieveAllTrackerCategoryTitles()
     }
         
     func editCategoryActionTapped(startCategoryName: String) {
-        print("edit category: \(startCategoryName)") // to \(targetCategoryName)")
         addCategoryVCViewModelState = .editing(existingCategoryName: startCategoryName)
         addCategoryVCHandler?()
         retrieveAllTrackerCategoriesToTable()
         reloadDataHandler?()
     }
-
-// TO BE DELETED. Тест редактирование категории через UIAlert
-//    func editCategoryActionAlertTapped(startCategoryName: String, targetCategoryName: String) {
-//        print("edit category: \(startCategoryName) to \(targetCategoryName)")
-//        trackerCategoryStore.changeTrackerCategoryName(startCategory: startCategoryName, targetCategory: targetCategoryName)
-//        retrieveAllTrackerCategories()
-//        reloadDataHandler?()
-//    }
 
     func deleteCategoryActionTapped(categoryName: String) {
         let completedTrackersArrayFromPinned = trackerCategoryStore.retrieveTrackerForCategoryByNameForPinned(categoryName: categoryName)
@@ -150,46 +128,24 @@ final class CategoryVCViewModel {
             trackerStore.deleteTracker(by: $0)
         }
         trackerCategoryStore.deleteTrackerCategoryName(categoryName: categoryName)
-//        showAllTrackersData()
         retrieveAllTrackerCategoriesToTable()
         selectedIndex = nil
         reloadDataHandler?()
     }
-    
+  
+    // to be deleted
     private func showAllTrackersData() {
-        print("All data for trackers:")
-        print(trackerStore.retrieveAllTrackers())
-        trackerCategoryStore.retrieveCategoryTitles()
-        trackerRecordStore.retrieveAllTrackerRecordCoreDataInfo()
-    }
-    
-    func updateCategoryVCUIForState(_ state: viewControllerState) {
-        //        switch categoryVCState {
-        //        case .editing(let tracker):
-        //            viewModel(state: editing)
-        ////            createOrSaveButton.setTitle(saveButtonText, for: .normal)
-        //////            createOrSaveButton.isEnabled = true
-        ////            setEditedTrackersData(tracker: tracker)
-        //
-        //        case .creating:
-        //            viewModel(state: .creating)
-        //            defaultFields()
-        ////            categoryViewTitle = newTrackerTitle
-        ////            createOrSaveButton.setTitle(createButtonText, for: .normal)
-        //        }
+//        print("All data for trackers:")
+//        print(trackerStore.retrieveAllTrackers())
+//        trackerCategoryStore.retrieveCategoryTitles()
+//        trackerRecordStore.retrieveAllTrackerRecordCoreDataInfo()
     }
     
     func didSelectCategoryAtIndex(index: Int) {
-        //        if selectedIndex == index {
-        //            selectedIndex = nil
-        //        } else {
-        //            selectedIndex = index
-        //        }
+
         selectedIndex = (selectedIndex == index) ? nil : index
-//        print("selectedIndex", selectedIndex)
         switch categoryVCViewModelState {
         case .creating:
-//            print("in creating")
             createButtonNameInModel = (selectedIndex == nil ? createCategoryText : addCategoryText)
         case .editing(let tracker):
             createButtonNameInModel = (selectedIndex == nil ? createCategoryText : changeCategoryText)
@@ -198,7 +154,6 @@ final class CategoryVCViewModel {
     
     func categoryCreateButtonTapped() {
         addCategoryVCViewModelState = .creating
-//        print("selected index in categoryCreateButtonTapped:", selectedIndex)
         if let selectedIndex {
             returnToPreviousViewHandler?(trackerNameArray[selectedIndex])
         } else {

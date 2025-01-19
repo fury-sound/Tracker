@@ -19,7 +19,6 @@ final class SplashViewController: UIViewController {
         if wasLaunched {
             switchToNaviBarVC()
         } else {
-            storage.set(true, forKey: "wasLaunched")
             switchToOnboardingVC()
         }
     }

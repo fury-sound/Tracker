@@ -9,8 +9,8 @@ import UIKit
 
 final class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
+    private let storage: UserDefaults = .standard
     let imageNames = ["onboarding1", "onboarding2"]
-//    let labelText = ["Отслеживайте только \n то, что хотите", "Даже если это\n не литры воды и йога"]
     let labelText = [labelLeftText, labelRightText]
     var currentIndex = 0
     
@@ -73,6 +73,7 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
     }
     
     @objc func didTapWow() {
+        storage.set(true, forKey: "wasLaunched")
         switchToNaviBarVC()
     }
     
