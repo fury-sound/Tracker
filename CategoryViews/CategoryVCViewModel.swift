@@ -150,8 +150,9 @@ final class CategoryVCViewModel {
             trackerStore.deleteTracker(by: $0)
         }
         trackerCategoryStore.deleteTrackerCategoryName(categoryName: categoryName)
-        showAllTrackersData()
+//        showAllTrackersData()
         retrieveAllTrackerCategoriesToTable()
+        selectedIndex = nil
         reloadDataHandler?()
     }
     
@@ -185,10 +186,10 @@ final class CategoryVCViewModel {
         //            selectedIndex = index
         //        }
         selectedIndex = (selectedIndex == index) ? nil : index
-        print("selectedIndex", selectedIndex)
+//        print("selectedIndex", selectedIndex)
         switch categoryVCViewModelState {
         case .creating:
-            print("in creating")
+//            print("in creating")
             createButtonNameInModel = (selectedIndex == nil ? createCategoryText : addCategoryText)
         case .editing(let tracker):
             createButtonNameInModel = (selectedIndex == nil ? createCategoryText : changeCategoryText)
@@ -197,6 +198,7 @@ final class CategoryVCViewModel {
     
     func categoryCreateButtonTapped() {
         addCategoryVCViewModelState = .creating
+//        print("selected index in categoryCreateButtonTapped:", selectedIndex)
         if let selectedIndex {
             returnToPreviousViewHandler?(trackerNameArray[selectedIndex])
         } else {

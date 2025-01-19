@@ -374,8 +374,8 @@
             filePath = "CategoryViews/CategoryVCViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "didSelectCategoryAtIndex(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -585,6 +585,22 @@
             startingLineNumber = "316"
             endingLineNumber = "316"
             landmarkName = "controllerDidChangeContent(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "476F83AC-897B-4649-86EC-3E0A949DA282"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CategoryViews/CategoryVCViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "deleteCategoryActionTapped(categoryName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
