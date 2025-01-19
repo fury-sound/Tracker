@@ -20,9 +20,6 @@ final class CellCollectionViewController: UICollectionViewCell {
     lazy var viewForItem: UIView = {
         let emojiView = UIView()
         emojiView.backgroundColor = TrackerColors.viewBackgroundColor
-//        emojiView.sizeToFit()
-//        emojiView.frame.size.height = cellSize
-//        emojiView.frame.size.width = cellSize
         emojiView.layer.opacity = 0.3
         emojiView.layer.cornerRadius = 12
         emojiView.layer.masksToBounds = true
@@ -32,10 +29,6 @@ final class CellCollectionViewController: UICollectionViewCell {
     private lazy var colorView: UIView = {
         let colorView = UIView()
         colorView.backgroundColor = .ypGray
-//        emojiView.sizeToFit()
-//        emojiView.frame.size.height = cellSize
-//        emojiView.frame.size.width = cellSize
-//        colorView.layer.opacity = 0.3
         colorView.layer.cornerRadius = 12
         colorView.layer.masksToBounds = true
         return colorView
@@ -65,7 +58,7 @@ final class CellCollectionViewController: UICollectionViewCell {
         if section == 0 {
             viewForItem.backgroundColor = .ypGray
         } else {
-            viewForItem.layer.borderColor = itemColor.cgColor //UIColor.ypGreen.cgColor
+            viewForItem.layer.borderColor = itemColor.cgColor 
             viewForItem.layer.borderWidth = 3.0
         }
     }

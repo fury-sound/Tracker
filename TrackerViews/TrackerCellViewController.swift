@@ -9,8 +9,6 @@ import UIKit
 
 final class TrackerCellViewController: UICollectionViewCell {
         
-//    private var trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
-//    private var colorNum: Int = 0
     var setMarkSign = false
     var tappedRecordButton: (() -> Void)?
     var tappedCellButton: (() -> UUID)?
@@ -43,7 +41,6 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
-//        textLabel.isUserInteractionEnabled = false
         textLabel.backgroundColor = .clear
         textLabel.textColor = .ypWhite
         textLabel.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -53,9 +50,6 @@ final class TrackerCellViewController: UICollectionViewCell {
     private lazy var daysLabel: UILabel = {
         let daysLabel = UILabel()
         daysLabel.backgroundColor = .clear
-//        daysLabel.isUserInteractionEnabled = true
-//        daysLabel.text = "0 дней"
-//        setDayLabelText(days: 0)
         return daysLabel
     }()
     
@@ -71,7 +65,6 @@ final class TrackerCellViewController: UICollectionViewCell {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        setupGesture()
         self.isUserInteractionEnabled = true
         self.isAccessibilityElement = true
         let elementArray = [trackerView, viewForEmoji, emojiLabel, textLabel, daysLabel, plusButton]
@@ -80,8 +73,6 @@ final class TrackerCellViewController: UICollectionViewCell {
         }
         setDayLabelText(days: 0)
         contentView.backgroundColor = .clear
-//        contentView.backgroundColor = .red
-//        contentView.isUserInteractionEnabled = true
         contentView.addSubview(trackerView)
         trackerView.addSubview(viewForEmoji)
         trackerView.addSubview(textLabel)
@@ -91,7 +82,6 @@ final class TrackerCellViewController: UICollectionViewCell {
         NSLayoutConstraint.activate([
             trackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            trackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
             trackerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trackerView.heightAnchor.constraint(equalToConstant: 2 * contentView.frame.height / 3),
             viewForEmoji.topAnchor.constraint(equalTo: trackerView.topAnchor, constant: 12),
@@ -119,16 +109,6 @@ final class TrackerCellViewController: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    private func setupGesture() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-//        self.addGestureRecognizer(tapGesture)
-//    }
-//    
-//    @objc private func handleTap() {
-//        print("tap gesture")
-////        delegate?.didTapTrackerCell(self)
-//    }
     
     func setButtonSign(isPlusSignOnFlag: Bool) {
         if isPlusSignOnFlag {
@@ -167,47 +147,17 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     func setDayLabelText(days: Int) {
-//        let dayEnding = properDayEndingsInRussian(num: days)
         if #available(iOS 15, *) {
             daysLabel.text = setNumberOfDaysLabelText(days: days)
         } else {
-//            // Fallback on earlier versions
+            // Fallback on earlier versions
             let basicString = NSLocalizedString(setNumberOfDaysLabelText(days: days), comment: "Number of days for completed trackers")
             daysLabel.text = String.localizedStringWithFormat(basicString, days)
-//            daysLabel.text = "\(days) \(dayEnding)"
         }
     }
-    
-//    func properDayEndingsInRussian(num: Int) -> String {
-//        var lastNums = abs(num % 100)
-//        if lastNums >= 11 && lastNums <= 19 {
-//            return "дней"
-//        }
-//        lastNums = abs(num % 10)
-//        switch lastNums {
-//        case 1:
-//            return "день"
-//        case 2,3,4:
-//            return "дня"
-//        default:
-//            return "дней"
-//        }
-//    }
     
     func setColorsInCell(color: UIColor) {
         trackerView.backgroundColor = color
         plusButton.backgroundColor = color
     }
-    
-//    func pinTracker(indexPath: IndexPath) {
-//        print("pin action")
-//    }
-//
-//    func editTracker(indexPath: IndexPath) {
-//        print("edit action")
-//    }
-//
-//    func deleteTracker(indexPath: IndexPath) {
-//        print("delete action")
-//    }
 }
