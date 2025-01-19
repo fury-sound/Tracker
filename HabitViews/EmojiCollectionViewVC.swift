@@ -28,6 +28,8 @@ final class EmojiCollectionViewVC: UIViewController {
         super.viewDidLoad()
         emojiCollectionView.backgroundColor = .green
     }
+
+    
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate

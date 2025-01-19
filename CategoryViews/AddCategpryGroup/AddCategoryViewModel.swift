@@ -50,12 +50,17 @@ final class AddCategoryViewModel {
     var errorCreatingNewCategory: StringClosure?
     var updateAddCategoryVCUIForState: StringClosure?
     
+//    var editTextFieldHandler: ((Bool) -> Void)?
+//    var settingNewCategoryName: ((String) -> Void)?
+//    var errorCreatingNewCategory: ((String) -> Void)?
+    
     func updateUIParameters() {
         switch addCategoryVCViewModelState {
         case .creating:
             buttonEnabled = false
             updateAddCategoryVCUIForState?("")
         case .editing(let categoryName):
+            print("2. in editing, updateUIParameters, categoryName", categoryName)
             buttonEnabled = true
             updateAddCategoryVCUIForState?(categoryName)
         }

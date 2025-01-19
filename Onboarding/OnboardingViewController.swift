@@ -10,12 +10,14 @@ import UIKit
 final class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     let imageNames = ["onboarding1", "onboarding2"]
+//    let labelText = ["Отслеживайте только \n то, что хотите", "Даже если это\n не литры воды и йога"]
     let labelText = [labelLeftText, labelRightText]
     var currentIndex = 0
     
     lazy var wowButton: UIButton = {
         let button = UIButton()
         button.setTitle(buttonText, for: .normal)
+//        button.setTitle("Вот это технологии!", for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         button.backgroundColor = .ypBlack

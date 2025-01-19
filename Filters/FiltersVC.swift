@@ -27,6 +27,7 @@ final class FiltersVC: UIViewController {
     
     private var filterNames: [FilterNameEnum] = FilterNameEnum.allCases
     var selectedFilter: FilterNameEnum?
+//    var defaultFilter: FilterNameEnum = .allTrackers
     var tappedFilter: ((FilterNameEnum) -> Void)?
     private var selectedFilterIndex: Int?
     private var tapGesture: UITapGestureRecognizer?
@@ -35,6 +36,7 @@ final class FiltersVC: UIViewController {
         let filterTableView = UITableView(frame: .zero, style: .insetGrouped)
         filterTableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
         filterTableView.backgroundColor = .clear
+//        filterTableView.isUserInteractionEnabled = true
         filterTableView.isScrollEnabled = false
         filterTableView.delegate = self
         filterTableView.dataSource = self
@@ -53,6 +55,7 @@ final class FiltersVC: UIViewController {
         viewSetup()
 //        tapRecognizerSetup()
         navigationItem.setHidesBackButton(true, animated: true)
+//        print("current selectedFilter: \(selectedFilter)")
     }
     
 //    private func tapRecognizerSetup() {
@@ -66,6 +69,7 @@ final class FiltersVC: UIViewController {
     private func viewSetup() {
         // page layout setup
         view.backgroundColor = TrackerColors.viewBackgroundColor
+//        view.backgroundColor = .red
         filterTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(filterTableView)
         NSLayoutConstraint.activate([
@@ -75,11 +79,19 @@ final class FiltersVC: UIViewController {
             filterTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+//    @objc private func dismissFilterView() {
+//        print("in function dismissFilterView")
+//        guard let selectedFilter else { return }
+//        tappedFilter?(selectedFilter)
+//        dismiss(animated: true)
+//    }
 }
 
 extension FiltersVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("in function didSelectRowat")
         selectedFilterIndex = indexPath.row
         selectedFilter = filterNames[indexPath.row]
         if let cell = tableView.cellForRow(at: indexPath) {
@@ -92,6 +104,7 @@ extension FiltersVC: UITableViewDelegate {
         filterTableView.reloadData()
         guard let selectedFilter else { return }
         tappedFilter?(selectedFilter)
+//        dismiss(animated: true)
     }
 }
 
@@ -107,7 +120,9 @@ extension FiltersVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
+//        print("selectedFilterIndex, selectedFilter", selectedFilterIndex, selectedFilter)
         cell.textLabel?.text = filterNames[indexPath.row].filterTitle
+//        cell.isUserInteractionEnabled = false
         cell.selectionStyle = .none
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.backgroundColor = .ypBackground
@@ -123,6 +138,12 @@ extension FiltersVC: UITableViewDataSource {
         }
         return cell
     }
+    
+    //    private func didSelectCategoryAtIndex(index: Int) {
+    //        selectedFilterIndex = (selectedFilterIndex == index) ? nil : index
+    //        selectedFilter = (selectedFilterIndex == nil ? nil : filterNames[index])
+    //    }
+    
 }
 
 

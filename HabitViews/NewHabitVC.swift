@@ -23,6 +23,7 @@ final class NewHabitVC: UIViewController {
     private var scheduleCell = UITableViewCell()
     private var selectedEmojiCell = CellCollectionViewController()
     private var selectedColorCell = CellCollectionViewController()
+//    private var defaultHeader = defaultHeaderName
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private let layout = UICollectionViewFlowLayout()
     private var habitViewTitle = ""
@@ -35,6 +36,7 @@ final class NewHabitVC: UIViewController {
     private var editedTracker: Tracker?
     private var selectedCategory: TrackerCategory?
     private var selectedCategoryName: String?
+    //    private var textInTextfield = ""
     private var selectedEmoji = "🙂"
     private var selectedColor: UIColor = .ypDarkRed
     private var daysString: String?
@@ -88,6 +90,7 @@ final class NewHabitVC: UIViewController {
         createOrSaveButton.isEnabled = false
         createOrSaveButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
         createOrSaveButton.setTitleColor(.ypWhite, for: .disabled)
+        //        createOrSaveButton.setTitle(createOrSaveButtonText, for: .normal)
         createOrSaveButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createOrSaveButton.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
         return createOrSaveButton
@@ -240,6 +243,8 @@ final class NewHabitVC: UIViewController {
     }
     
     private func canEnableCreateButton() {
+        //        print("textInTextfield == '' || textInTextfield.count > 38 || selectedCategoryName == nil || daysString == nil || !emojiSelected || !colorSelected")
+        //        print(textInTextfield, textInTextfield.count, selectedCategoryName, daysString, !emojiSelected, !colorSelected)
         guard let trackerName = trackerNameTextfield.text else { return }
         if (trackerName == "" || trackerName.count > 38 || selectedCategoryName == nil || daysString == nil || !emojiSelected || !colorSelected) {
             createOrSaveButton.isEnabled = false
@@ -255,6 +260,7 @@ final class NewHabitVC: UIViewController {
     private func intsToDaysOfWeek(dayArray: [Int]) -> String {
         if dayArray.count == 7 {
             daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
+            //            return "Каждый день"
             return returnedEveryDay
         }
         
@@ -268,20 +274,36 @@ final class NewHabitVC: UIViewController {
         var currentCalendar = Calendar.current
         currentCalendar.locale = currentLocale
         let weekDaySymbolsShort = currentLocale.calendar.shortWeekdaySymbols
+//        let weekDaySymbolsFull = currentLocale.calendar.weekdaySymbols
         let weekDaySymbolsFull = currentCalendar.weekdaySymbols
+//        print("currentCalendar.locale", currentCalendar.locale)
+//        print("currentLocale", currentLocale)
+//        print("Calendar", currentCalendar.identifier)
+//        print("in intsToDaysOfWeek Short", weekDaySymbolsShort)
+//        print("in intsToDaysOfWeek Long", weekDaySymbolsFull)
+//        print("dayArray", dayArray)
         
         daysToSend = dayArray.compactMap {
+//            print("days as rawValue: \($0), ScheduledDays(rawValue: $0): \(ScheduledDays(rawValue: $0))")
             return ScheduledDays(rawValue: $0)
         }
+//        print("daysToSend", daysToSend)
         var dayNames = dayArray.compactMap { index in
             index >= 0 && index < weekDaySymbolsShort.count ? weekDaySymbolsShort[index] : nil
         }
+//        print("dayNames", dayNames)
         if dayArray.first == 0 && currentLocale.identifier == "ru_RU" {
             let tempDay = dayNames.remove(at: 0)
             dayNames.insert(tempDay, at: (dayNames.count))
         }
+//        print(dayNames.joined(separator: ", "))
         return dayNames.joined(separator: ", ")
     }
+    
+    //    func addingNewCategory(name: String, trackerID: UUID) {
+    ////        trackerCategoryStore.addTrackerToTrackerCategory(categoryName: name, trackerID: trackerID)
+    ////        trackerCategoryStore.addTrackerInTrackerCategoryToCoreData(categoryName: name, trackerID: trackerID)
+    //    }
     
     private func resettingFields() {
         trackerNameTextfield.text = ""
@@ -311,10 +333,14 @@ final class NewHabitVC: UIViewController {
             let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName!)
             try? trackerCategoryStore.addTrackerToCategory(trackerCategoryToAddTracker!, trackerCoreData: addedTrackerCoreData!)
         case .editing(let tracker):
+//            print(selectedCategoryName, tracker.id, trackerNameTextfield.text, daysToSend, selectedEmoji, selectedColor)
             let tempTracker = Tracker(id: tracker.id, name: trackerNameTextfield.text, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
             try? trackerStore.editTrackerInCoreData(tempTracker)
             guard let trackerID = tempTracker.id, let selectedCategoryName else { return }
             trackerStore.changeTrackerCategories(by: trackerID, newCategoryTitle: selectedCategoryName)
+//            print("changed tracker", trackerStore.retrieveTracker(by: tracker.id!))
+//            print("changed tracker Category", trackerStore.retrieveTrackerCategoryByID(by: tracker.id!))
+//            print("all tracker Category", trackerCategoryStore.retrieveAllTrackerCategoryTitles())
         }
         
         resettingFields()
@@ -387,9 +413,11 @@ extension NewHabitVC: UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
         if indexPath.row == 0 {
             categoryCell = cell
+            //            categoryCell.detailTextLabel?.text = selectedCategoryName ?? "Название категории"
             categoryCell.detailTextLabel?.text = selectedCategoryName ?? trackerCategoryPlaceholder
         } else {
             scheduleCell = cell
+            //            scheduleCell.detailTextLabel?.text = daysString ?? "Дни недели"
             scheduleCell.detailTextLabel?.text = daysString ?? trackerWeekdayPlaceholder
         }
         cell.textLabel?.text = buttonNameArray[indexPath.row].0
@@ -434,6 +462,7 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
                 collectionViewCell.emojiLabel.backgroundColor = .clear
             case .editing(let tracker):
                 if tracker.emojiPic == "\(emojis[indexPath.row])" {
+                    //                    print("tracker.emojiPic, emojis[indexPath.row]", tracker.emojiPic, emojis[indexPath.row])
                     collectionViewCell.setImageViewColor(section: 0)
                     selectedEmoji = emojis[indexPath.item]
                     selectedEmojiCell = collectionViewCell
@@ -450,6 +479,7 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
             case .creating: break
             case .editing(let tracker):
                 if tracker.color == colors[indexPath.row] {
+                    //                    print("tracker.color, colors[indexPath.row]", tracker.color, colors[indexPath.row])
                     collectionViewCell.setImageViewColor(section: 1)
                     selectedColor = colors[indexPath.item]
                     selectedColorCell = collectionViewCell
@@ -500,6 +530,7 @@ extension NewHabitVC: UICollectionViewDataSource, UICollectionViewDelegate {
         if indexPath.section == 0 {
             headerText = "Emoji"
         } else {
+            //            headerText = "Цвет"
             headerText = headerTextForColor
         }
         supplementaryView.headerLabel.font = .systemFont(ofSize: 22, weight: .semibold)

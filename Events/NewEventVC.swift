@@ -10,10 +10,13 @@ import UIKit
 final class NewEventVC: UIViewController {
     
     var daysToSend = [ScheduledDays]()
+//    private let buttonNameArray = [("Нерегулярное событие", "Название события")]
     private let buttonNameArray = [(eventsTitle, eventsName)]
     private var categoryCell = UITableViewCell()
     private var selectedEmojiCell = CellCollectionViewController()
     private var selectedColorCell = CellCollectionViewController()
+//    private var defaultHeader = "Важное"
+//    private var defaultHeader = defaultHeaderName
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private let layout = UICollectionViewFlowLayout()
     private var eventViewTitle = ""
@@ -23,9 +26,12 @@ final class NewEventVC: UIViewController {
     private let trackerCategoryStore = TrackerCategoryStore()
     //Tracker params
     private var editedTracker: Tracker?
+    //    private var selectedCategory: TrackerCategory?
     private var selectedCategoryName: String?
+    //    private var textInTextfield = ""
     private var selectedEmoji = "🙂"
     private var selectedColor: UIColor = .ypDarkRed
+//    private var daysString: String?
     private var emojiSelected = false
     private var colorSelected = false
 
@@ -302,6 +308,7 @@ extension NewEventVC: UITableViewDelegate {
             tableView.reloadData()
             self.navigationController?.popViewController(animated: true)
         }
+//        let categoryVC = CategoryVC(viewModel: viewModel)
         navigationController?.pushViewController(newCategoryVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -426,6 +433,7 @@ extension NewEventVC: UICollectionViewDataSource, UICollectionViewDelegate {
         if indexPath.section == 0 {
             headerText = "Emoji"
         } else {
+//            headerText = "Цвет"
             headerText = headerTextForColor
         }
         supplementaryView.headerLabel.font = .systemFont(ofSize: 22, weight: .semibold)

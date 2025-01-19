@@ -14,8 +14,21 @@ import CoreData
 //    //    func controllerDidUpdateFetchedResults(_ controller: NSFetchedResultsController<TrackerRecordCoreData>)
 //}
 
+//protocol CounterProtocol: AnyObject {
+//    func didUpdateCount(_ count: Int)
+//}
+
 //final class StatisticsTableViewController: UIViewController, TrackerRecordStoreDelegate  {
 final class StatisticsTableViewController: UIViewController  {
+
+    //    func didUpdateCount(_ count: Int) {
+    //        print("Count updated to: \(count)")
+    //    }
+    
+    //    func controllerDidUpdateFetchedResults(_ controller: NSFetchedResultsController<TrackerRecordCoreData>) {
+    //        let fetchedObjects = controller.fetchedObjects
+    //        print("fetchedObjects?.count in controllerDidUpdateFetchedResults:", fetchedObjects?.count)
+    //    }
     
     private lazy var nothingFoundImageView: UIImageView = {
         let image = UIImage.noData
@@ -60,6 +73,7 @@ final class StatisticsTableViewController: UIViewController  {
     private lazy var statisticsItemLabelBottom: UILabel = {
         let statisticsItemLabelBottom = UILabel()
         statisticsItemLabelBottom.backgroundColor = TrackerColors.viewBackgroundColor
+//        statisticsItemLabelBottom.backgroundColor = .clear
         statisticsItemLabelBottom.text = ""
         statisticsItemLabelBottom.font = .systemFont(ofSize: 12, weight: .medium)
         statisticsItemLabelBottom.textAlignment = .natural
@@ -97,7 +111,9 @@ final class StatisticsTableViewController: UIViewController  {
         
     private var completedTrackersVariable: Int = 0 {
         didSet {
+//            print("in didSet")
             if completedTrackersVariable != 0 {
+//                print("in completedTrackers != 0")
                 statisticsItemLabelTop.text = "\(completedTrackersVariable)"
                 statisticsItemLabelBottom.text = completedTrackersText
                 statisticsItemLabelTop.isHidden = false
@@ -105,6 +121,7 @@ final class StatisticsTableViewController: UIViewController  {
                 stackView.isHidden = false
                 gradientBorderView.isHidden = false
             } else {
+//                print("in completedTrackers == 0")
                 statisticsItemLabelTop.isHidden = true
                 statisticsItemLabelBottom.isHidden = true
                 gradientBorderView.isHidden = true
@@ -114,11 +131,44 @@ final class StatisticsTableViewController: UIViewController  {
         }
     }
     
+    //    init(context: NSManagedObjectContext) {
+    //        trackerRecordStore = TrackerRecordStore(context: context)
+    //        trackerRecordStore?.delegate = self
+    //        super.init()
+    //    }
+    //
+    //    required init?(coder: NSCoder) {
+    //        fatalError("init(coder:) has not been implemented")
+    //    }
+    
+//    var trackerRecordStore: TrackerRecordStore?
+//    var context: NSManagedObjectContext?
+    
     let trackerRecordStore = TrackerRecordStore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = TrackerColors.viewBackgroundColor
+//        trackerRecordStore.de?legate = self
+//        trackerRecordStore.setTrackerRecordForStatistics(statisticsVC: self)
+//        trackerRecordStore.setupFRC()
+
+//        self.context = trackerRecordStore?.context
+//        print("context.name in viewDidLoad:", context?.name)
+        
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    }
+//        trackerRecordStore.setupFRC()
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        //        trackerRecordStore.delegate = self
+        //        trackerRecordStore.recordsCounter()
+//        trackerRecordStore.setupFRC()
+        //        trackerRecordStore.notifyDelegate()
+        
+        //        trackerRecordStore?.setStatisticsInstance(statistics: self)
+        //        trackerRecordStore?.setupFRC()
+        
         setupView()
     }
     
@@ -127,8 +177,20 @@ final class StatisticsTableViewController: UIViewController  {
         completedTrackersVariable = trackerRecordStore.countEntitiesForStatistics() ?? 0
     }
     
+//    func didUpdateRecords(_ records: [TrackerRecordCoreData]) {
+//        print("Updated records received: \(records)")
+//    }
+//    
+//    func sendingStatisticsData(_ completedTrackers: Int) {
+//        print("completedTrackers", completedTrackers)
+//        self.completedTrackersVariable = completedTrackers
+//    }
+    
     private func setupView() {
         completedTrackersVariable = trackerRecordStore.countEntitiesForStatistics() ?? 0
+//        print("completedTrackers in setupView, StatisticsTableViewController:", completedTrackersVariable)
+//        gradientBorderView.translatesAutoresizingMaskIntoConstraints = false
+//        gradientBorderView.addSubview(stackView)
         let objectsToShow = [titleLabel, gradientBorderView, stackView, nothingFoundImageView, nothingFoundLogo]
         objectsToShow.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -154,6 +216,7 @@ final class StatisticsTableViewController: UIViewController  {
             gradientBorderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             gradientBorderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             gradientBorderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 60),
+            //            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             gradientBorderView.heightAnchor.constraint(equalToConstant: 80)
         ])
     }

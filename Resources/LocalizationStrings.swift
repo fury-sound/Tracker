@@ -16,6 +16,7 @@ let keyForLocalizableDictionary: String = "numberOfDays"
 func setNumberOfDaysLabelText(days: Int) -> String {
     if #available(iOS 15, *) {
         return String(localized: "\(days) days", comment: "TrackerCellViewController, setDayLabelText()")
+//        return String(localized: "\(days) days", table: tableNameForLocalizableCatalog, comment: "setDayLabelText(), TrackerCellViewController")
     } else {
         return NSLocalizedString(keyForLocalizableDictionary, tableName: "LocalizableDictionary", comment: "TrackerCellViewController, setDayLabelText()")
     }
@@ -48,10 +49,14 @@ let headerTextForColor = NSLocalizedString("Color", comment: "NewHabitVC, viewFo
 
 let eventsTitle = NSLocalizedString("Irregular events", comment: "NewEventVC, buttonNameArray")
 let eventsName = NSLocalizedString("Event category", comment: "NewEventVC, buttonNameArray")
+//let defaultHeaderNameEvent = NSLocalizedString("Important", comment: "NewEventVC, defaultHeader")
 let eventNamePlaceholder = NSLocalizedString("Enter Event name", comment: "NewEventVC, eventNameTextfield")
+//let cancelButtonText = NSLocalizedString("Cancel", comment: "NewEventVC, cancelButtonText")
+//let createButtonText = NSLocalizedString("Create", comment: "NewEventVC, createButtonText")
 let newEventTitle = NSLocalizedString("New Event", comment: "NewEventVC, viewDidLoad")
 let editEventTitle = NSLocalizedString("Edit the Event", comment: "NewEventVC, viewDidLoad")
 let eventCategoryPlaceholder = NSLocalizedString("Category name", comment: "NewEventVC, cellForRowAt")
+//let headerTextForColor = NSLocalizedString("Color", comment: "NewEventVC, viewForSupplementaryElementOfKind")
 
 //MARK: ScheduleVC
 let monday = NSLocalizedString("Monday", comment: "ScheduleVC, weekdayArray")
@@ -84,6 +89,16 @@ let newCategoryTitle = NSLocalizedString("New category", comment: "AddCategoryVC
 let editCategoryTitle = NSLocalizedString("Edit the category", comment: "AddCategoryVC, viewDidLoad")
 let alertTitle = NSLocalizedString("Error!\n", comment: "AddCategoryVC, alertForAddCategoryError")
 let keyCategoryExists = NSLocalizedString("Such category already exists!", comment: "AddCategoryVC, alertForAddCategoryError")
+
+
+//func alertMessage(name: String) -> String {
+//    let curName = name
+////    let keyCategoryExists = NSLocalizedString( = "Category \(curName) already exists!"
+//    let keyCategoryExists = NSLocalizedString( = "Category \(curName) already exists!"
+//    let keyCategoryExistsFinal = String(format: keyCategoryExists, curName)
+//    return NSLocalizedString(keyCategoryExistsFinal, comment: "AddCategoryVC, alertForAddCategoryError")
+//}
+//let readyButtonText = NSLocalizedString("Ready", comment: "AddCategoryVC, readyButton")
 
 // MARK: TrackerNavigationViewController
 let searchBarPlaceholder = NSLocalizedString("Search", comment: "TrackerNavigationViewController, searchBar")

@@ -100,7 +100,7 @@
       }
     },
     "Cancel" : {
-      "comment" : "CategoryVC, deleteCategoryAlert\nNewHabitVC, cancelButtonText",
+      "comment" : "CategoryVC, deleteCategoryAlert\nNewEventVC, cancelButtonText\nNewHabitVC, cancelButtonText",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -155,7 +155,7 @@
       }
     },
     "Color" : {
-      "comment" : "NewHabitVC, viewForSupplementaryElementOfKind",
+      "comment" : "NewEventVC, viewForSupplementaryElementOfKind\nNewHabitVC, viewForSupplementaryElementOfKind",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -188,7 +188,7 @@
       }
     },
     "Create" : {
-      "comment" : "NewHabitVC, createOrSaveButtonText",
+      "comment" : "NewEventVC, createButtonText\nNewHabitVC, createOrSaveButtonText",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -419,7 +419,7 @@
       }
     },
     "Important" : {
-      "comment" : "NewHabitVC, defaultHeader",
+      "comment" : "NewEventVC, defaultHeader\nNewHabitVC, defaultHeader",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -540,7 +540,7 @@
       }
     },
     "Ready" : {
-      "comment" : "ScheduleVC, readyButton",
+      "comment" : "AddCategoryVC, readyButton\nScheduleVC, readyButton",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

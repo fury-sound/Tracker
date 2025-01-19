@@ -40,6 +40,7 @@
 		B9FE62992D384A3500BE13E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE62932D384A3500BE13E2 /* LaunchScreen.storyboard */; };
 		B9FE62A02D384A3500BE13E2 /* CellCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FE629A2D384A3500BE13E2 /* CellCollectionViewController.swift */; };
 		B9FE62A12D384A3500BE13E2 /* EmojiCollectionViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FE629B2D384A3500BE13E2 /* EmojiCollectionViewVC.swift */; };
+		B9FE62A22D384A3500BE13E2 /* HabitTableView_obsolete.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FE629C2D384A3500BE13E2 /* HabitTableView_obsolete.swift */; };
 		B9FE62A32D384A3500BE13E2 /* HabitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FE629D2D384A3500BE13E2 /* HabitTableViewCell.swift */; };
 		B9FE62A42D384A3500BE13E2 /* NewHabitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FE629E2D384A3500BE13E2 /* NewHabitVC.swift */; };
 		B9FE62A72D384A3500BE13E2 /* StatisticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FE62A52D384A3500BE13E2 /* StatisticsTableViewController.swift */; };
@@ -99,6 +100,7 @@
 		B9FE62952D384A3500BE13E2 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		B9FE629A2D384A3500BE13E2 /* CellCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellCollectionViewController.swift; sourceTree = "<group>"; };
 		B9FE629B2D384A3500BE13E2 /* EmojiCollectionViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewVC.swift; sourceTree = "<group>"; };
+		B9FE629C2D384A3500BE13E2 /* HabitTableView_obsolete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTableView_obsolete.swift; sourceTree = "<group>"; };
 		B9FE629D2D384A3500BE13E2 /* HabitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTableViewCell.swift; sourceTree = "<group>"; };
 		B9FE629E2D384A3500BE13E2 /* NewHabitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitVC.swift; sourceTree = "<group>"; };
 		B9FE62A52D384A3500BE13E2 /* StatisticsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewController.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			children = (
 				B9FE629A2D384A3500BE13E2 /* CellCollectionViewController.swift */,
 				B9FE629B2D384A3500BE13E2 /* EmojiCollectionViewVC.swift */,
+				B9FE629C2D384A3500BE13E2 /* HabitTableView_obsolete.swift */,
 				B9FE629D2D384A3500BE13E2 /* HabitTableViewCell.swift */,
 				B9FE629E2D384A3500BE13E2 /* NewHabitVC.swift */,
 			);
@@ -552,6 +555,7 @@
 				B9FE628C2D384A2B00BE13E2 /* CategoryVCViewModel.swift in Sources */,
 				B9FE62A02D384A3500BE13E2 /* CellCollectionViewController.swift in Sources */,
 				B9FE62A12D384A3500BE13E2 /* EmojiCollectionViewVC.swift in Sources */,
+				B9FE62A22D384A3500BE13E2 /* HabitTableView_obsolete.swift in Sources */,
 				B9FE62A72D384A3500BE13E2 /* StatisticsTableViewController.swift in Sources */,
 				B9FE62A32D384A3500BE13E2 /* HabitTableViewCell.swift in Sources */,
 				B9FE62A42D384A3500BE13E2 /* NewHabitVC.swift in Sources */,
