@@ -54,6 +54,7 @@ let eventNamePlaceholder = NSLocalizedString("Enter Event name", comment: "NewEv
 //let cancelButtonText = NSLocalizedString("Cancel", comment: "NewEventVC, cancelButtonText")
 //let createButtonText = NSLocalizedString("Create", comment: "NewEventVC, createButtonText")
 let newEventTitle = NSLocalizedString("New Event", comment: "NewEventVC, viewDidLoad")
+let editEventTitle = NSLocalizedString("Edit the Event", comment: "NewEventVC, viewDidLoad")
 let eventCategoryPlaceholder = NSLocalizedString("Category name", comment: "NewEventVC, cellForRowAt")
 //let headerTextForColor = NSLocalizedString("Color", comment: "NewEventVC, viewForSupplementaryElementOfKind")
 

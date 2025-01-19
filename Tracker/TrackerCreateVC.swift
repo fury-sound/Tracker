@@ -81,7 +81,7 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     @objc private func eventCreation() {
         newEventVC.defaultFields()
         navigationController?.pushViewController(newEventVC, animated: true)
-//        newEventVC.eventViewState = .creating
+        newEventVC.eventViewState = .creating
         newEventVC.isModalInPresentation = true
     }
 }

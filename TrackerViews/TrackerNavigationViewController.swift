@@ -810,14 +810,23 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
         let trackerToEdit = trackerStore.retrieveTracker(by: trackerID)
 //        viewControllerState = .edit
         guard let trackerToEdit else { return }
-        print("tracker name to edit", trackerToEdit.name)
-        let editHabitVC = NewHabitVC()
-        let navigationController = UINavigationController(rootViewController: editHabitVC)
-        navigationController.modalPresentationStyle = .formSheet
-        editHabitVC.isModalInPresentation = true
-        editHabitVC.habitViewState = .editing(tracker: trackerToEdit)
+//        print("tracker name to edit", trackerToEdit.name)
+        if trackerToEdit.schedule != [] {
+            let editHabitVC = NewHabitVC()
+            let navigationController = UINavigationController(rootViewController: editHabitVC)
+            navigationController.modalPresentationStyle = .formSheet
+            editHabitVC.isModalInPresentation = true
+            editHabitVC.habitViewState = .editing(tracker: trackerToEdit)
+            present(navigationController, animated: true)
+        } else {
+            let editEventVC = NewEventVC()
+            let navigationController = UINavigationController(rootViewController: editEventVC)
+            navigationController.modalPresentationStyle = .formSheet
+            editEventVC.isModalInPresentation = true
+            editEventVC.eventViewState = .editing(tracker: trackerToEdit)
+            present(navigationController, animated: true)
+        }
 //        editHabitVC.setEditedTrackersData(tracker: trackerToEdit)
-        present(navigationController, animated: true)
         
 //        navigationController?.pushViewController(editHabitVC, animated: true)
 //        trackerCategoryStore.retrieveCategoryTitles()

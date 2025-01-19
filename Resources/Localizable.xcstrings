@@ -275,6 +275,17 @@
         }
       }
     },
+    "Edit the Event" : {
+      "comment" : "NewEventVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактирование события"
+          }
+        }
+      }
+    },
     "Edit the Habit" : {
       "comment" : "NewHabitVC, viewDidLoad",
       "localizations" : {

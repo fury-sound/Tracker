@@ -23,7 +23,7 @@ final class NewHabitVC: UIViewController {
     private var scheduleCell = UITableViewCell()
     private var selectedEmojiCell = CellCollectionViewController()
     private var selectedColorCell = CellCollectionViewController()
-    private var defaultHeader = defaultHeaderName
+//    private var defaultHeader = defaultHeaderName
     private let params = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     private let layout = UICollectionViewFlowLayout()
     private var habitViewTitle = ""
@@ -151,7 +151,6 @@ final class NewHabitVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        navigationItem.title = "Новая привычка"
         navigationItem.title = habitViewTitle
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
@@ -186,17 +185,9 @@ final class NewHabitVC: UIViewController {
     func setEditedTrackersData(tracker: Tracker) {
         guard let trackerID = tracker.id, let trackerName = tracker.name, let emojiPic = tracker.emojiPic, let color = tracker.color else { return }
         trackerNameTextfield.text = trackerName
-        //        textInTextfield = tracker.name
         selectedCategoryName = trackerStore.retrieveTrackerCategoryByID(by: trackerID)
         let scheduleToIntArray: [Int] = tracker.schedule.map { $0.rawValue }
         daysString = intsToDaysOfWeek(dayArray: scheduleToIntArray)
-        //        print("tracker.emojiPic", tracker.emojiPic)
-        //        selectedEmoji = emojiPic
-        //        print("tracker.color", tracker.color)
-        
-        //        scheduleCell.detailTextLabel?.text = tracker.schedule
-        //        categoryCell.detailTextLabel?.text = buttonNameArray[tracker.id.0].1
-        //        scheduleCell.detailTextLabel?.text = buttonNameArray[tracker.id.1].1
     }
     
     private func viewSetup() {
@@ -273,7 +264,7 @@ final class NewHabitVC: UIViewController {
             return returnedEveryDay
         }
         
-        // TODO: adjust use of th Russian locale for days of week
+        // TODO: adjust use of the Russian locale for days of week
         //        let russianLocale = Locale(identifier: "ru-RU")
         //        var russianCalendar = Calendar.current
         //        russianCalendar.locale = russianLocale
@@ -342,14 +333,14 @@ final class NewHabitVC: UIViewController {
             let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName!)
             try? trackerCategoryStore.addTrackerToCategory(trackerCategoryToAddTracker!, trackerCoreData: addedTrackerCoreData!)
         case .editing(let tracker):
-            print(selectedCategoryName, tracker.id, trackerNameTextfield.text, daysToSend, selectedEmoji, selectedColor)
+//            print(selectedCategoryName, tracker.id, trackerNameTextfield.text, daysToSend, selectedEmoji, selectedColor)
             let tempTracker = Tracker(id: tracker.id, name: trackerNameTextfield.text, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
             try? trackerStore.editTrackerInCoreData(tempTracker)
             guard let trackerID = tempTracker.id, let selectedCategoryName else { return }
             trackerStore.changeTrackerCategories(by: trackerID, newCategoryTitle: selectedCategoryName)
-            print("changed tracker", trackerStore.retrieveTracker(by: tracker.id!))
-            print("changed tracker Category", trackerStore.retrieveTrackerCategoryByID(by: tracker.id!))
-            print("all tracker Category", trackerCategoryStore.retrieveAllTrackerCategoryTitles())
+//            print("changed tracker", trackerStore.retrieveTracker(by: tracker.id!))
+//            print("changed tracker Category", trackerStore.retrieveTrackerCategoryByID(by: tracker.id!))
+//            print("all tracker Category", trackerCategoryStore.retrieveAllTrackerCategoryTitles())
         }
         
         resettingFields()
