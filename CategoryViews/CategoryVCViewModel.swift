@@ -12,6 +12,7 @@ final class CategoryVCViewModel {
     
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerStore = TrackerStore()
+    private let trackerRecordStore = TrackerRecordStore()
     private var selectedCategoryVCTitle: String?
 
     private var createButtonNameInModel: String? {
@@ -101,7 +102,7 @@ final class CategoryVCViewModel {
     //    var buttonNameChange: ((String) -> Void)?
     
     func viewDidLoad() {
-        retrieveAllTrackerCategories()
+        retrieveAllTrackerCategoriesToTable()
         switch categoryVCViewModelState {
         case .creating:
             createButtonNameInModel = createCategoryText
@@ -116,7 +117,7 @@ final class CategoryVCViewModel {
         }
     }
     
-    private func retrieveAllTrackerCategories() {
+    private func retrieveAllTrackerCategoriesToTable() {
         print(trackerCategoryStore.retrieveAllTrackerCategoryTitles())
         trackerNameArray = trackerCategoryStore.retrieveAllTrackerCategoryTitles()
     }
@@ -125,7 +126,7 @@ final class CategoryVCViewModel {
         print("edit category: \(startCategoryName)") // to \(targetCategoryName)")
         addCategoryVCViewModelState = .editing(existingCategoryName: startCategoryName)
         addCategoryVCHandler?()
-        retrieveAllTrackerCategories()
+        retrieveAllTrackerCategoriesToTable()
         reloadDataHandler?()
     }
 
@@ -138,8 +139,27 @@ final class CategoryVCViewModel {
 //    }
 
     func deleteCategoryActionTapped(categoryName: String) {
-        print("delete category: '\(categoryName)'")
-
+        let completedTrackersArrayFromPinned = trackerCategoryStore.retrieveTrackerForCategoryByNameForPinned(categoryName: categoryName)
+        let completedTrackersArrayFromCategory = trackerCategoryStore.retrieveTrackerForCategoryByName(categoryName: categoryName)
+        completedTrackersArrayFromCategory?.forEach {
+            trackerRecordStore.deleteTrackerRecordByID(by: $0)
+            trackerStore.deleteTracker(by: $0)
+        }
+        completedTrackersArrayFromPinned?.forEach {
+            trackerRecordStore.deleteTrackerRecordByID(by: $0)
+            trackerStore.deleteTracker(by: $0)
+        }
+        trackerCategoryStore.deleteTrackerCategoryName(categoryName: categoryName)
+        showAllTrackersData()
+        retrieveAllTrackerCategoriesToTable()
+        reloadDataHandler?()
+    }
+    
+    private func showAllTrackersData() {
+        print("All data for trackers:")
+        print(trackerStore.retrieveAllTrackers())
+        trackerCategoryStore.retrieveCategoryTitles()
+        trackerRecordStore.retrieveAllTrackerRecordCoreDataInfo()
     }
     
     func updateCategoryVCUIForState(_ state: viewControllerState) {

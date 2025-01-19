@@ -263,7 +263,9 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     override func viewDidLoad() {
         super.viewDidLoad()
         // MARK: temp function calls and variables
-                deleteAllTrackers()
+//                deleteAllTrackers()
+        countAllTrackersData()
+//        showAllTrackersData()
         //        retrieveAllTrackers()
         //        tempMockTrackerSetup() // calling mockTracker setup function
         //        trackerStore.deleteEntities()

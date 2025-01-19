@@ -170,7 +170,6 @@ final class NewHabitVC: UIViewController {
         case .editing(let tracker):
             habitViewTitle = editTrackerTitle
             createOrSaveButton.setTitle(saveButtonText, for: .normal)
-            //            createOrSaveButton.isEnabled = true
             setEditedTrackersData(tracker: tracker)
             emojiSelected = true
             colorSelected = true
@@ -282,18 +281,30 @@ final class NewHabitVC: UIViewController {
         let currentLocale = Locale.current
         var currentCalendar = Calendar.current
         currentCalendar.locale = currentLocale
-        let weekDaySymbols = currentLocale.calendar.shortWeekdaySymbols
-        //        print("in intsToDaysOfWeek", weekDaySymbols)
+        let weekDaySymbolsShort = currentLocale.calendar.shortWeekdaySymbols
+//        let weekDaySymbolsFull = currentLocale.calendar.weekdaySymbols
+        let weekDaySymbolsFull = currentCalendar.weekdaySymbols
+//        print("currentCalendar.locale", currentCalendar.locale)
+//        print("currentLocale", currentLocale)
+//        print("Calendar", currentCalendar.identifier)
+//        print("in intsToDaysOfWeek Short", weekDaySymbolsShort)
+//        print("in intsToDaysOfWeek Long", weekDaySymbolsFull)
+//        print("dayArray", dayArray)
         
-        daysToSend = dayArray.compactMap { ScheduledDays(rawValue: $0) }
-        var dayNames = dayArray.compactMap { index in
-            index >= 0 && index < weekDaySymbols.count ? weekDaySymbols[index] : nil
+        daysToSend = dayArray.compactMap {
+//            print("days as rawValue: \($0), ScheduledDays(rawValue: $0): \(ScheduledDays(rawValue: $0))")
+            return ScheduledDays(rawValue: $0)
         }
-        
-        if dayArray.first == 0 {
+//        print("daysToSend", daysToSend)
+        var dayNames = dayArray.compactMap { index in
+            index >= 0 && index < weekDaySymbolsShort.count ? weekDaySymbolsShort[index] : nil
+        }
+//        print("dayNames", dayNames)
+        if dayArray.first == 0 && currentLocale.identifier == "ru_RU" {
             let tempDay = dayNames.remove(at: 0)
             dayNames.insert(tempDay, at: (dayNames.count))
         }
+//        print(dayNames.joined(separator: ", "))
         return dayNames.joined(separator: ", ")
     }
     
@@ -378,6 +389,11 @@ extension NewHabitVC: UITableViewDelegate {
                 navigationController?.pushViewController(newCategoryVC, animated: true)
         } else {
             let scheduleVC = ScheduleVC()
+            if daysToSend.isEmpty {
+                scheduleVC.scheduleViewState = .creating
+            } else {
+                scheduleVC.scheduleViewState = .editing(daysToSend)
+            }
             navigationController?.pushViewController(scheduleVC, animated: true)
             scheduleVC.tappedReady = { [weak self] (wdArray) -> Void in
                 guard let self else { return }

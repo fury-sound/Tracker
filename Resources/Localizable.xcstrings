@@ -165,6 +165,17 @@
         }
       }
     },
+    "completed trackers" : {
+      "comment" : "StatisticsTableViewController, statisticsItemLabelBottom",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Трекеров завершено"
+          }
+        }
+      }
+    },
     "Completed trackers" : {
       "comment" : "FiltersVC, viewDidLoad",
       "localizations" : {
@@ -473,6 +484,17 @@
         }
       }
     },
+    "Nothing to analyze yet" : {
+      "comment" : "StatisticsTableViewController, nothingFoundLogo",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анализировать пока нечего"
+          }
+        }
+      }
+    },
     "Nothing was found!" : {
       "comment" : "TrackerNavigationViewController, textForEmptySearch",
       "localizations" : {
@@ -562,7 +584,7 @@
       }
     },
     "Statistics" : {
-      "comment" : "MainTrackerViewController, setupMainNavBarVC",
+      "comment" : "MainTrackerViewController, setupMainNavBarVC\nStatisticsTableViewController, titleLabel",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

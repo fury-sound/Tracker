@@ -127,3 +127,9 @@ let todayTrackersTitle = NSLocalizedString("Today trackers", comment: "FiltersVC
 let completedTrackersTitle = NSLocalizedString("Completed trackers", comment: "FiltersVC, viewDidLoad")
 let uncompletedTrackersTitle = NSLocalizedString("Uncompleted trackers", comment: "FiltersVC, viewDidLoad")
 
+// MARK: StatisticsTableViewController
+let nothingToAnalyzeText = NSLocalizedString("Nothing to analyze yet", comment: "StatisticsTableViewController, nothingFoundLogo")
+let statisticsTitle = NSLocalizedString("Statistics", comment: "StatisticsTableViewController, titleLabel")
+let completedTrackersText = NSLocalizedString("completed trackers", comment: "StatisticsTableViewController, statisticsItemLabelBottom")
+
+

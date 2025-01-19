@@ -133,6 +133,62 @@ final class TrackerCategoryStore: NSObject {
             print(error.localizedDescription)
         }
     }
+
+    func deleteTrackerCategoryName(categoryName: String) {
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                context.delete(entity)
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func retrieveTrackerForCategoryByName(categoryName: String) -> [UUID]? {
+        var trackersForCategory: [UUID] = []
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", categoryName)
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                entity.tracker?.allObjects.forEach { (tracker) in
+                    if let tracker = tracker as? TrackerCoreData {
+                        trackersForCategory.append(tracker.id!)
+                    }
+                }
+            }
+            return trackersForCategory
+        } catch let error as NSError {
+            print("Error, retrieveTrackerForCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
+            return nil
+        }
+    }
+    
+    func retrieveTrackerForCategoryByNameForPinned(categoryName: String) -> [UUID]? {
+        var trackersForCategory: [UUID] = []
+        let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "title == %@", "Pinned")
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                entity.tracker?.allObjects.forEach { (tracker) in
+                    if let tracker = tracker as? TrackerCoreData {
+                        if tracker.isPinned == categoryName {
+                            trackersForCategory.append(tracker.id!)
+                        }
+                    }
+                }
+            }
+            return trackersForCategory
+        } catch let error as NSError {
+            print("Error, retrieveTrackerForCategoryByName in TrackerCategoryStore", error.localizedDescription, error.userInfo)
+            return nil
+        }
+    }
     
     func findCategoryByName(categoryName: String) -> TrackerCategoryCoreData? {
         let myRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()

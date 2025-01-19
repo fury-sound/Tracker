@@ -11,6 +11,7 @@ import CoreData
 final class TrackerStore: NSObject {
     private let context: NSManagedObjectContext
     weak var delegateTrackerForNotifications: TrackerNavigationViewProtocol?
+//    weak var delegateForStatisticsNotifications: TrackerRecordStoreDelegate?
     private var trackerCategoryStore: TrackerCategoryStore?
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
@@ -276,6 +277,52 @@ final class TrackerStore: NSObject {
         return trackerToFind
     }
     
+//    func deleteTrackersByCategoryFromCategory(categoryName: String) -> [UUID] {
+////        print("in deleteAllTrackerCoreDataEntitiesByCategoryName")
+////        print("categoryName \(categoryName) type", type(of: categoryName))
+//        var completedTrackersByID: [UUID] = []
+//        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+//        myRequest.predicate = NSPredicate(format: "name ==[c] %@", categoryName)
+////        myRequest.predicate = NSPredicate(format: "name == %@ OR isPinned == %@", categoryName, categoryName)
+//        do {
+//            let res = try context.fetch(myRequest)
+////            print("Entities in deleteTrackersByCategoryFromCategory: \(res)")
+//            for entity in res {
+////                print("Entities in \(categoryName): \(entity.name) - \(entity.id)")
+//                completedTrackersByID.append(entity.id!)
+////                context.delete(entity)
+//            }
+////            try context.save()
+//            //            print("All entities deleted, saving context")
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//            return []
+//        }
+//        return completedTrackersByID
+//    }
+    
+//    func deleteTrackersByCategoryFromPinned(categoryName: String) -> [UUID] {
+//        print("in deleteAllTrackerCoreDataEntitiesByCategoryName")
+//        var completedTrackersByID: [UUID] = []
+//        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+//        myRequest.predicate = NSPredicate(format: "isPinned ==[c] %@", categoryName)
+//        do {
+//            let res = try context.fetch(myRequest)
+////            print("Entities: \(res)")
+//            for entity in res {
+////                print("Entities in pinned \(categoryName): \(entity.isPinned) - \(entity.id)")
+//                completedTrackersByID.append(entity.id!)
+////                context.delete(entity)
+//            }
+////            try context.save()
+//            //            print("All entities deleted, saving context")
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//            return []
+//        }
+//        return completedTrackersByID
+//    }
+    
     func filterTrackersByWeekday(dayOfWeek: Int) -> [String: [Tracker]]? {
 //        var arrayForTrackers = [Tracker]()
         var dictionaryForTrackerCategory: [String: [Tracker]] = [:]
@@ -414,14 +461,15 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
         guard let delegateTrackerForNotifications else {
             return
         }
+        print("changes in controllerDidChangeContent, TrackerStore")
         delegateTrackerForNotifications.addingTrackerOnScreen()
 //        : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
-        var objects = fetchedResultsController.fetchedObjects
-        print("objects in TrackerStore (FRC)")
-        for (index, item) in objects!.enumerated() {
-            print("\(index). tracker name", item.name)
-            print("\(index). tracker category", item.category?.title)
-        }
+//        var objects = fetchedResultsController.fetchedObjects
+//        print("objects in TrackerStore (FRC)")
+//        for (index, item) in objects!.enumerated() {
+//            print("\(index). tracker name", item.name)
+//            print("\(index). tracker category", item.category?.title)
+//        }
 //        do {
 //            let res = try context.fetch(fetchRequest)
 ////            print("Entities: \(res)")
