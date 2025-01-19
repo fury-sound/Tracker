@@ -142,6 +142,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private var currentTrackerItem: Tracker?
     private var setFilter: FilterNameEnum?
     private var completedTrackersFlag: Bool? = nil
+    private let analyticsService = AnalyticsService()
     
     // MARK: mock trackers and mock tracker creation function - to be deleted
     
@@ -262,6 +263,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        analyticsService.report(event: "open", params: ["screen" : "Main"])
         // MARK: temp function calls and variables
 //                deleteAllTrackers()
         countAllTrackersData()
@@ -644,6 +646,7 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     
     // MARK: @objc functions
     @objc func dateChanged(sender: UIDatePicker) {
+        analyticsService.report(event: "click", params: ["screen" : "Main", "item" : "edit"])
         selectedDate = sender.date
         addingTrackerOnScreen()
         //        let curDayOfWeek = sender.calendar.component(.weekday, from: selectedDate) - 1
@@ -661,12 +664,14 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     }
     
     @objc func leftAddHabit() {
+        analyticsService.sendEvent(event: "open", screen: "Main")
         let navigationController = UINavigationController(rootViewController: createTracker)
         navigationController.modalPresentationStyle = .formSheet
         present(navigationController, animated: true)
     }
     
     @objc func tappedTrackerFilterButton() {
+        analyticsService.sendEvent(event: "click", screen: "Main", item: "filter")
         let filtersVC = FiltersVC()
         let navigationController = UINavigationController(rootViewController: filtersVC)
         filtersVC.selectedFilter = setFilter
@@ -727,6 +732,7 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
             guard let self else { return UUID() }
             //            guard let id = element.id else { return nil }
             //            print("cell button tapped, tracker name", element.name)
+            self.analyticsService.sendEvent(event: "click", screen: "Main", item: "track")
             currentTrackerItem = element
             return id
         }
@@ -766,7 +772,8 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     
     // MARK: pinTracker()    private func pinTracker(cell: TrackerCellViewController, trackerId: UUID) {
     private func pinTracker(indexPath: IndexPath) {
-        print("pin action")
+        analyticsService.sendEvent(event: "click", screen: "Main", item: "pin")
+        print("pin/unpin action")
 //        guard let trackerID = currentTrackerItem?.id, let mainName = currentTrackerItem?.name, let isPinnedName = currentTrackerItem?.isPinned else { return }
         guard let trackerID = currentTrackerItem?.id else {
             print("error with trackerID \(currentTrackerItem?.id)")
@@ -794,7 +801,8 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     
     //    private func editTracker(cell: TrackerCellViewController, trackerId: UUID) {
     private func editTracker(indexPath: IndexPath) {
-        print("edit action")
+        analyticsService.sendEvent(event: "click", screen: "Main", item: "edit")
+//        print("edit action")
         guard let trackerID = currentTrackerItem?.id else {
             print("error with trackerID \(currentTrackerItem?.id), editTracker, TrackerNavigationViewController")
             return
@@ -820,7 +828,8 @@ extension TrackerNavigationViewController: UICollectionViewDataSource {
     
     //    private func deleteTracker(cell: TrackerCellViewController, trackerId: UUID) {
     private func deleteTracker(indexPath: IndexPath) {
-        print("delete action")
+        analyticsService.sendEvent(event: "click", screen: "Main", item: "delete")
+//        print("delete action")
         guard let trackerID = currentTrackerItem?.id else { return }
         trackerRecordStore.deleteTrackerRecordByID(by: trackerID)
         trackerStore.deleteTracker(by: trackerID)

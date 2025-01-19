@@ -387,6 +387,20 @@ final class TrackerStore: NSObject {
             print(error.localizedDescription)
         }
     }
+
+    func countTrackers() -> Int {
+//        print("in countEntities")
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+//        myRequest.predicate = NSPredicate(format: "schedule CONTAINS[c] \(String(curDayOfWeek))")
+        do {
+            return try context.count(for: myRequest)
+//            print("In countAllEntities, TrackerStore: found tracker records? \(counter)")
+//            print("in countAllEntities, TrackerStore:", retrieveAllTrackers())
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return 0
+        }
+    }
     
     // temp function
     func countAllEntities() {

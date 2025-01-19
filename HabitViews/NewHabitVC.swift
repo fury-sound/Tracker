@@ -48,6 +48,7 @@ final class NewHabitVC: UIViewController {
     
     private let colors = Colors
     private var selectedIndexPaths: [Int: IndexPath] = [:]
+    private let analyticsService = AnalyticsService()
     
     var habitViewState: viewControllerState = .creating {
         didSet {
@@ -325,11 +326,13 @@ final class NewHabitVC: UIViewController {
     
     // MARK: @objc functions
     @objc private func cancelHabitCreation() {
+        analyticsService.sendEvent(event: "click", screen: "CreateHabit", item: "close")
         resettingFields()
         self.dismiss(animated: true)
     }
     
     @objc private func createHabit() {
+        analyticsService.sendEvent(event: "click", screen: "CreateHabit", item: "add_track")
         guard let trackerText = trackerNameTextfield.text else { return }
         switch habitViewState {
         case .creating:
@@ -369,6 +372,7 @@ extension NewHabitVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            analyticsService.sendEvent(event: "open", screen: "CreateHabit")
             let viewModel = CategoryVCViewModel()
             let newCategoryVC = CategoryVC(viewModel: viewModel)
             switch habitViewState {
@@ -388,6 +392,7 @@ extension NewHabitVC: UITableViewDelegate {
             }
                 navigationController?.pushViewController(newCategoryVC, animated: true)
         } else {
+            analyticsService.sendEvent(event: "open", screen: "CreateHabit")
             let scheduleVC = ScheduleVC()
             if daysToSend.isEmpty {
                 scheduleVC.scheduleViewState = .creating
