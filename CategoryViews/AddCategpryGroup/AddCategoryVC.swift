@@ -33,7 +33,7 @@ final class AddCategoryVC: UIViewController {
         return readyButton
     }()
     
-    var addCategoryVCState: viewControllerForCategoryState = .creating {
+    var addCategoryVCState: ViewControllerForCategoryState = .creating {
         didSet {
 //            print("3. addCategoryVCState in didSet", addCategoryVCState)
             //            guard let selectedCategoryVCTitle else { return }
@@ -124,12 +124,12 @@ final class AddCategoryVC: UIViewController {
         present(alert, animated: true)
     }
     
-    @objc func readyCategoryButtonFunction() {
-        viewModel.readyCategoryTapped(targetcategoryName: trackerNewNameTextfield.text ?? "")
+    @objc private func readyCategoryButtonFunction() {
+        viewModel.readyCategoryTapped(targetCategoryName: trackerNewNameTextfield.text ?? "")
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func editingFunc(_ sender: UITextField) {
+    @objc private func editingFunc(_ sender: UITextField) {
         guard let text = sender.text else { return }
         viewModel.onEditingTextField(text: text)
     }

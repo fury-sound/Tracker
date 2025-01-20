@@ -49,7 +49,7 @@ final class NewHabitVC: UIViewController {
     private var selectedIndexPaths: [Int: IndexPath] = [:]
     private let analyticsService = AnalyticsService()
     
-    var habitViewState: viewControllerState = .creating {
+    var habitViewState: ViewControllerState = .creating {
         didSet {
             updateUIForState()
         }
@@ -182,7 +182,11 @@ final class NewHabitVC: UIViewController {
     }
     
     func setEditedTrackersData(tracker: Tracker) {
-        guard let trackerID = tracker.id, let trackerName = tracker.name, let emojiPic = tracker.emojiPic, let color = tracker.color else { return }
+        guard let trackerID = tracker.id,
+                let trackerName = tracker.name,
+                let emojiPic = tracker.emojiPic,
+                let color = tracker.color
+        else { return }
         trackerNameTextfield.text = trackerName
         selectedCategoryName = trackerStore.retrieveTrackerCategoryByID(by: trackerID)
         let scheduleToIntArray: [Int] = tracker.schedule.map { $0.rawValue }
@@ -243,7 +247,7 @@ final class NewHabitVC: UIViewController {
     
     private func canEnableCreateButton() {
         guard let trackerName = trackerNameTextfield.text else { return }
-        if (trackerName == "" || trackerName.count > 38 || selectedCategoryName == nil || daysString == nil || !emojiSelected || !colorSelected) {
+        if (trackerName == "" || trackerName.count > maxStringToTypeLength || selectedCategoryName == nil || daysString == nil || !emojiSelected || !colorSelected) {
             createOrSaveButton.isEnabled = false
             createOrSaveButton.backgroundColor = .ypGray
         } else {
@@ -304,18 +308,20 @@ final class NewHabitVC: UIViewController {
     
     @objc private func createHabit() {
         analyticsService.sendEvent(event: "click", screen: "CreateHabit", item: "add_track")
-        guard let trackerText = trackerNameTextfield.text else { return }
+        guard let trackerText = trackerNameTextfield.text, let selectedCategoryName else { return }
         switch habitViewState {
         case .creating:
             let idNum = UUID()
             let addedTracker = Tracker(id: idNum, name: trackerText, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
             let addedTrackerCoreData = try? trackerStore.addTrackerToCoreData(addedTracker)
-            let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName!)
-            try? trackerCategoryStore.addTrackerToCategory(trackerCategoryToAddTracker!, trackerCoreData: addedTrackerCoreData!)
+            let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName)
+            guard let trackerCategoryToAddTracker = trackerCategoryStore.findCategoryByName(categoryName: selectedCategoryName),
+                  let addedTrackerCoreData else { return }
+            try? trackerCategoryStore.addTrackerToCategory(trackerCategoryToAddTracker, trackerCoreData: addedTrackerCoreData)
         case .editing(let tracker):
             let tempTracker = Tracker(id: tracker.id, name: trackerNameTextfield.text, emojiPic: selectedEmoji, color: selectedColor, schedule: daysToSend)
             try? trackerStore.editTrackerInCoreData(tempTracker)
-            guard let trackerID = tempTracker.id, let selectedCategoryName else { return }
+            guard let trackerID = tempTracker.id else { return }
             trackerStore.changeTrackerCategories(by: trackerID, newCategoryTitle: selectedCategoryName)
         }
         
@@ -334,7 +340,7 @@ final class NewHabitVC: UIViewController {
 extension NewHabitVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        rowHeightForTables
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -60,7 +60,7 @@ final class CategoryVC: UIViewController {
         return categoryTableView
     }()
     
-    var addCategoryState: viewControllerForCategoryState = .creating {
+    var addCategoryState: ViewControllerForCategoryState = .creating {
         didSet {
             //            switch addCategoryState {
             //            case .creating:
@@ -73,7 +73,7 @@ final class CategoryVC: UIViewController {
         }
     }
     
-    var categoryVCState: viewControllerState = .creating {
+    var categoryVCState: ViewControllerState = .creating {
         didSet {
             //            updateAddCategoryState()
         }
@@ -100,52 +100,18 @@ final class CategoryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        viewModel.trackerNameArray = ["123", "234"] // mock category title array, to be deleted
-        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableTappedAlert))
-        //        view.addGestureRecognizer(tapGesture)
         viewSetup()
-        //        let interaction = UIContextMenuInteraction(delegate: self)
-        //        categoryTableView.addInteraction(interaction)
         navigationItem.title = categoryTitle
         navigationItem.setHidesBackButton(true, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        viewModel.categoryVCViewModelState = categoryVCState
         viewModel.viewDidLoad()
-        //        updateAddCategoryState()
         imageView.isHidden = !viewModel.trackerNameArray.isEmpty
         initSlogan.isHidden = !viewModel.trackerNameArray.isEmpty
         viewModel.trackerNameArray.isEmpty ? setupEmptyVC() : setupVCWithTable()
-        
-        //        if viewModel.trackerNameArray.isEmpty {
-        //            imageView.isHidden = false
-        //            initSlogan.isHidden = false
-        //            setupEmptyVC()
-        //        } else {
-        //            imageView.isHidden = true
-        //            initSlogan.isHidden = true
-        //            setupVCWithTable()
-        //        }
     }
-    
-    //    private func updateUIForState() {
-    //        switch categoryVCState {
-    //        case .editing(let tracker):
-    //            viewModel(state: editing)
-    ////            categoryViewTitle = editTrackerTitle
-    ////            createOrSaveButton.setTitle(saveButtonText, for: .normal)
-    //////            createOrSaveButton.isEnabled = true
-    ////            setEditedTrackersData(tracker: tracker)
-    //
-    //        case .creating:
-    //            viewModel(state: .creating)
-    //            defaultFields()
-    ////            categoryViewTitle = newTrackerTitle
-    ////            createOrSaveButton.setTitle(createButtonText, for: .normal)
-    //        }
-    //    }
     
     private func setupVCWithTable() {
         let elementArray = [categoryTableView, addCategoryButton]
@@ -209,7 +175,7 @@ final class CategoryVC: UIViewController {
             }
         }
         
-        viewModel.setCreatForAddCategoryVCState = { [weak self] in
+        viewModel.setCreateForAddCategoryVCState = { [weak self] in
             guard let self else { return }
             self.addCategoryState = .creating
         }
@@ -235,14 +201,13 @@ final class CategoryVC: UIViewController {
         }
     }
     
-    @objc func addCategory() {
+    @objc private func addCategory() {
         viewModel.categoryCreateButtonTapped()
     }
     
-    @objc func tableTappedAlert() {
+    @objc private func tableTappedAlert() {
         let alert = UIAlertController(title: alertTitleForCategory, message: changingPinnedCategory, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
-            //            self?.dismiss(animated: true)
             self?.navigationController?.popViewController(animated: true)
         }))
         present(alert, animated: true)
@@ -251,9 +216,7 @@ final class CategoryVC: UIViewController {
     @objc func deleteCategoryAlert(categoryName: String) {
         let alert = UIAlertController(title: alertTitleForCategory, message: deletingCategory, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: deleteText, style: .destructive, handler: { [weak self] _ in
-            //            self?.dismiss(animated: true)
             self?.viewModel.deleteCategoryActionTapped(categoryName: categoryName)
-            //            self?.navigationController?.popViewController(animated: true)
         }))
         alert.addAction(UIAlertAction(title: cancelText, style: .cancel))
         present(alert, animated: true)
@@ -316,7 +279,7 @@ extension CategoryVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        rowHeightForTables
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -325,10 +288,7 @@ extension CategoryVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if indexPath.row == 0 {
-            return nil
-        }
-        return indexPath
+        indexPath.row == 0 ? nil : indexPath
     }
 }
 
@@ -336,7 +296,7 @@ extension CategoryVC: UITableViewDelegate {
 extension CategoryVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.trackerNameArray.count
+        viewModel.trackerNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

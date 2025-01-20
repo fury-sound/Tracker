@@ -52,7 +52,8 @@ final class TrackerStore: NSObject {
     func editTrackerInCoreData(_ tracker: Tracker) throws {
 //        let trackerCoreData = TrackerCoreData(context: context)
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
-        myRequest.predicate = NSPredicate(format: "id == %@", tracker.id! as CVarArg)
+        guard let trackerID = tracker.id else { return }
+        myRequest.predicate = NSPredicate(format: "id == %@", trackerID as CVarArg)
         do {
             let res = try context.fetch(myRequest)
             let editedEntity = res.first

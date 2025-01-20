@@ -61,19 +61,15 @@ enum MockTrackers {
     }
 }
 
-enum viewControllerState {
+enum ViewControllerState {
     case creating
     case editing(tracker: Tracker)
 }
 
-enum viewControllerForCategoryState {
+enum ViewControllerForCategoryState {
     case creating
     case editing(existingCategoryName: String)
 }
-
-
-let EmojiArray = [ "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🍄"]
-let Colors: [UIColor] = [.ypDarkRed, .ypOrange, .ypDarkBlue, .ypAmethyst, .ypGreen, .ypOrchid, .ypPastelPink, .ypLightBlue, .ypLightGreen, .ypCosmicCobalt, .ypRed, .ypPaleMagentaPink, .ypMacaroniAndCheese, .ypCornflowerBlue, .ypBlueViolet, .ypMediumOrchid, .ypMediumPurple, .ypDarkGreen]
 
 final class TrackerNavigationViewController: UIViewController, TrackerNavigationViewProtocol {
     
@@ -93,9 +89,9 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     private let emojiArray = EmojiArray
     private let colorsArray = Colors
     private let pinnedCategoryName = pinnedHeaderText
-    let trackerStore = TrackerStore()
-    let trackerRecordStore = TrackerRecordStore()
-    let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerStore = TrackerStore()
+    private let trackerRecordStore = TrackerRecordStore()
+    private let trackerCategoryStore = TrackerCategoryStore()
     private var searchBarText = ""
     private var currentTrackerItem: Tracker?
     private var setFilter: FilterNameEnum?
@@ -105,12 +101,12 @@ final class TrackerNavigationViewController: UIViewController, TrackerNavigation
     // MARK: mock trackers and mock tracker creation function - to be deleted
     
     //    func tempMockTrackerSetup() {
-    ////        var colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
+    ////        var colorNum = Int.random(in: 0..<3) // Number to take UIColor from arrays
     //        var emojiNum = Int.random(in: 0..<emojiArray.count)
     //        let mockUUID = UUID()
     ////        mockTracker1 = Tracker(id: mockUUID, name: "test tracker 1", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum] , schedule: [.Mon, .Sun])
     //        mockTracker1 = Tracker(id: mockUUID, name: "test tracker 1", emojiPic: emojiArray[emojiNum], color: trackerColorSet[1] , schedule: [.Mon, .Sun])
-    ////        colorNum = Int.random(in: 0..<3) // Number to take UIColor ffrom arrays
+    ////        colorNum = Int.random(in: 0..<3) // Number to take UIColor from arrays
     ////        emojiNum = Int.random(in: 0..<emojiArray.count)
     ////        mockTracker2 = Tracker(id: 2, name: "test tracker 2", emojiPic: emojiArray[emojiNum], color: trackerColorSet[colorNum], schedule: [.Thu, .Sun])
     //        allTrackers.append(mockTracker1)

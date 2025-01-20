@@ -86,11 +86,7 @@ final class TrackerRecordStore: NSObject {
         myRequest.predicate = NSPredicate(format: "(dateExecuted == %@) AND (id == %@)", trackerRecord.dateExecuted, trackerRecord.id as CVarArg)
         do {
             let res = try context.fetch(myRequest)
-            if res.isEmpty {
-                return false
-            } else {
-                return true
-            }
+            return res.isEmpty ? false : true
         } catch let error as NSError {
             print(error.localizedDescription)
             return false
@@ -102,11 +98,7 @@ final class TrackerRecordStore: NSObject {
         myRequest.predicate = NSPredicate(format: "(dateExecuted != %@) AND (id == %@)", trackerRecord.dateExecuted, trackerRecord.id as CVarArg)
         do {
             let res = try context.fetch(myRequest)
-            if res.isEmpty {
-                return false
-            } else {
-                return true
-            }
+            return res.isEmpty ? false : true
         } catch let error as NSError {
             print(error.localizedDescription)
             return false

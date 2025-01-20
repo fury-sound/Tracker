@@ -75,11 +75,7 @@ extension FiltersVC: UITableViewDelegate {
         selectedFilterIndex = indexPath.row
         selectedFilter = filterNames[indexPath.row]
         if let cell = tableView.cellForRow(at: indexPath) {
-            if selectedFilterIndex == indexPath.row {
-                cell.accessoryType = .checkmark
-            } else {
-                cell.accessoryType = .none
-            }
+            cell.accessoryType = selectedFilterIndex == indexPath.row ? .checkmark : .none
         }
         filterTableView.reloadData()
         guard let selectedFilter else { return }
@@ -91,11 +87,11 @@ extension FiltersVC: UITableViewDelegate {
 extension FiltersVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return FilterNameEnum.allCases.count
+        FilterNameEnum.allCases.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        rowHeightForTables
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

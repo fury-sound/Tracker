@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum weekDaysEnum: String {
+enum WeekDaysEnum: String {
     case Mon = "Monday"
     case Tue = "Tuesday"
     case Wed = "Wednesday"
@@ -17,7 +17,7 @@ enum weekDaysEnum: String {
     case Sun = "Sunday"
 }
 
-enum scheduleViewControllerStates {
+enum ScheduleViewControllerState {
     case creating
     case editing([ScheduledDays])
 }
@@ -59,7 +59,7 @@ final class ScheduleVC: UIViewController {
         return weekdayTableView
     }()
     
-    var scheduleViewState: scheduleViewControllerStates = .creating {
+    var scheduleViewState: ScheduleViewControllerState = .creating {
         didSet {
             updateUIForState()
         }
@@ -142,7 +142,7 @@ final class ScheduleVC: UIViewController {
 
 extension ScheduleVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        rowHeightForTables
     }
     
     // TODO: add possibility to press the entire table cell to select a week day
@@ -155,7 +155,7 @@ extension ScheduleVC: UITableViewDelegate {
 extension ScheduleVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        weekDaySymbolsFull.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

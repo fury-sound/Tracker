@@ -52,5 +52,4 @@ final class GradientBorderView: UIView {
         )
         maskLayer.path = path.cgPath
     }
-
 }

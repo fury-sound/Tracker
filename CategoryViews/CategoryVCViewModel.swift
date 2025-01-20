@@ -1,14 +1,14 @@
-//
-//  CategoryViewModel.swift
-//  Tracker
-//
-//  Created by Valery Zvonarev on 26.12.2024.
-//
+    //
+    //  CategoryViewModel.swift
+    //  Tracker
+    //
+    //  Created by Valery Zvonarev on 26.12.2024.
+    //
 
 import UIKit
 
 final class CategoryVCViewModel {
-    
+
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerStore = TrackerStore()
     private let trackerRecordStore = TrackerRecordStore()
@@ -19,96 +19,91 @@ final class CategoryVCViewModel {
             buttonNameChange?(createButtonNameInModel ?? "")
         }
     }
-    
-    var categoryVCViewModelState: viewControllerState = .creating {
+
+    var categoryVCViewModelState: ViewControllerState = .creating {
         didSet {
-//            guard let selectedCategoryVCTitle else { return }
-//            print("selectedCategoryVCTitle", selectedCategoryVCTitle)
-//            updateCategoryVCUIForState?(selectedCategoryVCTitle)
+                //            guard let selectedCategoryVCTitle else { return }
+                //            print("selectedCategoryVCTitle", selectedCategoryVCTitle)
+                //            updateCategoryVCUIForState?(selectedCategoryVCTitle)
         }
     }
-    
-    var addCategoryVCViewModelState: viewControllerForCategoryState = .creating {
+
+    var addCategoryVCViewModelState: ViewControllerForCategoryState = .creating {
         didSet {
             switch addCategoryVCViewModelState {
-            case .creating:
-                setCreatForAddCategoryVCState?()
-            case .editing(let existingCategoryName):
-                setEditForAddCategoryVCState?(existingCategoryName)
+                case .creating:
+                    setCreateForAddCategoryVCState?()
+                case .editing(let existingCategoryName):
+                    setEditForAddCategoryVCState?(existingCategoryName)
             }
         }
     }
-    
+
     var trackerNameArray: [String] = [] {
         didSet {
             reloadDataHandler?()
         }
     }
-    
+
     var selectedIndex: Int? {
         didSet {
             reloadDataHandler?()
         }
     }
-    
+
     var selectedCategoryName: String = "" {
         didSet {
             switch categoryVCViewModelState {
-            case .creating:
-                reloadDataHandler?()
-            case .editing(let tracker):
-                if selectedCategoryName == "Pinned" {
-                    lockTableFromChanges?()
-                }
+                case .creating:
+                    reloadDataHandler?()
+                case .editing(_):
+                    if selectedCategoryName == "Pinned" {
+                        lockTableFromChanges?()
+                    }
             }
         }
     }
-    
-    typealias EmptyClosure = () -> Void
-    typealias StringClosure = (String) -> Void
-    //    typealias UIStateClosure = (viewControllerState) -> Void
-    
-    /// Используется для установеи состояния addCategoryState как creaing
-    var setCreatForAddCategoryVCState: EmptyClosure?
 
-    /// Используется для установеи состояния addCategoryState как editing
+        /// Используется для установки состояния addCategoryState как creating
+    var setCreateForAddCategoryVCState: EmptyClosure?
+
+        /// Используется для установки состояния addCategoryState как editing
     var setEditForAddCategoryVCState: StringClosure?
 
-    /// Используется для определения состояния addCategoryState (creaing/editing) и настроек модуля добавления категории
+        /// Используется для определения состояния addCategoryState (creating/editing) и настроек модуля добавления категории
     var addCategoryVCHandler: EmptyClosure?
-    
-    /// просто перезагрузка твблицы
+
+        /// просто перезагрузка твблицы
     var reloadDataHandler: EmptyClosure?
-    
-    /// возврат данных в окно NewHabitVC/NewEventVC
+
+        /// возврат данных в окно NewHabitVC/NewEventVC
     var returnToPreviousViewHandler: StringClosure?
-    
-    /// изменение надписи на кнопке addCategoryButton в зависимости от состояния (creaing/editing)
+
+        /// изменение надписи на кнопке addCategoryButton в зависимости от состояния (creaing/editing)
     var buttonNameChange: StringClosure?
-    
-    /// при выборе трекера из категории Pinned для редактирования не дает взаимодействовать с таблицей категорий
+
+        /// при выборе трекера из категории Pinned для редактирования не дает взаимодействовать с таблицей категорий
     var lockTableFromChanges: EmptyClosure?
-    
+
     func viewDidLoad() {
         retrieveAllTrackerCategoriesToTable()
         switch categoryVCViewModelState {
-        case .creating:
-            createButtonNameInModel = createCategoryText
-            selectedCategoryVCTitle = newTrackerTitle
-        case .editing(tracker: let tracker):
-            guard let trackerID = tracker.id else { return }
-            
-            selectedCategoryVCTitle = editTrackerTitle
-            createButtonNameInModel = changeCategoryText
-            selectedCategoryName = trackerStore.retrieveTrackerCategoryByID(by: trackerID) ?? ""
-            selectedIndex = trackerNameArray.firstIndex(of: selectedCategoryName)
+            case .creating:
+                createButtonNameInModel = createCategoryText
+                selectedCategoryVCTitle = newTrackerTitle
+            case .editing(tracker: let tracker):
+                guard let trackerID = tracker.id else { return }
+                selectedCategoryVCTitle = editTrackerTitle
+                createButtonNameInModel = changeCategoryText
+                selectedCategoryName = trackerStore.retrieveTrackerCategoryByID(by: trackerID) ?? ""
+                selectedIndex = trackerNameArray.firstIndex(of: selectedCategoryName)
         }
     }
-    
+
     private func retrieveAllTrackerCategoriesToTable() {
         trackerNameArray = trackerCategoryStore.retrieveAllTrackerCategoryTitles()
     }
-        
+
     func editCategoryActionTapped(startCategoryName: String) {
         addCategoryVCViewModelState = .editing(existingCategoryName: startCategoryName)
         addCategoryVCHandler?()
@@ -132,26 +127,26 @@ final class CategoryVCViewModel {
         selectedIndex = nil
         reloadDataHandler?()
     }
-  
-    // to be deleted
+
+        // to be deleted
     private func showAllTrackersData() {
-//        print("All data for trackers:")
-//        print(trackerStore.retrieveAllTrackers())
-//        trackerCategoryStore.retrieveCategoryTitles()
-//        trackerRecordStore.retrieveAllTrackerRecordCoreDataInfo()
+            //        print("All data for trackers:")
+            //        print(trackerStore.retrieveAllTrackers())
+            //        trackerCategoryStore.retrieveCategoryTitles()
+            //        trackerRecordStore.retrieveAllTrackerRecordCoreDataInfo()
     }
-    
+
     func didSelectCategoryAtIndex(index: Int) {
 
         selectedIndex = (selectedIndex == index) ? nil : index
         switch categoryVCViewModelState {
-        case .creating:
-            createButtonNameInModel = (selectedIndex == nil ? createCategoryText : addCategoryText)
-        case .editing(let tracker):
-            createButtonNameInModel = (selectedIndex == nil ? createCategoryText : changeCategoryText)
+            case .creating:
+                createButtonNameInModel = selectedIndex == nil ? createCategoryText : addCategoryText
+            case .editing(_):
+                createButtonNameInModel = selectedIndex == nil ? createCategoryText : changeCategoryText
         }
     }
-    
+
     func categoryCreateButtonTapped() {
         addCategoryVCViewModelState = .creating
         if let selectedIndex {

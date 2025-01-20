@@ -19,7 +19,7 @@ final class AddCategoryViewModel {
 //    weak var delegate: AddCategoryViewModelDelegate? // to be deleted
     private let trackerCategoryStore = TrackerCategoryStore()
     
-    var addCategoryVCViewModelState: viewControllerForCategoryState = .creating {
+    var addCategoryVCViewModelState: ViewControllerForCategoryState = .creating {
         didSet {
 //            guard let selectedCategoryVCTitle else { return }
 //            print("selectedCategoryVCTitle", selectedCategoryVCTitle)
@@ -40,11 +40,7 @@ final class AddCategoryViewModel {
             settingNewCategoryName?(newCategoryName)
         }
     }
-    
-    typealias BoolClosure = ((Bool) -> Void)
-    typealias StringClosure = ((String) -> Void)
-    typealias EmptyClosure = (() -> Void)
-    
+        
     var editTextFieldHandler: BoolClosure?
     var settingNewCategoryName: StringClosure?
     var errorCreatingNewCategory: StringClosure?
@@ -54,7 +50,7 @@ final class AddCategoryViewModel {
 //    var settingNewCategoryName: ((String) -> Void)?
 //    var errorCreatingNewCategory: ((String) -> Void)?
     
-    func updateUIParameters() {
+    private func updateUIParameters() {
         switch addCategoryVCViewModelState {
         case .creating:
             buttonEnabled = false
@@ -65,21 +61,21 @@ final class AddCategoryViewModel {
         }
     }
     
-    func readyCategoryTapped(targetcategoryName: String) {
+    func readyCategoryTapped(targetCategoryName: String) {
         switch addCategoryVCViewModelState {
         case .creating:
-            if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: targetcategoryName) {
-                newCategoryName = targetcategoryName
+            if !trackerCategoryStore.isCategoryAlreadyExist(categoryName: targetCategoryName) {
+                newCategoryName = targetCategoryName
                 do {
                     try trackerCategoryStore.addTrackerCategoryTitleToCoreData(newCategoryName)
                 } catch let error as NSError {
                     print("Error creating new category: \(error)")
                 }
             } else {
-                errorCreatingNewCategory?(targetcategoryName)
+                errorCreatingNewCategory?(targetCategoryName)
             }
         case .editing(let existingCategoryName):
-            trackerCategoryStore.changeTrackerCategoryName(startCategory: existingCategoryName, targetCategory: targetcategoryName)
+            trackerCategoryStore.changeTrackerCategoryName(startCategory: existingCategoryName, targetCategory: targetCategoryName)
         }
     }
     
