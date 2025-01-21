@@ -9,13 +9,13 @@ import UIKit
 
 final class TrackerCellViewController: UICollectionViewCell {
         
-//    private var trackerColorSet = [UIColor.ypDarkRed, UIColor.ypDarkBlue, UIColor.ypDarkGreen]
-//    private var colorNum: Int = 0
     var setMarkSign = false
     var tappedRecordButton: (() -> Void)?
+    var tappedCellButton: (() -> UUID)?
     
     private lazy var trackerView: UIView = {
         let trackerView = UIView()
+        trackerView.isUserInteractionEnabled = false
         trackerView.layer.cornerRadius = 10
         trackerView.layer.masksToBounds = true
         return trackerView
@@ -31,6 +31,7 @@ final class TrackerCellViewController: UICollectionViewCell {
     
     private lazy var viewForEmoji: UIView = {
         let emojiView = UIView()
+        emojiView.isUserInteractionEnabled = false
         emojiView.backgroundColor = .white
         emojiView.layer.opacity = 0.3
         emojiView.layer.cornerRadius = 12
@@ -49,8 +50,6 @@ final class TrackerCellViewController: UICollectionViewCell {
     private lazy var daysLabel: UILabel = {
         let daysLabel = UILabel()
         daysLabel.backgroundColor = .clear
-//        daysLabel.text = "0 дней"
-//        setDayLabelText(days: 0)
         return daysLabel
     }()
     
@@ -66,11 +65,14 @@ final class TrackerCellViewController: UICollectionViewCell {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.isUserInteractionEnabled = true
+        self.isAccessibilityElement = true
         let elementArray = [trackerView, viewForEmoji, emojiLabel, textLabel, daysLabel, plusButton]
         elementArray.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         setDayLabelText(days: 0)
+        contentView.backgroundColor = .clear
         contentView.addSubview(trackerView)
         trackerView.addSubview(viewForEmoji)
         trackerView.addSubview(textLabel)
@@ -145,32 +147,14 @@ final class TrackerCellViewController: UICollectionViewCell {
     }
     
     func setDayLabelText(days: Int) {
-//        let dayEnding = properDayEndingsInRussian(num: days)
         if #available(iOS 15, *) {
             daysLabel.text = setNumberOfDaysLabelText(days: days)
         } else {
 //            // Fallback on earlier versions
             let basicString = NSLocalizedString(setNumberOfDaysLabelText(days: days), comment: "Number of days for completed trackers")
             daysLabel.text = String.localizedStringWithFormat(basicString, days)
-//            daysLabel.text = "\(days) \(dayEnding)"
         }
     }
-    
-//    func properDayEndingsInRussian(num: Int) -> String {
-//        var lastNums = abs(num % 100)
-//        if lastNums >= 11 && lastNums <= 19 {
-//            return "дней"
-//        }
-//        lastNums = abs(num % 10)
-//        switch lastNums {
-//        case 1:
-//            return "день"
-//        case 2,3,4:
-//            return "дня"
-//        default:
-//            return "дней"
-//        }
-//    }
     
     func setColorsInCell(color: UIColor) {
         trackerView.backgroundColor = color

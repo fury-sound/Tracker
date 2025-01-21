@@ -9,15 +9,14 @@ import UIKit
 
 final class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
-    let imageNames = ["onboarding1", "onboarding2"]
-//    let labelText = ["Отслеживайте только \n то, что хотите", "Даже если это\n не литры воды и йога"]
-    let labelText = [labelLeftText, labelRightText]
-    var currentIndex = 0
-    
-    lazy var wowButton: UIButton = {
+    private let storage: UserDefaults = .standard
+    private let imageNames = ["onboarding1", "onboarding2"]
+    private let labelText = [labelLeftText, labelRightText]
+    private var currentIndex = 0
+
+    private lazy var wowButton: UIButton = {
         let button = UIButton()
         button.setTitle(buttonText, for: .normal)
-//        button.setTitle("Вот это технологии!", for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         button.backgroundColor = .ypBlack
@@ -26,7 +25,7 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
         return button
     }()
     
-    lazy var pageControl: UIPageControl = {
+    private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = 2
         pageControl.currentPage = 0
@@ -46,7 +45,7 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
         setupUI()
     }
     
-    func pageAtIndex(_ index: Int) -> PageViewController? {
+    private func pageAtIndex(_ index: Int) -> PageViewController? {
         if index < 0 || index >= imageNames.count { return nil }
         let vc = PageViewController()
         vc.imageName = imageNames[index]
@@ -71,11 +70,7 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
             wowButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
-    
-    @objc func didTapWow() {
-        switchToNaviBarVC()
-    }
-    
+
     private func switchToNaviBarVC() {
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid windows configuration")
@@ -87,7 +82,12 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
         window.rootViewController = mainNaviBarVC
         self.dismiss(animated: true)
     }
-    
+
+    @objc private func didTapWow() {
+        storage.set(true, forKey: "wasLaunched")
+        switchToNaviBarVC()
+    }
+
     // MARK: UIPageViewControllerDataSource
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {

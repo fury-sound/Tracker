@@ -77,8 +77,30 @@
         }
       }
     },
+    "All trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все трекеры"
+          }
+        }
+      }
+    },
+    "Attention!" : {
+      "comment" : "CategoryVC, tableTappedAlert, deleteCategoryAlert",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внимание!"
+          }
+        }
+      }
+    },
     "Cancel" : {
-      "comment" : "NewEventVC, cancelButtonText\nNewHabitVC, cancelButtonText",
+      "comment" : "CategoryVC, deleteCategoryAlert\nNewEventVC, cancelButtonText\nNewHabitVC, cancelButtonText",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -99,6 +121,17 @@
         }
       }
     },
+    "Category 'Pinned' cannot be edited. \n Use context menu to change this tracker category" : {
+      "comment" : "CategoryVC, tableTappedAlert",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категория “Закрепленные” не является редактируемый. Для изменения категории данного трекера используйте контекстное меню трекера "
+          }
+        }
+      }
+    },
     "Category name" : {
       "comment" : "NewEventVC, cellForRowAt\nNewHabitVC, buttonNameArray\nNewHabitVC, cellForRowAt",
       "localizations" : {
@@ -106,6 +139,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Название категории"
+          }
+        }
+      }
+    },
+    "Change category" : {
+      "comment" : "CategoryVCViewModel, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить категорию"
           }
         }
       }
@@ -121,8 +165,30 @@
         }
       }
     },
+    "completed trackers" : {
+      "comment" : "StatisticsTableViewController, statisticsItemLabelBottom",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Трекеров завершено"
+          }
+        }
+      }
+    },
+    "Completed trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершенные"
+          }
+        }
+      }
+    },
     "Create" : {
-      "comment" : "NewEventVC, createButtonText\nNewHabitVC, createButtonText",
+      "comment" : "NewEventVC, createButtonText\nNewHabitVC, createOrSaveButtonText",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -161,6 +227,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дни недели"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "comment" : "CategoryVC, deleteCategoryAlert\nTrackerNavigationViewController, pinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Don't need this category? \n All related trackers to be deleted as well" : {
+      "comment" : "CategoryVC, deleteCategoryAlert",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта категория точно не нужна? Все связанные с ней трекеры будут удалены"
+          }
+        }
+      }
+    },
+    "Edit" : {
+      "comment" : "TrackerNavigationViewController, pinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактировать"
+          }
+        }
+      }
+    },
+    "Edit the category" : {
+      "comment" : "AddCategoryVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактирование категории"
+          }
+        }
+      }
+    },
+    "Edit the Event" : {
+      "comment" : "NewEventVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактирование события"
+          }
+        }
+      }
+    },
+    "Edit the Habit" : {
+      "comment" : "NewHabitVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактирование привычки"
           }
         }
       }
@@ -204,25 +336,21 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ошибка!\\n"
-          }
-        }
-      }
-    },
-    "Even if it's \n not amount of water or yoga" : {
-      "comment" : "OnboardingViewController, labelRightText",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отслеживайте только \\n то, что хотите"
+            "value" : "Ошибка!"
           }
         }
       }
     },
     "Even if it's not about \n amount of water or yoga" : {
-      "comment" : "OnboardingViewController, labelRightText"
+      "comment" : "OnboardingViewController, labelRightText",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Даже если это не литры воды и йога"
+          }
+        }
+      }
     },
     "Event category" : {
       "comment" : "NewEventVC, buttonNameArray",
@@ -246,13 +374,24 @@
         }
       }
     },
+    "Filters" : {
+      "comment" : "FiltersVC, viewDidLoad\nTrackerNavigationViewController, trackerFilters",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фильтры"
+          }
+        }
+      }
+    },
     "Follow only \n what you need" : {
       "comment" : "OnboardingViewController, labelLeftText",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Даже если это\\n не литры воды и йога"
+            "value" : "Даже если это не литры воды и йога"
           }
         }
       }
@@ -356,6 +495,50 @@
         }
       }
     },
+    "Nothing to analyze yet" : {
+      "comment" : "StatisticsTableViewController, nothingFoundLogo",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анализировать пока нечего"
+          }
+        }
+      }
+    },
+    "Nothing was found!" : {
+      "comment" : "TrackerNavigationViewController, textForEmptySearch",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ничего не найдено!"
+          }
+        }
+      }
+    },
+    "Pin" : {
+      "comment" : "TrackerNavigationViewController, pinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрепить"
+          }
+        }
+      }
+    },
+    "Pinned" : {
+      "comment" : "TrackerNavigationViewController, pinnedHeader",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрепленные"
+          }
+        }
+      }
+    },
     "Ready" : {
       "comment" : "AddCategoryVC, readyButton\nScheduleVC, readyButton",
       "localizations" : {
@@ -374,6 +557,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Суббота"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "comment" : "NewHabitVC, createOrSaveButtonText",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
           }
         }
       }
@@ -401,7 +595,7 @@
       }
     },
     "Statistics" : {
-      "comment" : "MainTrackerViewController, setupMainNavBarVC",
+      "comment" : "MainTrackerViewController, setupMainNavBarVC\nStatisticsTableViewController, titleLabel",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -444,6 +638,17 @@
         }
       }
     },
+    "Today trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Трекеры на сегодня"
+          }
+        }
+      }
+    },
     "Trackers" : {
       "comment" : "MainTrackerViewController, setupMainNavBarVC\nTrackerNavigationViewController, naviBarSetup",
       "localizations" : {
@@ -461,14 +666,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Привычки и события можно \\n объединять по смыслу"
+            "value" : "Привычки и события можно объединять по смыслу"
           }
         }
       }
     },
-    "Truly hi-tec!" : {
+    "Truly hi-tech!" : {
       "comment" : "OnboardingViewController, wowButton",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -478,9 +682,6 @@
         }
       }
     },
-    "Truly hi-tech!" : {
-      "comment" : "OnboardingViewController, wowButton"
-    },
     "Tuesday" : {
       "comment" : "ScheduleVC, weekdayArray",
       "localizations" : {
@@ -488,6 +689,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вторник"
+          }
+        }
+      }
+    },
+    "Uncompleted trackers" : {
+      "comment" : "FiltersVC, viewDidLoad",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Незавершенные"
+          }
+        }
+      }
+    },
+    "Unpin" : {
+      "comment" : "TrackerNavigationViewController, unpinAction",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открепить"
           }
         }
       }

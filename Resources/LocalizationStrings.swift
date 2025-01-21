@@ -36,8 +36,10 @@ let trackersDaysOfWeek = NSLocalizedString("Days of week", comment: "NewHabitVC,
 let defaultHeaderName = NSLocalizedString("Important", comment: "NewHabitVC, defaultHeader")
 let trackerNamePlaceholder = NSLocalizedString("Enter Tracker name", comment: "NewHabitVC, trackerNameTextfield")
 let cancelButtonText = NSLocalizedString("Cancel", comment: "NewHabitVC, cancelButtonText")
-let createButtonText = NSLocalizedString("Create", comment: "NewHabitVC, createButtonText")
+let createButtonText = NSLocalizedString("Create", comment: "NewHabitVC, createOrSaveButtonText")
+let saveButtonText = NSLocalizedString("Save", comment: "NewHabitVC, createOrSaveButtonText")
 let newTrackerTitle = NSLocalizedString("New Habit", comment: "NewHabitVC, viewDidLoad")
+let editTrackerTitle = NSLocalizedString("Edit the Habit", comment: "NewHabitVC, viewDidLoad")
 let returnedEveryDay = NSLocalizedString("Every day", comment: "NewHabitVC, intsToDaysOfWeek")
 let trackerCategoryPlaceholder = NSLocalizedString("Category name", comment: "NewHabitVC, cellForRowAt")
 let trackerWeekdayPlaceholder = NSLocalizedString("Days of week", comment: "NewHabitVC, cellForRowAt")
@@ -52,6 +54,7 @@ let eventNamePlaceholder = NSLocalizedString("Enter Event name", comment: "NewEv
 //let cancelButtonText = NSLocalizedString("Cancel", comment: "NewEventVC, cancelButtonText")
 //let createButtonText = NSLocalizedString("Create", comment: "NewEventVC, createButtonText")
 let newEventTitle = NSLocalizedString("New Event", comment: "NewEventVC, viewDidLoad")
+let editEventTitle = NSLocalizedString("Edit the Event", comment: "NewEventVC, viewDidLoad")
 let eventCategoryPlaceholder = NSLocalizedString("Category name", comment: "NewEventVC, cellForRowAt")
 //let headerTextForColor = NSLocalizedString("Color", comment: "NewEventVC, viewForSupplementaryElementOfKind")
 
@@ -69,14 +72,21 @@ let scheduleTitle = NSLocalizedString("Schedule", comment: "ScheduleVC, viewDidL
 //MARK: CategoryVC
 let initSloganText = NSLocalizedString("Trackers and events \n can be combined", comment: "CategoryVC, initSlogan")
 let categoryTitle = NSLocalizedString("Category", comment: "CategoryVC, viewDidLoad").localizedCapitalized
+let alertTitleForCategory = NSLocalizedString("Attention!", comment: "CategoryVC, tableTappedAlert, deleteCategoryAlert")
+let changingPinnedCategory = NSLocalizedString("Category 'Pinned' cannot be edited. \n Use context menu to change this tracker category", comment: "CategoryVC, tableTappedAlert")
+let deletingCategory = NSLocalizedString("Don't need this category? \n All related trackers to be deleted as well", comment: "CategoryVC, deleteCategoryAlert")
+let deleteText = NSLocalizedString("Delete", comment: "CategoryVC, deleteCategoryAlert")
+let cancelText = NSLocalizedString("Cancel", comment: "CategoryVC, deleteCategoryAlert")
 
 //MARK: CategoryVCViewModel
 let createCategoryText = NSLocalizedString("Create category", comment: "CategoryVCViewModel, viewDidLoad")
 let addCategoryText = NSLocalizedString("Add category", comment: "CategoryVCViewModel, didSelectCategoryAtIndex")
+let changeCategoryText = NSLocalizedString("Change category", comment: "CategoryVCViewModel, viewDidLoad")
 
 //MARK: AddCategoryVC
 let categoryNamePlaceholder = NSLocalizedString("Enter Category name", comment: "AddCategoryVC, trackerNameTextfield")
 let newCategoryTitle = NSLocalizedString("New category", comment: "AddCategoryVC, viewDidLoad")
+let editCategoryTitle = NSLocalizedString("Edit the category", comment: "AddCategoryVC, viewDidLoad")
 let alertTitle = NSLocalizedString("Error!\n", comment: "AddCategoryVC, alertForAddCategoryError")
 let keyCategoryExists = NSLocalizedString("Such category already exists!", comment: "AddCategoryVC, alertForAddCategoryError")
 
@@ -94,6 +104,13 @@ let keyCategoryExists = NSLocalizedString("Such category already exists!", comme
 let searchBarPlaceholder = NSLocalizedString("Search", comment: "TrackerNavigationViewController, searchBar")
 let initLogoText = NSLocalizedString("What you gonna track?", comment: "TrackerNavigationViewController, initLogo")
 let naviBarTitle = NSLocalizedString("Trackers", comment: "TrackerNavigationViewController, naviBarSetup")
+let emptySearchText = NSLocalizedString("Nothing was found!", comment: "TrackerNavigationViewController, textForEmptySearch")
+let pinActionText = NSLocalizedString("Pin", comment: "TrackerNavigationViewController, pinAction")
+let unPinActionText = NSLocalizedString("Unpin", comment: "TrackerNavigationViewController, unpinAction")
+let editActionText = NSLocalizedString("Edit", comment: "TrackerNavigationViewController, pinAction")
+let deleteActionText = NSLocalizedString("Delete", comment: "TrackerNavigationViewController, pinAction")
+let pinnedHeaderText = NSLocalizedString("Pinned", comment: "TrackerNavigationViewController, pinnedHeader")
+let filterButtonText = NSLocalizedString("Filters", comment: "TrackerNavigationViewController, trackerFilters")
 
 // MARK: MainTrackerViewController
 let trackerBarName = NSLocalizedString("Trackers", comment: "MainTrackerViewController, setupMainNavBarVC")
@@ -103,5 +120,17 @@ let statisticsBarName = NSLocalizedString("Statistics", comment: "MainTrackerVie
 let habitButtonName = NSLocalizedString("Habit", comment: "TrackerCreateVC, habitButton")
 let eventButtonName = NSLocalizedString("Irregular event", comment: "TrackerCreateVC, eventButton")
 let createTrackerTitle = NSLocalizedString("Creating a tracker", comment: "TrackerCreateVC, viewDidLoad")
+
+// MARK: FiltersVC
+let filterHeaderTitle = NSLocalizedString("Filters", comment: "FiltersVC, viewDidLoad")
+let allTrackersTitle = NSLocalizedString("All trackers", comment: "FiltersVC, viewDidLoad")
+let todayTrackersTitle = NSLocalizedString("Today trackers", comment: "FiltersVC, viewDidLoad")
+let completedTrackersTitle = NSLocalizedString("Completed trackers", comment: "FiltersVC, viewDidLoad")
+let uncompletedTrackersTitle = NSLocalizedString("Uncompleted trackers", comment: "FiltersVC, viewDidLoad")
+
+// MARK: StatisticsTableViewController
+let nothingToAnalyzeText = NSLocalizedString("Nothing to analyze yet", comment: "StatisticsTableViewController, nothingFoundLogo")
+let statisticsTitle = NSLocalizedString("Statistics", comment: "StatisticsTableViewController, titleLabel")
+let completedTrackersText = NSLocalizedString("completed trackers", comment: "StatisticsTableViewController, statisticsItemLabelBottom")
 
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum weekDaysEnum: String {
+enum WeekDaysEnum: String {
     case Mon = "Monday"
     case Tue = "Tuesday"
     case Wed = "Wednesday"
@@ -16,21 +16,26 @@ enum weekDaysEnum: String {
     case Sat = "Saturday"
     case Sun = "Sunday"
 }
+
+enum ScheduleViewControllerState {
+    case creating
+    case editing([ScheduledDays])
+}
+
 final class ScheduleVC: UIViewController {
-       
-//    private let weekdayArray = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"]
     private let weekdayArray = [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+    private var weekDaySymbolsFull = [String]()
+    private var weekDaySymbolsShort = [String]()
     private let switchTags = [1,2,3,4,5,6,0]
     private var selectedWeekDates: Set<Int> = []
     var tappedReady: (([Int]) -> Void)?
-
+    
     private lazy var readyButton: UIButton = {
         let readyButton = UIButton()
         readyButton.layer.cornerRadius = 16
         readyButton.backgroundColor = TrackerColors.backgroundButtonColor
         readyButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
         readyButton.setTitleColor(.ypWhite, for: .disabled)
-//        readyButton.setTitle("Готово", for: .normal)
         readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         readyButton.isEnabled = false
@@ -54,12 +59,41 @@ final class ScheduleVC: UIViewController {
         return weekdayTableView
     }()
     
+    var scheduleViewState: ScheduleViewControllerState = .creating {
+        didSet {
+            updateUIForState()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.title = "Расписание"
         navigationItem.title = scheduleTitle
+        setWeekDays()
         viewSetup()
         navigationItem.setHidesBackButton(true, animated: true)
+    }
+    
+    private func setWeekDays() {
+        let currentLocale = Locale.current
+        var currentCalendar = Calendar.current
+        currentCalendar.locale = currentLocale
+        weekDaySymbolsFull = currentLocale.calendar.weekdaySymbols
+        weekDaySymbolsShort = currentLocale.calendar.shortWeekdaySymbols
+    }
+    
+    private func updateUIForState() {
+        switch scheduleViewState {
+        case .editing(let schedule):
+            readyButton.isEnabled = true
+            readyButton.backgroundColor = TrackerColors.backgroundButtonColor
+            selectedWeekDates = []
+            schedule.forEach {
+                selectedWeekDates.insert($0.rawValue)
+            }
+        case .creating:
+            readyButton.isEnabled = false
+            readyButton.backgroundColor = .ypGray
+        }
     }
     
     private func viewSetup() {
@@ -91,7 +125,6 @@ final class ScheduleVC: UIViewController {
     @objc func switchOnOff(_ sender: UISwitch) {
         let indexValue = sender.tag
         let isOn = sender.isOn
-//        isOn ? selectedWeekDates.insert(indexValue) : selectedWeekDates.remove(indexValue)
         if isOn {
             selectedWeekDates.insert(indexValue)
         } else {
@@ -109,32 +142,41 @@ final class ScheduleVC: UIViewController {
 
 extension ScheduleVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        rowHeightForTables
     }
     
     // TODO: add possibility to press the entire table cell to select a week day
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("current row \(indexPath.row)")
+        //        print("current row \(indexPath.row)")
     }
-
+    
 }
 
 extension ScheduleVC: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        weekDaySymbolsFull.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let weekdaySwitch = UISwitch()
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell")
         guard let cell else { return UITableViewCell()}
-        cell.textLabel?.text = weekdayArray[indexPath.row]
+        cell.textLabel?.text = weekDaySymbolsFull[indexPath.row].capitalized
         cell.backgroundColor = .ypBackground
         cell.selectionStyle = .none
         cell.isHighlighted = false
         cell.accessoryView = weekdaySwitch
-        weekdaySwitch.tag = switchTags[indexPath.row]
+        weekdaySwitch.tag = indexPath.row
+        
+        switch scheduleViewState {
+        case .creating:
+            break
+        case .editing(let schedule):
+            if selectedWeekDates.contains(indexPath.row) {
+                weekdaySwitch.isOn = true
+            }
+        }
         weekdaySwitch.onTintColor = .ypBlue
         weekdaySwitch.addTarget(self, action: #selector(switchOnOff(_ :)), for: .valueChanged)
         return cell

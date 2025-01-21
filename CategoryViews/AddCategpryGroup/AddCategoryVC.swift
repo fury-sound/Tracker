@@ -15,9 +15,6 @@ final class AddCategoryVC: UIViewController {
         var trackerNameTextfield = UITextField()
         trackerNameTextfield.backgroundColor = .ypBackground
         trackerNameTextfield.layer.cornerRadius = 16
-        
-//        trackerNameTextfield.placeholder = "Введите название категории"
-        trackerNameTextfield.placeholder = categoryNamePlaceholder
         trackerNameTextfield.clearButtonMode = .whileEditing
         trackerNameTextfield.delegate = self
         trackerNameTextfield.addTarget(self, action: #selector(editingFunc(_ :)), for: .editingChanged)
@@ -30,12 +27,19 @@ final class AddCategoryVC: UIViewController {
         readyButton.backgroundColor = TrackerColors.backgroundButtonColor
         readyButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
         readyButton.setTitleColor(.ypWhite, for: .disabled)
-//        readyButton.setTitle("Готово", for: .normal)
         readyButton.setTitle(readyButtonText, for: .normal)
         readyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        readyButton.addTarget(self, action: #selector(creatingNewCategory), for: .touchUpInside)
+        readyButton.addTarget(self, action: #selector(readyCategoryButtonFunction), for: .touchUpInside)
         return readyButton
     }()
+    
+    var addCategoryVCState: ViewControllerForCategoryState = .creating {
+        didSet {
+//            print("3. addCategoryVCState in didSet", addCategoryVCState)
+            //            guard let selectedCategoryVCTitle else { return }
+            //            print("selectedCategoryVCTitle", selectedCategoryVCTitle)
+        }
+    }
     
     init(viewModel: AddCategoryViewModel) {
         self.viewModel = viewModel
@@ -48,8 +52,6 @@ final class AddCategoryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.title = "Новая категория"
-        navigationItem.title = newCategoryTitle
         navigationItem.setHidesBackButton(true, animated: true)
         viewSetup()
         viewModel.viewDidLoad()
@@ -76,6 +78,22 @@ final class AddCategoryVC: UIViewController {
             readyButton.heightAnchor.constraint(equalToConstant: 60)
         ])
         
+        viewModel.updateAddCategoryVCUIForState = { [weak self] categoryName in
+            guard let self else {
+                print("self error in viewModel.updateAddCategoryVCUIForState, viewSetup")
+                return
+            }
+            switch self.addCategoryVCState {
+            case .creating:
+                self.trackerNewNameTextfield.placeholder = categoryNamePlaceholder
+                navigationItem.title = newCategoryTitle
+            case .editing(let categoryName):
+                navigationItem.title = editCategoryTitle
+                self.trackerNewNameTextfield.placeholder = nil
+                self.trackerNewNameTextfield.text = categoryName
+            }
+        }
+        
         viewModel.editTextFieldHandler = { [weak self] buttonEnabled in
             guard let self else { return }
             if !buttonEnabled  {
@@ -90,26 +108,28 @@ final class AddCategoryVC: UIViewController {
         viewModel.errorCreatingNewCategory = { [weak self] categoryName in
             self?.alertForAddCategoryError(name: categoryName)
         }
-        
     }
     
     private func alertForAddCategoryError(name: String) {
-//        let alert = UIAlertController(title: "Ошибка!\n",
-        let alert = UIAlertController(title: alertTitle,
-//                                      message: "Категория \(name) уже существует",
-                                      message: keyCategoryExists,
-                                      preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
+        let alert = UIAlertController(
+            title: alertTitle,
+            message: keyCategoryExists,
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(
+            title: "OK",
+            style: .default
+        )
         alert.addAction(action)
         present(alert, animated: true)
     }
     
-    @objc func creatingNewCategory() {
-        viewModel.creatingNewCategoryTapped(name: trackerNewNameTextfield.text ?? "")
-        self.navigationController?.popViewController(animated: true)
+    @objc private func readyCategoryButtonFunction() {
+        viewModel.readyCategoryTapped(targetCategoryName: trackerNewNameTextfield.text ?? "")
+        navigationController?.popViewController(animated: true)
     }
     
-    @objc func editingFunc(_ sender: UITextField) {
+    @objc private func editingFunc(_ sender: UITextField) {
         guard let text = sender.text else { return }
         viewModel.onEditingTextField(text: text)
     }
@@ -118,7 +138,6 @@ final class AddCategoryVC: UIViewController {
 extension AddCategoryVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         trackerNewNameTextfield.resignFirstResponder()
-        //        view.endEditing(true)
         return true
     }
 }

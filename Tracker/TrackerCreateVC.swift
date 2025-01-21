@@ -17,10 +17,8 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
         let habitButton = UIButton()
         habitButton.backgroundColor = TrackerColors.backgroundButtonColor
         habitButton.layer.cornerRadius = 16
-//        habitButton.setTitle("Привычка", for: .normal)
         habitButton.setTitle(habitButtonName, for: .normal)
         habitButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
-//        habitButton.titleLabel?.textColor = TrackerColors.buttonTintColor
         habitButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         habitButton.addTarget(self, action: #selector(habitCreation), for: .touchUpInside)
         return habitButton
@@ -30,10 +28,8 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
         let eventButton = UIButton()
         eventButton.layer.cornerRadius = 16
         eventButton.backgroundColor = TrackerColors.backgroundButtonColor
-//        eventButton.setTitle("Нерегулярное событие", for: .normal)
         eventButton.setTitle(eventButtonName, for: .normal)
         eventButton.setTitleColor(TrackerColors.buttonTintColor, for: .normal)
-//        eventButton.titleLabel?.textColor = TrackerColors.backgroundButtonColor
         eventButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         eventButton.addTarget(self, action: #selector(eventCreation), for: .touchUpInside)
         return eventButton
@@ -42,8 +38,6 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = createTrackerTitle
-//        navigationItem.title = "Создание трекера"
-//        navigationController?.navigationBar.tintColor = .ypBlack
         newHabitVC.delegateTrackerInNewHabitVC = self
         viewSetup()
     }
@@ -75,12 +69,15 @@ final class TrackerCreateVC: UIViewController, TrackerCreateVCProtocol {
     
     @objc private func habitCreation() {
         newHabitVC.defaultFields()
-//        newHabitVC.isTrackerFlag = true
         navigationController?.pushViewController(newHabitVC, animated: true)
+        newHabitVC.habitViewState = .creating
+        newHabitVC.isModalInPresentation = true
     }
 
     @objc private func eventCreation() {
         newEventVC.defaultFields()
         navigationController?.pushViewController(newEventVC, animated: true)
+        newEventVC.eventViewState = .creating
+        newEventVC.isModalInPresentation = true
     }
 }

@@ -11,9 +11,11 @@ import CoreData
 final class TrackerStore: NSObject {
     private let context: NSManagedObjectContext
     weak var delegateTrackerForNotifications: TrackerNavigationViewProtocol?
+//    weak var delegateForStatisticsNotifications: TrackerRecordStoreDelegate?
+    private var trackerCategoryStore: TrackerCategoryStore?
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
-        let fetchRequest = TrackerCoreData.fetchRequest()
+        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "name", ascending: true)
         ]
@@ -33,15 +35,40 @@ final class TrackerStore: NSObject {
     
     init(context: NSManagedObjectContext) {
         self.context = context
+//        self.trackerCategoryStore = TrackerCategoryStore(context: context)
         super.init()
         setupFRC()
     }
-    
+        
     func setupFRC() {
+        
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {
             print("Failed to fetch entities: \(error.localizedDescription)")
+        }
+    }
+    
+    func editTrackerInCoreData(_ tracker: Tracker) throws {
+//        let trackerCoreData = TrackerCoreData(context: context)
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        guard let trackerID = tracker.id else { return }
+        myRequest.predicate = NSPredicate(format: "id == %@", trackerID as CVarArg)
+        do {
+            let res = try context.fetch(myRequest)
+            let editedEntity = res.first
+            guard let editedEntity else { return }
+            editedEntity.name = tracker.name
+            editedEntity.emojiPic = tracker.emojiPic
+            editedEntity.color = tracker.color
+            if tracker.schedule.isEmpty {
+                editedEntity.schedule = ""
+            } else {
+                editedEntity.schedule = scheduleToString(schedule: tracker.schedule)
+            }
+            try context.save()
+        } catch let error as NSError {
+            print("Error with adding tracker to CoreData in addTrackerToCoreData, TrackerStore:", error.localizedDescription, error.code, error.userInfo)
         }
     }
     
@@ -55,6 +82,16 @@ final class TrackerStore: NSObject {
         }
         return trackerCoreData
     }
+    
+//    func pinTrackerToCoreData(_ tracker: Tracker) throws -> TrackerCoreData {
+//        let trackerCoreData = TrackerCoreData(context: context)
+////        updateTrackerList(trackerCoreData, with: tracker)
+////        trackerCoreData.isPinned = true
+////        do {
+////            try context.setValue(true, forKey: "isPinned")
+////        }
+//        return TrackerCoreData()
+//    }
     
     func updateTrackerList(_ trackerCoreData: TrackerCoreData, with tracker: Tracker) {
         trackerCoreData.id = tracker.id
@@ -106,6 +143,90 @@ final class TrackerStore: NSObject {
         return allTrackerFromCoreData
     }
     
+    func retrieveTrackerCategoryByID(by id: UUID) -> String? {
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                return entity.category?.title
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    func retrieveTrackerByID(by id: UUID) -> Tracker? {
+        var trackerToFind: Tracker?
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+//                print("Tracker name: \(entity.name), \(entity.id)")
+//                print("Tracker category: \(entity.category?.title)")
+//                print("Tracker pinned: \(entity.isPinned)")
+//                entity.isPinned = entity.category?.title
+//                entity.category?.title = "Pinned"
+//                print("Tracker category: \(entity.category?.title)")
+//                print("Tracker pinned - stored category: \(entity.isPinned)")
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return trackerToFind
+    }
+    
+    
+    // MARK: switchTrackerCategories
+    func switchTrackerCategories(by id: UUID) {
+//        var trackerToFind: Tracker?
+        let trackerCategoryStore = TrackerCategoryStore(context: context)
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                guard let mainCategoryTitle = entity.category?.title, let isPinned = entity.isPinned else { return }
+                    trackerCategoryStore.switchTrackerCategory(trackerCoreData: entity, categoryField: mainCategoryTitle, isPinnedField: isPinned)
+                    entity.isPinned = mainCategoryTitle
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func changeTrackerCategories(by id: UUID, newCategoryTitle: String) {
+        let trackerCategoryStore = TrackerCategoryStore(context: context)
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            for entity in res {
+                guard let startCategoryTitle = entity.category?.title, let isPinned = entity.isPinned else { return }
+                    trackerCategoryStore.changeTrackerCategory(trackerCoreData: entity, startCategory: startCategoryTitle, targetCategory: newCategoryTitle)
+            }
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func isPinnedState(by id: UUID) -> String? {
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        myRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        do {
+            let res = try context.fetch(myRequest)
+            return res.first?.isPinned ?? ""
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
     func retrieveTracker(by id: UUID) -> Tracker? {
         var trackerToFind: Tracker?
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
@@ -126,9 +247,8 @@ final class TrackerStore: NSObject {
         }
         return trackerToFind
     }
-    
+        
     func filterTrackersByWeekday(dayOfWeek: Int) -> [String: [Tracker]]? {
-        var arrayForTrackers = [Tracker]()
         var dictionaryForTrackerCategory: [String: [Tracker]] = [:]
         let arr: [ScheduledDays] = []
         let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
@@ -140,11 +260,10 @@ final class TrackerStore: NSObject {
                 if dictionaryForTrackerCategory[categoryTitle] == nil {
                     dictionaryForTrackerCategory[categoryTitle] = []
                 }
+
                 if entity.schedule == "" {
-                    arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))
                     dictionaryForTrackerCategory[categoryTitle]?.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: arr))
                 } else {
-                    arrayForTrackers.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: stringToSchedule(scheduleString: entity.schedule ?? "")))
                     dictionaryForTrackerCategory[categoryTitle]?.append(Tracker(id: entity.id, name: entity.name, emojiPic: entity.emojiPic, color: entity.color as? UIColor, schedule: stringToSchedule(scheduleString: entity.schedule ?? "")))
                 }
             }
@@ -186,6 +305,20 @@ final class TrackerStore: NSObject {
             print(error.localizedDescription)
         }
     }
+
+    func countTrackers() -> Int {
+//        print("in countEntities")
+        let myRequest : NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+//        myRequest.predicate = NSPredicate(format: "schedule CONTAINS[c] \(String(curDayOfWeek))")
+        do {
+            return try context.count(for: myRequest)
+//            print("In countAllEntities, TrackerStore: found tracker records? \(counter)")
+//            print("in countAllEntities, TrackerStore:", retrieveAllTrackers())
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return 0
+        }
+    }
     
     // temp function
     func countAllEntities() {
@@ -194,7 +327,7 @@ final class TrackerStore: NSObject {
 //        myRequest.predicate = NSPredicate(format: "schedule CONTAINS[c] \(String(curDayOfWeek))")
         do {
             let counter = try context.count(for: myRequest)
-            print("In countAllEntities, TrackerStore: found tracker records? \(counter)")
+//            print("In countAllEntities, TrackerStore: found tracker records? \(counter)")
 //            print("in countAllEntities, TrackerStore:", retrieveAllTrackers())
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -226,7 +359,6 @@ final class TrackerStore: NSObject {
                 context.delete(entity)
             }
             try context.save()
-            //            print("All entities deleted, saving context")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -263,33 +395,3 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
         delegateTrackerForNotifications.addingTrackerOnScreen()
     }
 }
-
-// temp storage - if I need those functions later. 
-//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-//        print("in controllerWillChangeContent")
-//        let objects = controller.fetchedObjects
-//        print(objects?.count)
-//        let objects = controller.fetchedObjects
-//        var insertedIndexes = IndexSet()
-//        print(objects)
-//    }
-    
-    
-//    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        switch type {
-//        case .insert:
-//            print("in insert")
-//            let objects = controller.fetchedObjects
-//            print(objects?.count)
-//            guard let objects else {return}
-//            for elem in objects {
-//                print(elem)
-//            }
-//        case .delete:
-//            print("in delete")
-//        default:
-//            print("default")
-//            break
-//        }
-//    }
-

@@ -14,12 +14,11 @@ final class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSplashScreen()
-        storage.removeObject(forKey: "wasLaunched")  // to be deleted once the app is completed
+//        storage.removeObject(forKey: "wasLaunched")  // to be deleted once the app is completed
         let wasLaunched = storage.bool(forKey: "wasLaunched")
         if wasLaunched {
             switchToNaviBarVC()
         } else {
-            storage.set(true, forKey: "wasLaunched")
             switchToOnboardingVC()
         }
     }
